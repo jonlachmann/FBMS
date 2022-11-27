@@ -47,7 +47,7 @@ logistic.loglik.alpha <- function (a, data, mu_func) {
 gaussian.loglik <- function (y, x, model, complex, params) {
   suppressWarnings({mod <- fastglm(as.matrix(x[,model]), y, family=gaussian())})
   ret <- (-(mod$deviance + 2*log(length(y))*(mod$rank-1) - 2*log(params$r)*(sum(complex$oc))))/2
-  return(ret)
+  return(list(crit=ret, coefs=mod$coefficients))
 }
 
 #' Log likelihood function for gaussian regression for alpha calculation

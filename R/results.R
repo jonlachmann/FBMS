@@ -63,7 +63,7 @@ merge.results <- function (results, populations="last", complex.measure=1, tol=0
   # row 4 is the total weighted density of those features
   feats.map <- matrix(1:feat.count, 4, feat.count, byrow=T)
   for (i in seq_len(nrow(cors))) {
-    equiv.feats <- which(cors[i,] >= (1-tol))
+    equiv.feats <- which(cors[i, ] >= (1 - tol))
     # Compare equivalent features complexity to find most simple
     equiv.complex <- list(width=complex$width[equiv.feats], oc=complex$oc[equiv.feats], depth=complex$depth[equiv.feats])
     equiv.simplest <- lapply(equiv.complex, which.min)
@@ -71,11 +71,11 @@ merge.results <- function (results, populations="last", complex.measure=1, tol=0
     feats.map[4,equiv.feats] <- sum(renorms[equiv.feats])
   }
   # Select the simplest features based on the specified complexity measure and sort them
-  feats.simplest.ids <- feats.map[complex.measure,unique(feats.map[complex.measure,])]
-  feats.simplest.ids <- feats.simplest.ids[order(feats.map[4,feats.simplest.ids])]
+  feats.simplest.ids <- feats.map[complex.measure,unique(feats.map[complex.measure, ])]
+  feats.simplest.ids <- feats.simplest.ids[order(feats.map[4, feats.simplest.ids])]
   counts <- sapply(feats.simplest.ids, function(x) sum(feats.map[1,] == x))
   feats.simplest <- features[feats.simplest.ids]
-  importance <- feats.map[4,feats.simplest.ids]
+  importance <- feats.map[4, feats.simplest.ids]
   merged <- list(features=feats.simplest, marg.probs=importance, counts=counts)
   attr(merged, "class") <- "gmjmcmcresult"
   return(merged)

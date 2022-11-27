@@ -13,20 +13,22 @@ simulated.annealing <- function (model, data, loglik.pi, indices, complex, param
   temp <- params$t.init # Initial temperature
 
   # Calculate current likelihood
-  model.lik <- loglik.pre(loglik.pi, model, complex, data, loglikparams)
-  models[[length(models)+1]] <- list(prob=NA, model=model, crit=model.lik, alpha=NA)
+  model.res <- loglik.pre(loglik.pi, model, complex, data, loglikparams)
+  model.lik <- model.res$crit
+  models[[length(models) + 1]] <- list(prob=NA, model=model, coefs=model.res$coefs, crit=model.lik, alpha=NA)
   # print(paste("SA Start:", model.lik))
   while (temp > params$t.min) {
     # Make M tries at current temperature
     for (m in 1:params$M) {
       # Get a modified model as proposal and calculate its likelihood
       proposal <- xor(model, gen.proposal(model, params$kern, kernel, indices)$swap)
-      proposal.lik <- loglik.pre(loglik.pi, proposal, complex, data, loglikparams)
+      model.proposal <- loglik.pre(loglik.pi, proposal, complex, data, loglikparams)
+      proposal.lik <- model.proposal$crit
       # Store the model that we have calculated
-      models[[length(models)+1]] <- list(prob=NA, model=proposal, crit=proposal.lik, alpha=NA)
+      models[[length(models) + 1]] <- list(prob=NA, model=proposal, coefs=model.proposal$coefs, crit=proposal.lik, alpha=NA)
       # Calculate move probability for negative steps (Bolzmann distribution, see Blum and Roli p. 274)
       if (proposal.lik > model.lik) alpha <- 1
-      else alpha <- min(1, exp((proposal.lik - model.lik)/temp))
+      else alpha <- min(1, exp((proposal.lik - model.lik) / temp))
       # Accept move with probability alpha
       if (runif(1) < alpha) {
         model <- proposal
@@ -48,8 +50,9 @@ greedy.optim <- function (model, data, loglik.pi, indices, complex, params, logl
   if (is.null(kernel)) kernel <- sample.int(n = 6, size = 1, prob = params$kern$probs)
 
   # Calculate current likelihood
-  model.lik <- loglik.pre(loglik.pi, model, complex, data, loglikparams)
-  models[[length(models)+1]] <- list(prob=NA, model=model, crit=model.lik, alpha=NA)
+  model.res <- loglik.pre(loglik.pi, model, complex, data, loglikparams)
+  model.lik <- model.res$crit
+  models[[length(models)+1]] <- list(prob=NA, model=model, coefs=model.res$coefs, crit=model.lik, alpha=NA)
 
   # Run the algorithm for the number of steps specified
   for (i in 1:params$steps) {
@@ -59,9 +62,10 @@ greedy.optim <- function (model, data, loglik.pi, indices, complex, params, logl
     for (j in 1:params$tries) {
       # Get a modified model as proposal and calculate its likelihood
       proposal <- xor(model, gen.proposal(model, params$kern, kernel, indices)$swap)
-      proposal.lik <- loglik.pre(loglik.pi, proposal, complex, data, loglikparams)
+      model.proposal <- loglik.pre(loglik.pi, proposal, complex, data, loglikparams)
+      proposal.lik <- model.proposal$crit
       # Store the model that we have calculated
-      models[[length(models)+1]] <- list(prob=NA, model=proposal, crit=proposal.lik, alpha=NA)
+      models[[length(models)+1]] <- list(prob=NA, model=proposal, coefs=model.proposal$coefs, crit=proposal.lik, alpha=NA)
       if (proposal.lik > proposal.lik.best) {
         proposal.best <- proposal
         proposal.lik.best <- proposal.lik

@@ -27,7 +27,8 @@ mjmcmc <- function (data, loglik.pi, N, probs, params, sub=F) {
 
   # Initialize first model
   model.cur <- as.logical(rbinom(n = length(S), size = 1, prob = 0.5))
-  model.cur <- list(prob=0, model=model.cur, crit=loglik.pre(loglik.pi, model.cur, complex, data, params$loglik), alpha=0)
+  model.cur.res <- loglik.pre(loglik.pi, model.cur, complex, data, params$loglik)
+  model.cur <- list(prob=0, model=model.cur, coefs=model.cur.res$coefs, crit=model.cur.res$crit, alpha=0)
   best.crit <- model.cur$crit # Set first best criteria value
 
   cat("\nMJMCMC begin.\n")
@@ -185,7 +186,8 @@ mjmcmc.prop <- function (data, loglik.pi, model.cur, complex, pip_estimate, prob
     model.cur$prob <- prob.proposal(proposal$model, model.cur$model, q.g, params$mh, pip_estimate)
   }
   # Calculate log likelihoods for the proposed model
-  proposal$crit <- loglik.pre(loglik.pi, proposal$model, complex, data, params$loglik)
+  proposal.res <- loglik.pre(loglik.pi, proposal$model, complex, data, params$loglik)
+  proposal$crit <- proposal.res$crit
 
   # TODO: Compare to a list of best mliks for all visited models,
   # TODO: update that list if our estimate is better, otherwise update our estimate.
@@ -193,7 +195,7 @@ mjmcmc.prop <- function (data, loglik.pi, model.cur, complex, pip_estimate, prob
   # If we are running with subsampling, check the list for a better mlik
   if (!is.null(visited.models)) {
     mod.idx <- vec_in_mat(visited.models$models[1:visited.models$count,,drop=F], proposal$model)
-    if (mod.idx != 0) proposal$crit <- max (proposal$crit, visited.models$crit[mod.idx])
+    if (mod.idx != 0) proposal$crit <- max(proposal$crit, visited.models$crit[mod.idx])
   }
 
   # Calculate acceptance probability for proposed model
@@ -201,5 +203,6 @@ mjmcmc.prop <- function (data, loglik.pi, model.cur, complex, pip_estimate, prob
 
   ### Format results and return them
   proposal$swap <- NULL; proposal$S <- NULL
+  proposal$coefs <- proposal.res$coefs
   return(proposal)
 }
