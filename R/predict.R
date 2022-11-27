@@ -9,7 +9,7 @@ predict.bgnlm <- function (model, x, link=function(x) x, populations="last", qua
   else if (populations=="all") pops.use <- seq_len(length(model$populations))
   else if (populations=="best") pops.use <- which.max(unlist(model$best.margs))
 
-  # TODO: Generalize for multiple populations
+  # TODO: Generalize for multiple populations - Use population weights multiplied by model weights.
   models <- model$models[[pops.use]]
   features <- model$populations[[pops.use]]
 
