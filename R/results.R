@@ -117,7 +117,7 @@ summary.gmjmcmcresult <- function (results, pop="last") {
   # Get features as strings for printing
   feats.strings <- sapply(results$populations[[pop]], print.feature)
   # Get marginal posterior of features
-  marg.probs <- marginal.probs.renorm(results$models[[pop]])
+  marg.probs <- marginal.probs.renorm(results$models[[pop]])$probs
   # Print the final distribution
   cat("                   Importance | Feature\n")
   print.dist(marg.probs, feats.strings, -1)

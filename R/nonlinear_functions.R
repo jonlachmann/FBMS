@@ -91,6 +91,14 @@ gauss <- function(x) exp(-x*x)
 #' @export to25
 to25 <- function(x)abs(x)^(2.5)
 
+#' To 3 power
+#'
+#' @param x The vector of values
+#' @return x^(3)
+#'
+#' @export to35
+to3 <- function(x)abs(x)^(3)
+
 #' To 3.5 power
 #'
 #' @param x The vector of values

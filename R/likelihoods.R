@@ -18,7 +18,7 @@ logistic.loglik <- function (y, x, model, complex, params) {
   r <- 20/223
   suppressWarnings({mod <- fastglm(as.matrix(x[,model]), y, family=binomial())})
   ret <- (-(mod$deviance -2*log(r)*sum(complex$oc)))/2
-  return(ret)
+  return(list(crit=ret, coefs=mod$coefficients))
 }
 
 #' Log likelihood function for logistic regression for alpha calculation
@@ -46,6 +46,23 @@ logistic.loglik.alpha <- function (a, data, mu_func) {
 #' @export gaussian.loglik
 gaussian.loglik <- function (y, x, model, complex, params) {
   suppressWarnings({mod <- fastglm(as.matrix(x[,model]), y, family=gaussian())})
+  ret <- (-(mod$deviance + 2*log(length(y))*(mod$rank-1) - 2*log(params$r)*(sum(complex$oc))))/2
+  return(list(crit=ret, coefs=mod$coefficients))
+}
+
+#' Log likelihood function for gaussian regression with a prior p(m)=r*sum(total_width), using subsampling.
+#'
+#' @param y A vector containing the dependent variable
+#' @param x The matrix containing the precalculated features
+#' @param model The model to estimate as a logical vector
+#' @param complex A list of complexity measures for the features
+#' @param params A list of parameters for the log likelihood, supplied by the user
+#'
+#' @export gaussian.loglik.bic.irlssgd
+gaussian.loglik.bic.irlssgd <- function (y, x, model, complex, params) {
+  mod <- irls.sgd(as.matrix(x[,model]), y, gaussian(),
+            irls.control=list(subs=params$subs, maxit=20, tol=1e-7, cooling = c(1,0.9,0.75), expl = c(3,1.5,1)),
+            sgd.control=list(subs=params$subs, maxit=250, alpha=0.001, decay=0.99, histfreq=10))
   ret <- (-(mod$deviance + 2*log(length(y))*(mod$rank-1) - 2*log(params$r)*(sum(complex$oc))))/2
   return(list(crit=ret, coefs=mod$coefficients))
 }
