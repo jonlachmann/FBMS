@@ -56,7 +56,7 @@ marginal.probs.renorm <- function (models, type="features") {
     for (i in 1:(model.size)) probs[i] <- sum(exp(models.matrix[as.logical(models.matrix[,i]),(model.size+1)]-max_mlik))/crit.sum
   } else if (type =="models") {
     probs <- matrix(NA,1, nrow(models.matrix))
-    for (i in seq_len(nrow(models.matrix))) probs[i] <- sum(exp(models.matrix[i, ncol(models.matrix)]-max_mlik))/crit.sum
+    for (i in seq_len(nrow(models.matrix))) probs[i] <- exp(models.matrix[i, ncol(models.matrix)]-max_mlik)/crit.sum
   }
   return(list(idx=which(!duplicates), probs=probs))
 }
