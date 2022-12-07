@@ -24,7 +24,7 @@ predict.bgnlm <- function (model, x, link=function(x) x, quantiles=c(0.025, 0.5,
       mean.pred <- rowSums(yhat * as.numeric(model.probs))
       pred.quant <- apply(yhat, 1, weighted.quantiles, weights=model.probs, prob=quantiles)
 
-      preds[[i]][[j]] <- list(mean=mean.pred, quantiles=pred.quant)
+      preds[[i]][[j]] <- list(mean=mean.pred, quantiles=pred.quant, weight=model$results[[i]]$pop.weights[j])
     }
   }
 
