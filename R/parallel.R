@@ -8,12 +8,11 @@ mjmcmc.parallel <- function (runs, cores=getOption("mc.cores", 2L), ...) {
 }
 
 
-#' Run multiple gmjmcmc runs in parallel, merging the results before returning.
+#' Run multiple gmjmcmc runs in parallel returning a list of all results.
 #' @param runs The number of runs to run
 #' @param cores The number of cores to run on
 #' @param ... Parameters to pass to gmjmcmc
-#' @return Merged results from multiple gmjmcmc runs
+#' @return Results from multiple gmjmcmc runs
 gmjmcmc.parallel <- function (runs, cores=getOption("mc.cores", 2L), ...) {
   results <- mclapply(seq_len(runs), function (x) { gmjmcmc(...) }, mc.cores=cores)
-  merged <- merge.results(results)
 }

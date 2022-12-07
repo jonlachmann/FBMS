@@ -31,11 +31,25 @@ merge.results <- function (results, populations="last", complex.measure=1, tol=0
   # Collect all features and their renormalized weighted values
   features <- vector("list")
   renorms <- vector("list")
+  weight_idx <- 1
   for (i in 1:res.count) {
+    results[[i]]$pop.weights <- rep(NA, length(results[[i]]$populations))
+    results[[i]]$model.probs <- list()
     for (pop in pops.use[[i]]) {
       features <- append(features, results[[i]]$populations[[pop]])
-      renorms <- append(renorms, pop.weights[i]*results[[i]]$marg.probs[[pop]])
+      renorms <- append(renorms, pop.weights[weight_idx] * results[[i]]$marg.probs[[pop]])
+      results[[i]]$pop.weights[pop] <- pop.weights[weight_idx]
+      weight_idx <- weight_idx + 1
+
+      model.probs <- marginal.probs.renorm(results[[i]]$models[[pop]], "models")
+      results[[i]]$model.probs[[pop]] <- model.probs$probs
+      results[[i]]$models[[pop]] <- results[[i]]$models[[pop]][model.probs$idx]
     }
+    accept.tot <- results[[i]]$accept.tot
+    best <- results[[i]]$best
+    results[[i]] <- lapply(results[[i]], function (x) x[pops.use[[i]]])
+    results[[i]]$accept.tot <- accept.tot
+    results[[i]]$best <- best
   }
   renorms <- unlist(renorms)
   na.feats <- which(is.na(renorms))
@@ -76,8 +90,8 @@ merge.results <- function (results, populations="last", complex.measure=1, tol=0
   counts <- sapply(feats.simplest.ids, function(x) sum(feats.map[1,] == x))
   feats.simplest <- features[feats.simplest.ids]
   importance <- feats.map[4, feats.simplest.ids]
-  merged <- list(features=feats.simplest, marg.probs=importance, counts=counts)
-  attr(merged, "class") <- "gmjmcmcresult"
+  merged <- list(features=feats.simplest, marg.probs=importance, counts=counts, results=results)
+  attr(merged, "class") <- "bgnlm"
   return(merged)
 }
 
