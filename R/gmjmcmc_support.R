@@ -42,7 +42,7 @@ marginal.probs <- function (models) {
 
 #' Function for calculating feature importance through renormalized model estimates
 #' @param models The models to use.
-#' @oaram type Select which probabilities are of interest, features or models
+#' @param type Select which probabilities are of interest, features or models
 marginal.probs.renorm <- function (models, type="features") {
   models <- lapply(models, function (x) x[c("model", "crit")])
   model.size <- length(models[[1]]$model)

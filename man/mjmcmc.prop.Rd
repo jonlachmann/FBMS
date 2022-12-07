@@ -9,6 +9,7 @@ mjmcmc.prop(
   loglik.pi,
   model.cur,
   complex,
+  pip_estimate,
   probs,
   params,
   visited.models = NULL
@@ -20,6 +21,10 @@ mjmcmc.prop(
 \item{loglik.pi}{The the (log) density to explore}
 
 \item{model.cur}{The current model to make the proposal respective to}
+
+\item{complex}{The complexity measures used when evaluating the marginal likelihood}
+
+\item{pip_estimate}{The current posterior inclusion probability estimate, used for proposals}
 
 \item{probs}{A list of the various probability vectors to use}
 

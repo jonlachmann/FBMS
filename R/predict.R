@@ -1,8 +1,11 @@
 #' Predict using a BGNLM model.
+#'
 #' @param model The model to use.
 #' @param x The new data to use for the prediction, a matrix where each row is an observation.
 #' @param link The link function to use
 #' @param quantiles The quantiles to calculate credible intervals for the posterior moddes (in model space).
+#'
+#' @export predict.bgnlm
 predict.bgnlm <- function (model, x, link=function(x) x, quantiles=c(0.025, 0.5, 0.975)) {
   preds <- list()
   for (i in seq_along(model$results)) {
@@ -42,10 +45,12 @@ predict.bgnlm <- function (model, x, link=function(x) x, quantiles=c(0.025, 0.5,
 }
 
 #' Calculate weighted quantiles
+#'
 #' @param values The values to use
 #' @param weights The weights of the values
 #' @param prob The probabilities of the quantiles to use
-#' @return
+#'
+#' @return Weighted quantiles
 weighted.quantiles <- function (values, weights, prob=c(0.025, 0.975)) {
   ordered <- order(values)
   P <- cumsum(weights[ordered])

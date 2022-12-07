@@ -6,7 +6,7 @@
 This function will weight the features based on the best mlik in that population
 and merge the results together, simplifying by merging equivalent features (having high correlation).}
 \usage{
-\method{merge}{results}(results, populations = "last", complex.measure = 1, tol = 0)
+\method{merge}{results}(results, populations = "last", complex.measure = 1, tol = 0, data = NULL)
 }
 \arguments{
 \item{results}{A list containing multiple results from GMJMCMC.}
@@ -15,6 +15,9 @@ and merge the results together, simplifying by merging equivalent features (havi
 1=total width, 2=operation count and 3=depth.}
 
 \item{tol}{The tolerance to use for the correlation when finding equivalent features, default is 0.}
+
+\item{data}{Data to use when comparing features, default is NULL meaning that mock data will be generated,
+if data is supplied it should be of the same form as is required by gmjmcmc, i.e. with both x, y and an intercept.}
 }
 \description{
 Merge a list of multiple results from many runs
