@@ -7,6 +7,7 @@
 #'
 #' @export predict.bgnlm
 predict.bgnlm <- function (model, x, link=function(x) x, quantiles=c(0.025, 0.5, 0.975)) {
+  x <- as.matrix(x)
   preds <- list()
   for (i in seq_along(model$results)) {
     preds[[i]] <- list()
@@ -24,7 +25,7 @@ predict.bgnlm <- function (model, x, link=function(x) x, quantiles=c(0.025, 0.5,
         yhat[, k] <- link(x.precalc[, c(TRUE, models[[k]]$model), drop=FALSE] %*% models[[k]]$coefs)
       }
 
-      mean.pred <- rowSums(yhat * as.numeric(model.probs))
+      mean.pred <- rowSums(yhat %*% diag(as.numeric(model.probs)))
       pred.quant <- apply(yhat, 1, weighted.quantiles, weights=model.probs, prob=quantiles)
 
       preds[[i]][[j]] <- list(mean=mean.pred, quantiles=pred.quant, weight=model$results[[i]]$pop.weights[j])
