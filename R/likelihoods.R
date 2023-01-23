@@ -15,9 +15,8 @@
 #'
 #' @export logistic.loglik
 logistic.loglik <- function (y, x, model, complex, params) {
-  r <- 20/223
   suppressWarnings({mod <- fastglm(as.matrix(x[,model]), y, family=binomial())})
-  ret <- (-(mod$deviance -2*log(r)*sum(complex$oc)))/2
+  ret <- (-(mod$deviance -2*log(params$r)*sum(complex$oc)))/2
   return(list(crit=ret, coefs=mod$coefficients))
 }
 
