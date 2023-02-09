@@ -53,8 +53,8 @@ alpha_3 <- function (feature, data, loglik) {
     else done <- TRUE
   }
   if (sum(sares$par==0) == featfun$count) {
-    print("All zero feature occured.")
-    return(NULL)
+  print("All zero feature occured.")
+  return(NULL)
   }
   # Inject the new alphas into the feature
   feature <- update.alphas(feature, sares$par)

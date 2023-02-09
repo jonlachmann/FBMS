@@ -80,8 +80,9 @@ gen.params.list <- function (data, G=F) {
                         keep.org = F,                         # Always keep original covariates in every population
                         prel.filter = 0,                      # Filtration threshold for first population (i.e. filter covariates even if keep.org=T)
                         keep.min = 0.8,                       # Minimum proportion of features to always keep [0,1]
-                        eps = 0.05)                           # Inclusion probability limit for feature generation
-
+                        eps = 0.05,                           # Inclusion probability limit for feature generation
+                        col = T,                              # Whether the colinearity should be checked                      
+                        bart = F)                             # Whether bart is used
     params$feat <- feat_params
     params$rescale.large <- F
 
