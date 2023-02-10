@@ -137,6 +137,9 @@ summary.gmjmcmcresult <- function (results, pop="last") {
   print.dist(marg.probs, feats.strings, -1)
   # Print the best marginal likelihood
   cat("\nBest marginal likelihood: ", results$best, "\n")
+  
+  ord.marg = order(marg.probs[1,],decreasing = T)
+  return(data.frame(feats.strings = feats.strings[ord.marg], marg.probs = marg.probs[1,ord.marg]))
 }
 
 #' Function to plot the results, works both for results from gmjmcmc and
