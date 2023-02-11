@@ -18,11 +18,11 @@ gen.modification <- function (features, marg.probs, trans.probs) {
 }
 
 # Generate a projection feature
-gen.projection <- function (features, marg.probs, trans.probs, max.width,bart) {
-  feat.count <- 1
-  if(!bart) feat.count <- sample.int(n = (min(max.width, (length(features)))-1), size = 1) + 1 # TODO: Should be a specific distribution?
-
-  
+gen.projection <- function (features, marg.probs, trans.probs, max.width, max.size) {
+  if (!is.null(max.size)) {
+    max.width <- min(max.width, max.size + 1)
+  }
+  feat.count <- sample.int(n = (min(max.width, (length(features)))-1), size = 1) # TODO: Should be a specific distribution?
   feats <- sample.int(n = length(features), size = feat.count, prob = marg.probs)
   trans <- sample.int(n = length(trans.probs), size = 1, prob = trans.probs)
   # TODO: Generate alphas properly using various methods
@@ -44,7 +44,7 @@ gen.feature <- function (features, marg.probs, data, loglik.alpha, transforms, p
     feat.type <- sample.int(n = 4, size = 1, prob = probs$gen)
     if (feat.type == 1) feat <- gen.multiplication(features, marg.probs)
     if (feat.type == 2) feat <- gen.modification(features, marg.probs, probs$trans)
-    if (feat.type == 3) feat <- gen.projection(features, marg.probs, probs$trans, params$L,params$bart)
+    if (feat.type == 3) feat <- gen.projection(features, marg.probs, probs$trans, params$L, params$max.proj.size)
     if (feat.type == 4) feat <- gen.new(features, F.0.size)
     # Check that the feature is not too wide or deep
     if (!(depth.feature(feat) > params$D || width.feature(feat) > params$L)) {
@@ -56,11 +56,10 @@ gen.feature <- function (features, marg.probs, data, loglik.alpha, transforms, p
         # Check for linear dependence of new the feature
         if (length(features) == F.0.size) feats <- list()
         else feats <- features[(F.0.size+1):length(features)]
-        if(params$col)
-        { 
-          if (!check.collinearity(feat, feats, F.0.size)) 
-            feat.ok <- T
-        }else feat.ok <- T
+        if (params$check.col && !check.collinearity(feat, feats, F.0.size))
+          feat.ok <- T
+        else if (!params$check.col)
+          feat.ok <- T
       }
     }
     tries <- tries + 1

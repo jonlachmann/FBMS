@@ -74,15 +74,15 @@ gen.params.list <- function (data, G=F) {
   # Add GMJMCMC specific parameters
   if (G) {
     ## GM parameters
-    feat_params <- list(D=5, L=15,                            # Hard limits on feature complexity
-                        alpha=0,                              # alpha strategy (0=None, 1,2,3=strategies as per Hubin et al.) TODO: Fully Bayesian
-                        pop.max=as.integer(ncov*1.5),         # Max features population size
+    feat_params <- list(D = 5, L = 15,                        # Hard limits on feature complexity
+                        alpha = 0,                            # alpha strategy (0=None, 1,2,3=strategies as per Hubin et al.) TODO: Fully Bayesian
+                        pop.max = as.integer(ncov * 1.5),     # Max features population size
                         keep.org = F,                         # Always keep original covariates in every population
                         prel.filter = 0,                      # Filtration threshold for first population (i.e. filter covariates even if keep.org=T)
                         keep.min = 0.8,                       # Minimum proportion of features to always keep [0,1]
                         eps = 0.05,                           # Inclusion probability limit for feature generation
-                        col = T,                              # Whether the colinearity should be checked                      
-                        bart = F)                             # Whether bart is used
+                        check.col = T,                        # Whether the colinearity should be checked
+                        max.proj.size = 15)                   # Maximum projection size
     params$feat <- feat_params
     params$rescale.large <- F
 
