@@ -129,7 +129,7 @@ model.string <- function (model, features, link) {
 summary.gmjmcmcresult <- function (results, pop="last") {
   if (pop=="last") pop <- length(results$models)
   # Get features as strings for printing
-  feats.strings <- sapply(results$populations[[pop]], print.feature)
+  feats.strings <- sapply(results$populations[[pop]], print.feature, round = 2)
   # Get marginal posterior of features
   marg.probs <- marginal.probs.renorm(results$models[[pop]])$probs
   # Print the final distribution

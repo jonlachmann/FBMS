@@ -76,7 +76,7 @@ gmjmcmc <- function (data, loglik.pi, loglik.alpha, transforms, T, N.init, N.fin
     # Print the marginal posterior distribution of the features after MJMCMC
     cat(paste("\rCurrent best crit:", mjmcmc_res$best.crit, "\n"))
     cat("Feature importance:\n")
-    print.dist(marg.probs[[t]], sapply(S[[t]], print.feature, labels=labels), probs$filter)
+    print.dist(marg.probs[[t]], sapply(S[[t]], print.feature, labels = labels, round = 2), probs$filter)
     if (params$rescale.large) prev.large <- params$large
     # Generate a new population of features for the next iteration (if this is not the last)
     if (t != T) {
@@ -148,14 +148,14 @@ gmjmcmc.transition <- function (S.t, F.0, data, loglik.alpha, marg.probs.F.0, ma
   # Perform the replacements
   for (i in feats.replace) {
     prev.size <- length(S.t)
-    prev.feat.string <- print.feature(S.t[[i]], labels=labels)
+    prev.feat.string <- print.feature(S.t[[i]], labels=labels, round = 2)
     S.t[[i]] <- gen.feature(c(F.0, S.t), marg.probs.use, data, loglik.alpha, transforms, probs, length(F.0), params)
     if (prev.size > length(S.t)) {
       cat("Removed feature", prev.feat.string, "\n")
       cat("Population shrinking, returning.\n")
       return(S.t)
     }
-    cat("Replaced feature", prev.feat.string, "with", print.feature(S.t[[i]], labels=labels), "\n")
+    cat("Replaced feature", prev.feat.string, "with", print.feature(S.t[[i]], labels=labels, round = 2), "\n")
     feats.keep[i] <- T
     marg.probs.use[i] <- mean(marg.probs.use)
   }
@@ -169,7 +169,7 @@ gmjmcmc.transition <- function (S.t, F.0, data, loglik.alpha, marg.probs.F.0, ma
         cat("Population not growing, returning.\n")
         return(S.t)
       }
-      cat("Added feature", print.feature(S.t[[i]], labels=labels), "\n")
+      cat("Added feature", print.feature(S.t[[i]], labels=labels, round = 2), "\n")
       marg.probs.use <- c(marg.probs.use, params$eps)
     }
   }

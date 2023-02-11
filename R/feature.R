@@ -97,9 +97,11 @@ update.alphas <- function (feature, alphas, recurse=FALSE) {
 #' @param transforms The list of transforms to use
 #' @param dataset Set the regular covariates as columns in a dataset
 #' @param alphas Print a "?" instead of actual alphas to prepare the output for alpha estimation
+#' @param labels Should the covariates be named, or just referred to as their place in the data.frame.
+#' @param round Should numbers be rounded when printing? Default is FALSE, otherwise it can be set to the number of decimal places.
 #'
 #' @export
-print.feature <- function (feature, dataset=F, alphas=F, labels=F) {
+print.feature <- function (feature, dataset=F, alphas=F, labels=F, round=F) {
   transforms <- getOption("gmjmcmc-transformations")
   if(is.null(transforms)) stop("Please set the gmjmcmc-transformations option to your non-linear functions (see ?set.transforms).")
   fString <- ""
@@ -114,6 +116,10 @@ print.feature <- function (feature, dataset=F, alphas=F, labels=F) {
     else {
       op <- "*"
       fString <- paste0(fString, "(")
+    }
+    # If we are printing rounded features for neat output, round all alphas
+    if (round) {
+      feat[,3] <- round(feat[,3], round)
     }
     for (j in seq_len(nrow(feat))) {
       # No plus or multiplication sign on the last one
@@ -131,7 +137,7 @@ print.feature <- function (feature, dataset=F, alphas=F, labels=F) {
           if (alphas) fString <- paste0(fString, "?*")
           else fString <- paste0(fString, feat[j,3], "*")
         }
-        fString <- paste0(fString, print.feature(feature[[feat[j,2]]], dataset, alphas, labels), op)
+        fString <- paste0(fString, print.feature(feature[[feat[j,2]]], dataset, alphas, labels, round), op)
       }
     }
     fString <- paste0(fString, ")")

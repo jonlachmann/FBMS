@@ -98,7 +98,7 @@ summary.gmjresult <- function (results, population="last") {
   else pops <- population
   feature_strings <- vector("list", length(results$populations[[pops]]))
   for (i in seq_along(feature_strings)) {
-    feature_strings[[i]] <- print.feature(results$populations[[pops]][[i]])
+    feature_strings[[i]] <- print.feature(results$populations[[pops]][[i]], round = 2)
   }
   feature_importance <- marginal.probs.renorm(results$models[[pops]])$probs
   return(list(features=feature_strings, importance=feature_importance))

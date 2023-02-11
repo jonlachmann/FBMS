@@ -40,12 +40,12 @@ alpha_3 <- function (feature, data, loglik) {
   if(featfun$count == 0) return(feature)
 
   # Set initial range for Simulated Annealing
-  print("Generating alphas")
+  cat("Generating alphas\n")
   range <- 10
   done <- FALSE
   while(!done) {
     # Run simulated annealing on current range
-    sares <- GenSA(rep(0,featfun$count), loglik,
+    sares <- GenSA(rnorm(featfun$count), loglik,
                       rep(-range/2,featfun$count), rep(range/2,featfun$count),
                       control=list(max.call=5e3), data, featfun$formula)
     # Check if any estimate is on the edge of the range, if so, extend the range and run again
@@ -53,7 +53,7 @@ alpha_3 <- function (feature, data, loglik) {
     else done <- TRUE
   }
   if (sum(sares$par==0) == featfun$count) {
-    print("All zero feature occured.")
+    cat("All zero feature occured.\n")
     return(NULL)
   }
   # Inject the new alphas into the feature
