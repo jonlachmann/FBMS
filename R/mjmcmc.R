@@ -179,7 +179,7 @@ mjmcmc.prop <- function (data, loglik.pi, model.cur, complex, pip_estimate, prob
     # Select MH kernel
     q.g <- sample.int(n = 6, size = 1, prob = probs$mh)
     # Generate the proposal
-    proposal <- gen.proposal(model.cur$model, params$mh, q.g, NULL, pip_estimate, prob=T)
+    proposal <- gen.proposal(model.cur$model, params$mh, q.g, NULL, pip_estimate, prob = T)
     proposal$model <- xor(proposal$swap, model.cur$model)
 
     # Calculate current model probability given proposal
@@ -200,13 +200,6 @@ mjmcmc.prop <- function (data, loglik.pi, model.cur, complex, pip_estimate, prob
 
   # Calculate acceptance probability for proposed model
   proposal$alpha <- min(0, (proposal$crit + model.cur$prob) - (model.cur$crit + proposal$prob))
-
-  ### DEBUG CODE
-  if (is.null(proposal$alpha) || is.na(proposal$alpha) || is.nan(proposal$alpha)) {
-    state <- list(mget(ls()))
-    number <- sample.int(10000, 1)
-    save(state, file = paste0("state", number, ".RData"))
-  }
 
   ### Format results and return them
   proposal$swap <- NULL; proposal$S <- NULL

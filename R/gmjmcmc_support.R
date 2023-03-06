@@ -84,6 +84,11 @@ loglik.pre <- function (loglik.pi, model, complex, data, params) {
   model.res <- loglik.pi(data[,1], data[,-1], c(T,model), complex, params)
   # Check that the critical value is acceptable
   if (!is.numeric(model.res$crit) || is.nan(model.res$crit)) model.res$crit <- -.Machine$double.xmax
+  # Alpha cannot be calculated if the current and proposed models have crit which are -Inf or Inf
+  if (is.infinite(model.res$crit)) {
+    if (model.res$crit > 0)  model.res$crit <- .Machine$double.xmax
+    else model.res$crit <- -.Machine$double.xmax
+  }
   return(model.res)
 }
 
