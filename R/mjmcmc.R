@@ -201,6 +201,13 @@ mjmcmc.prop <- function (data, loglik.pi, model.cur, complex, pip_estimate, prob
   # Calculate acceptance probability for proposed model
   proposal$alpha <- min(0, (proposal$crit + model.cur$prob) - (model.cur$crit + proposal$prob))
 
+  ### DEBUG CODE
+  if (is.null(proposal$alpha) || is.na(proposal$alpha) || is.nan(proposal$alpha)) {
+    state <- list(mget(ls()))
+    number <- sample.int(1, 10000)
+    save(state, file = paste0("state", number, ".RData"))
+  }
+
   ### Format results and return them
   proposal$swap <- NULL; proposal$S <- NULL
   proposal$coefs <- proposal.res$coefs
