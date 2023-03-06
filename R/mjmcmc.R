@@ -204,7 +204,7 @@ mjmcmc.prop <- function (data, loglik.pi, model.cur, complex, pip_estimate, prob
   ### DEBUG CODE
   if (is.null(proposal$alpha) || is.na(proposal$alpha) || is.nan(proposal$alpha)) {
     state <- list(mget(ls()))
-    number <- sample.int(1, 10000)
+    number <- sample.int(10000, 1)
     save(state, file = paste0("state", number, ".RData"))
   }
 
