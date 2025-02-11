@@ -1,10 +1,10 @@
 #' Physical measurements of 4177 abalones, a species of sea snail.
-#' 
+#'
 #' %% ~~ A concise (1-5 lines) description of the dataset. ~~
-#' 
+#'
 #' See the web page \url{https://archive.ics.uci.edu/ml/datasets/Abalone} for
 #' more information about the data set.
-#' 
+#'
 #' @name abalone
 #' @docType data
 #' @format A data frame with 4177 observations on the following 9 variables.
@@ -24,8 +24,8 @@
 #' publication or URL from which the data were obtained ~~
 #' @keywords datasets
 #' @examples
-#' 
+#'
 #' data(abalone)
 #' ## maybe str(abalone) ; plot(abalone) ...
-#' 
+#'
 NULL
