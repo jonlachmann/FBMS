@@ -47,7 +47,7 @@ loglik.example <- function (y, x, model, complex, params) {
 ```
 To be able to calculate the alphas when using for example strategy 3 as per Hubin et al., we need a function for the log likelihood, in this example we will use the function supplied by the package called `logistic.loglik.alpha`. With that function as a starting point, you can also create your own function for this. We also adjust our parameter list to use the third strategy.
 ```{r}
-params$feat$alpha <- 3
+params$feat$alpha <- "random"
 ```
 
 We are now ready to run the algorithm, in this vignette we will only run very few iterations for demonstration purposes, but the only thing that needs to be changed are the number or populations to visit `T`, the number of iterations per population `N` and the number of iterations for the final population `N.final`

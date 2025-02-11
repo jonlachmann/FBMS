@@ -15,7 +15,7 @@
 #' \item{Rings}{+1.5 gives the age in years, integer}
 #' \item{Sex}{Sex of the abalone, \code{F} is female, \code{M} male, and \code{I} infant, categorical.}
 #' \item{Weight_S}{Grams after being dried, continuous.}
-#' \item{Weight_Sh}{Grams weight of meat, continous.}
+#' \item{Weight_Sh}{Grams weight of meat, continuous.}
 #' \item{Weight_V}{Grams gut weight (after bleeding), continuous.}
 #' \item{Weight_W}{Grams whole abalone, continuous.} }
 #' @source Dua, D. and Graff, C. (2019). UCI Machine Learning Repository

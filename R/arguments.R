@@ -179,7 +179,7 @@ gen.probs.gmjmcmc <- function (transforms) {
 #'   \item{\code{loglik}}{A list to store log-likelihood values, which is by default empty.}
 #' }
 #'
-#' Note that the $loglik item is an empty list, which is passed to the log likelihood function of the model,
+#' Note that the `$loglik` item is an empty list, which is passed to the log likelihood function of the model,
 #' intended to store parameters that the estimator function should use.
 #'
 #' @examples

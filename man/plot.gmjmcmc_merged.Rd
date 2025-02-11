@@ -15,7 +15,7 @@
 
 \item{tol}{The tolerance to use for the correlation when finding equivalent features, default is 0.0000001}
 
-\item{data}{Data to merge on, important if prefiltering was used}
+\item{data}{Data to merge on, important if pre-filtering was used}
 
 \item{...}{Not used.}
 }

@@ -2,7 +2,7 @@
 % Please edit documentation in R/results.R
 \name{string.population.models}
 \alias{string.population.models}
-\title{Function to get a character respresentation of a list of models}
+\title{Function to get a character representation of a list of models}
 \usage{
 string.population.models(features, models, round = 2, link = "I")
 }
@@ -19,7 +19,7 @@ string.population.models(features, models, round = 2, link = "I")
 A matrix of character representations of a list of models.
 }
 \description{
-Function to get a character respresentation of a list of models
+Function to get a character representation of a list of models
 }
 \examples{
 result <- gmjmcmc(matrix(rnorm(600), 100), P = 2, gaussian.loglik, NULL, c("p0", "exp_dbl"))

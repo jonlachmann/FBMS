@@ -25,7 +25,7 @@
 
 \item{pop}{If null same as in merge.options for running parallel gmjmcmc otherwise results will be re-merged according to pop that can be "all", "last", "best"}
 
-\item{data}{Data to merge on, important if prefiltering was used}
+\item{data}{Data to merge on, important if pre-filtering was used}
 
 \item{...}{Not used.}
 }

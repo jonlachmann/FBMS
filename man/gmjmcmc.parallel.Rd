@@ -33,7 +33,7 @@ and the rest of the columns should be the independent variables.}
 \item{transforms}{A Character vector including the names of the non-linear functions to be used by the modification
 and the projection operator.}
 
-\item{...}{Further params passed to mjmcmc.}
+\item{...}{Further parameters passed to mjmcmc.}
 }
 \value{
 Results from multiple gmjmcmc runs

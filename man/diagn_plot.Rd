@@ -17,7 +17,7 @@ diagn_plot(res, FUN = median, conf = 0.95, burnin = 0, window = 5, ylim = NULL)
 
 \item{window}{sliding window for computing the standard deviation}
 
-\item{ylim}{limits for the plotting range, if unspesified, min and max of confidence intervals will be used}
+\item{ylim}{limits for the plotting range, if unspecified, min and max of confidence intervals will be used}
 }
 \value{
 A list of summary statistics for checking convergence with given confidence intervals

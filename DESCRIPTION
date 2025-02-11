@@ -4,6 +4,7 @@ Title: Flexible Bayesian Model Selection and Model Averaging
 Version: 1.0
 Date: 2023-11-28
 Encoding: UTF-8
+Language: en-US
 Authors@R: c(
     person("Jon", "Lachmann", email = "jon@lachmann.nu", role = c("cre", "aut")),
     person("Aliaksandr", "Hubin", email = "aliaksah@math.uio.no", role = "aut")

@@ -80,7 +80,7 @@ predict.gmjmcmc.2 <- function (object, x, link = function(x) x, quantiles = c(0.
 #' @param object The model to use.
 #' @param x The new data to use for the prediction, a matrix where each row is an observation.
 #' @param link The link function to use
-#' @param quantiles The quantiles to calculate credible intervals for the posterior moddes (in model space).
+#' @param quantiles The quantiles to calculate credible intervals for the posterior modes (in model space).
 #' @param pop The population to plot, defaults to last
 #' @param tol The tolerance to use for the correlation when finding equivalent features, default is 0.0000001
 #' 

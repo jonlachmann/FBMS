@@ -25,7 +25,7 @@
 
 \item{effects}{Quantiles for posterior modes of the effects across models to be reported, if either effects are NULL or if labels are NULL, no effects are reported.}
 
-\item{data}{Data to merge on, important if prefiltering was used}
+\item{data}{Data to merge on, important if pre-filtering was used}
 
 \item{...}{Not used.}
 }

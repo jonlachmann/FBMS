@@ -12,7 +12,7 @@
 #' @param conf which confidence intervals to plot
 #' @param burnin how many first populations to skip
 #' @param window sliding window for computing the standard deviation
-#' @param ylim limits for the plotting range, if unspesified, min and max of confidence intervals will be used
+#' @param ylim limits for the plotting range, if unspecified, min and max of confidence intervals will be used
 #'
 #' @return A list of summary statistics for checking convergence with given confidence intervals
 #' 

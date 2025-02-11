@@ -36,7 +36,7 @@ rmclapply <- function(runs, args, fun, mc.cores = NULL) {
       ## all clusters.
       clusterEvalQ(cl, library(FBMS))
       clusterExport(cl, "args")
-      clusterExport(cl, ls(all.names = TRUE, env = globalenv()), envir = globalenv())
+      clusterExport(cl, ls(all.names = TRUE, envir = globalenv()), envir = globalenv())
       # Load required packages on each cluster node
       parLapply(cl, seq_along(cl), function(xx) {
         lapply(loaded.package.names, function(pkg) {
@@ -84,7 +84,7 @@ rmclapply <- function(runs, args, fun, mc.cores = NULL) {
 #' Run multiple mjmcmc runs in parallel, merging the results before returning.
 #' @param runs The number of runs to run
 #' @param cores The number of cores to run on
-#' @param ... Further params passed to mjmcmc.
+#' @param ... Further parameters passed to mjmcmc.
 #' @return Merged results from multiple mjmcmc runs
 #'
 #' @examples
@@ -105,7 +105,7 @@ mjmcmc.parallel <- function(runs = 2, cores = getOption("mc.cores", 2L), ...) {
 #' @param cores The number of cores to run on
 #' @param merge.options A list of options to pass to the [merge_results()] function run after the
 #' @inheritParams gmjmcmc
-#' @param ... Further params passed to mjmcmc.
+#' @param ... Further parameters passed to mjmcmc.
 #' @return Results from multiple gmjmcmc runs
 #'
 #' @examples

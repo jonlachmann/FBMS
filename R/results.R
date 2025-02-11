@@ -240,7 +240,7 @@ model.string <- function (model, features, link = "I", round = 2) {
 #' @param tol The tolerance to use as a threshold when reporting the results.
 #' @param labels Should the covariates be named, or just referred to as their place in the data.frame.
 #' @param effects Quantiles for posterior modes of the effects across models to be reported, if either effects are NULL or if labels are NULL, no effects are reported.
-#' @param data Data to merge on, important if prefiltering was used
+#' @param data Data to merge on, important if pre-filtering was used
 #' @param ... Not used.
 #'
 #' @return A data frame containing the following columns:
@@ -300,7 +300,7 @@ summary.gmjmcmc <- function (object, pop = "best", tol = 0.0001, labels = FALSE,
 #' @param labels Should the covariates be named, or just referred to as their place in the data.frame.
 #' @param effects Quantiles for posterior modes of the effects across models to be reported, if either effects are NULL or if labels are NULL, no effects are reported.
 #' @param pop If null same as in merge.options for running parallel gmjmcmc otherwise results will be re-merged according to pop that can be "all", "last", "best"
-#' @param data Data to merge on, important if prefiltering was used
+#' @param data Data to merge on, important if pre-filtering was used
 #' @param ... Not used.
 #'
 #' @return A data frame containing the following columns:
@@ -427,7 +427,7 @@ summary_internal <- function (best, feats.strings, marg.probs, effects = NULL, t
   return(data.frame(feats.strings = feats.strings[ord.marg], marg.probs = marg.probs[ord.marg]))
 }
 
-#' Function to get a character respresentation of a list of features
+#' Function to get a character representation of a list of features
 #'
 #' @param x A list of feature objects
 #' @param round Rounding precision for parameters of the features
@@ -443,7 +443,7 @@ string.population <- function(x, round = 2) {
   cbind(sapply(x, print.feature, round = round))
 }
 
-#' Function to get a character respresentation of a list of models
+#' Function to get a character representation of a list of models
 #'
 #' @param features A list of feature objects on which the models are build
 #' @param models A list of model objects
@@ -468,7 +468,7 @@ string.population.models <- function(features, models, round = 2, link = "I") {
 #' @param count The number of features to plot, defaults to all
 #' @param pop The population to plot, defaults to last
 #' @param tol The tolerance to use for the correlation when finding equivalent features, default is 0.0000001
-#' @param data Data to merge on, important if prefiltering was used
+#' @param data Data to merge on, important if pre-filtering was used
 #' @param ... Not used.
 #'
 #' @return No return value, just creates a plot

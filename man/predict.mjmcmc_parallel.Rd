@@ -13,7 +13,7 @@
 
 \item{link}{The link function to use}
 
-\item{quantiles}{The quantiles to calculate credible intervals for the posterior moddes (in model space).}
+\item{quantiles}{The quantiles to calculate credible intervals for the posterior modes (in model space).}
 
 \item{...}{Not used.}
 }
