@@ -33,10 +33,10 @@ for different local optimization methods during large jumps. The first value rep
 the probability of using simulated annealing, while the second corresponds to the
 greedy optimizer. These probabilities will be normalized if needed.}
 
-\item{\code{random.kern}}{A numeric vector of length 4 specifying the probabilities
-of different randomization kernels applied after local optimization. These correspond
+\item{\code{random.kern}}{A numeric vector of length 2 specifying the probabilities
+of first two randomization kernels applied after local optimization. These correspond
 to the same kernel types as in \code{large.kern} but are used for local proposals
-with different neighborhood sizes.}
+where type and 2 only are allowed.}
 
 \item{\code{mh}}{A numeric vector specifying the probabilities of different standard Metropolis-Hastings kernels, where the first four as the same as for other kernels, while fifths and sixes components are uniform addition/deletion of a covariate.}
 

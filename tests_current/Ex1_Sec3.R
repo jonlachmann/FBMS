@@ -33,15 +33,16 @@ use.fbms = FALSE
 ####################################################
 
 params <- gen.params.gmjmcmc(df)
-
+lmm <- lm(formula = MajorAxis ~ .,df)
+params$loglik$var <- var(lmm$residuals)
 set.seed(123)
 
 if (use.fbms) {
- result.default <- fbms(formula = MajorAxis ~ 1 + . , data = df, method = "gmjmcmc", transforms = transforms)
+ result.default <- fbms(formula = MajorAxis ~ 1 + . , data = df, method = "gmjmcmc", transforms = transforms, P = 300, params = params)
 } else {
- result.default <- gmjmcmc(df, transforms = transforms)
+ result.default <- gmjmcmc(df, transforms = transforms, params = params, P = 300)
 }
-
+summary(result.default, labels = names(df)[-1])
 
 ####################################################
 #
@@ -54,11 +55,12 @@ set.seed(123)
 
 if (use.fbms) {
  result.P50 <- fbms(data = df, method = "gmjmcmc", transforms = transforms,
-                    P=50, N.init=1000, N.final=5000)
+                    P=150, N.init=1000, N.final=1000, params = params)
 } else {
  result.P50 <- gmjmcmc(df,  transforms = transforms,
-                       P=50, N.init=1000, N.final=5000)
+                       P=150, N.init=1000, N.final=1000, params = params)
 }
+summary(result.P50, labels = names(df)[-1])
 
 ####################################################
 #
@@ -67,18 +69,15 @@ if (use.fbms) {
 ####################################################
 
 set.seed(124)
-
-# Actual parallel analysis works currently only under Linux or Mac
-# result_mm =  gmjmcmc.parallel(runs = 4, cores = 4,df, gaussian.loglik, gaussian.loglik.alpha, transforms)
-
+params$loglik$var = 1.02
 if (use.fbms) {
  result_parallel <- fbms(data = df, method = "gmjmcmc.parallel", transforms = transforms,
                          runs = 40, cores = 10, P=25,params = params)
 } else {
- result_parallel <- gmjmcmc.parallel(runs = 40, cores = 10,data = df, loglik.pi = gaussian.loglik, 
+ result_parallel <- gmjmcmc.parallel(runs = 40, cores = 10, data = df, loglik.pi = gaussian.loglik, 
                                      transforms = transforms, P=25,params = params)
 }
-
+summary(result_parallel, tol = 0.01,labels = names(df)[-1])
 ####################################################
 #
 # Inspection of Results (Section 3.4)

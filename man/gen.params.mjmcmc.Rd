@@ -12,6 +12,60 @@ gen.params.mjmcmc(data)
 \value{
 A list of parameters to use when running the mjmcmc function.
 
+The list contains the following elements:
+
+\describe{
+\item{\code{burn_in}}{The burn-in period for the MJMCMC algorithm, which is set to 100 iterations by default.}
+
+\item{\code{mh}}{A list containing parameters for the regular Metropolis-Hastings (MH) kernel:
+\describe{
+\item{\code{neigh.size}}{The size of the neighborhood for MH proposals with fixed proposal size, default set to 1.}
+\item{\code{neigh.min}}{The minimum neighborhood size for random proposal size, default set to 1.}
+\item{\code{neigh.max}}{The maximum neighborhood size for random proposal size, default set to 2.}
+}
+}
+
+\item{\code{large}}{A list containing parameters for the large jump kernel:
+\describe{
+\item{\code{neigh.size}}{The size of the neighborhood for large jump proposals with fixed neighborhood size, default set to the smaller of 0.35 \eqn{\times p}  and 35, where \eqn{p} is the number of covariates.}
+\item{\code{neigh.min}}{The minimum neighborhood size for large jumps with random size of the neighborhood, default set to the smaller of 0.25 \eqn{\times p}  and 25.}
+\item{\code{neigh.max}}{The maximum neighborhood size for large jumps with random size of the neighborhood, default set to the smaller of 0.45 \eqn{\times p}  and 45.}
+}
+}
+
+\item{\code{random}}{A list containing a parameter for the randomization kernel:
+\describe{
+\item{\code{prob}}{The small probability of changing the component around the mode, default set to 0.01.}
+}
+}
+
+\item{\code{sa}}{A list containing parameters for the simulated annealing kernel:
+\describe{
+\item{\code{probs}}{A numeric vector of length 6 specifying the probabilities for different types of proposals in the simulated annealing algorithm.}
+\item{\code{neigh.size}}{The size of the neighborhood for the simulated annealing proposals, default set to 1.}
+\item{\code{neigh.min}}{The minimum neighborhood size, default set to 1.}
+\item{\code{neigh.max}}{The maximum neighborhood size, default set to 2.}
+\item{\code{t.init}}{The initial temperature for simulated annealing, default set to 10.}
+\item{\code{t.min}}{The minimum temperature for simulated annealing, default set to 0.0001.}
+\item{\code{dt}}{The temperature decrement factor, default set to 3.}
+\item{\code{M}}{The number of iterations in the simulated annealing process, default set to 12.}
+}
+}
+
+\item{\code{greedy}}{A list containing parameters for the greedy algorithm:
+\describe{
+\item{\code{probs}}{A numeric vector of length 6 specifying the probabilities for different types of proposals in the greedy algorithm.}
+\item{\code{neigh.size}}{The size of the neighborhood for greedy algorithm proposals, set to 1.}
+\item{\code{neigh.min}}{The minimum neighborhood size for greedy proposals, set to 1.}
+\item{\code{neigh.max}}{The maximum neighborhood size for greedy proposals, set to 2.}
+\item{\code{steps}}{The number of steps for the greedy algorithm, set to 20.}
+\item{\code{tries}}{The number of tries for the greedy algorithm, set to 3.}
+}
+}
+
+\item{\code{loglik}}{A list to store log-likelihood values, which is by default empty.}
+}
+
 Note that the $loglik item is an empty list, which is passed to the log likelihood function of the model,
 intended to store parameters that the estimator function should use.
 }

@@ -67,7 +67,7 @@ probs$gen <- c(0,0,1,1) #Only projections!
 
 params <- gen.params.gmjmcmc(df.training)
 params$loglik$r = 0.9
-
+params$loglik$var = "unknown"
 
 
 #############################################################################
@@ -132,8 +132,8 @@ abline(0,1)
 #   Using method 3 to estimate alpha
 #
 #############################################################################
-
 params$feat$alpha = "deep"
+#params$feat$alpha = "random"
 
 
 set.seed(5003)
@@ -165,7 +165,7 @@ plot(pred.a3$aggr$mean, df.test$Rings)
 #
 #############################################################################
 
-params$feat$alpha = "deep"
+params$feat$alpha = "random"
 
 set.seed(5004)
 

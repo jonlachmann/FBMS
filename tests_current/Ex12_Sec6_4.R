@@ -53,7 +53,7 @@ logistic.posterior.bic.irlssgd <- function (y, x, model, complex, params)
                   sgd.control=list(subs=params$subs, maxit=250, alpha=0.001, decay=0.99, histfreq=10))
   
   # logarithm of marginal likelihood
-  mloglik <- -mod$deviance /2 - log(length(y)) * (mod$rank-1) 
+  mloglik <- -mod$deviance /2 - 0.5*log(length(y)) * (mod$rank-1) 
     
   # logarithm of model prior
   if (length(params$r) == 0)  params$r <- 1/dim(x)[1]  # default value or parameter r
