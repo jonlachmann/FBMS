@@ -19,7 +19,7 @@
 #' 
 #' 
 #' @export
-predict.gmjmcmc <- function (object, x, link = function(x) x, quantiles = c(0.025, 0.5, 0.975),  pop = NULL,tol =  0.0000001, sub = FALSE, ...) {
+predict.gmjmcmc <- function (object, x, link = function(x) x, quantiles = c(0.025, 0.5, 0.975),  pop = NULL,tol =  0.0000001, ...) {
   transforms.bak <- set.transforms(object$transforms)
   
   
@@ -39,9 +39,9 @@ predict.gmjmcmc <- function (object, x, link = function(x) x, quantiles = c(0.02
     rm(na.matr)
   } else x <- as.matrix(x)
   
-  merged <- merge_results(list(object),data = cbind(1,x),populations = pop,tol = tol)
+  merged <- merge_results(list(object),data = cbind(1, x), populations = pop, tol = tol)
   set.transforms(transforms.bak)
-  return(predict.gmjmcmc_merged(merged, x, link, quantiles, sub = sub))
+  return(predict.gmjmcmc_merged(merged, x, link, quantiles))
 }
 
 #' New idea for a more streamlined function...
@@ -83,7 +83,6 @@ predict.gmjmcmc.2 <- function (object, x, link = function(x) x, quantiles = c(0.
 #' @param quantiles The quantiles to calculate credible intervals for the posterior modes (in model space).
 #' @param pop The population to plot, defaults to last
 #' @param tol The tolerance to use for the correlation when finding equivalent features, default is 0.0000001
-#' @param sub first or last visit of the same model is used
 #' 
 #' @param ... Not used.
 #' @return A list containing aggregated predictions and per model predictions.
@@ -104,10 +103,7 @@ predict.gmjmcmc.2 <- function (object, x, link = function(x) x, quantiles = c(0.
 #' preds <- predict(result, matrix(rnorm(600), 100))
 #'
 #' @export
-predict.gmjmcmc_merged <- function (object, x, link = function(x) x, quantiles = c(0.025, 0.5, 0.975), pop = NULL,tol =  0.0000001, sub = FALSE, ...) {
-  
-
-  
+predict.gmjmcmc_merged <- function (object, x, link = function(x) x, quantiles = c(0.025, 0.5, 0.975), pop = NULL,tol =  0.0000001, ...) {
   if(!is.null(attr(object,which = "imputed")))
   {
     df <- data.frame(x)
@@ -125,7 +121,7 @@ predict.gmjmcmc_merged <- function (object, x, link = function(x) x, quantiles =
   
   transforms.bak <- set.transforms(object$transforms)
   if(!is.null(pop))
-    object <- merge_results(object$results.raw, pop, 2, tol, data = x,sub = sub)
+    object <- merge_results(object$results.raw, pop, 2, tol, data = x)
   
   preds <- list()
   for (i in seq_along(object$results)) {

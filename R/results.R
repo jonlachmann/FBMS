@@ -13,7 +13,6 @@
 #' 1=total width, 2=operation count and 3=depth.
 #' @param tol The tolerance to use for the correlation when finding equivalent features, default is 0.0000001
 #' @param data Data to use when comparing features, default is NULL meaning that mock data will be generated,
-#' @param sub whether subsampling was used
 #' if data is supplied it should be of the same form as is required by gmjmcmc, i.e. with both x, y and an intercept.
 #'
 #' @return An object of class "gmjmcmc_merged" containing the following elements:
