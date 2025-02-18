@@ -48,7 +48,7 @@ mjmcmc <- function (data, loglik.pi = gaussian.loglik, N = 100, probs = NULL, pa
 
   # Initialize first model
   model.cur <- as.logical(rbinom(n = length(S), size = 1, prob = 0.5))
-  model.cur.res <- loglik.pre(loglik.pi, model.cur, complex, data, params$loglik)
+  model.cur.res <- loglik.pre(loglik.pi, model.cur, complex, data, params$loglik, visited.models=NULL, sub = sub)
   model.cur <- list(prob=0, model=model.cur, coefs=model.cur.res$coefs, crit=model.cur.res$crit, alpha=0)
 
   if (verbose) cat("\nMJMCMC begin.\n")
@@ -107,7 +107,7 @@ mjmcmc.loop <- function (data, complex, loglik.pi, model.cur, N, probs, params, 
     if (i > params$burn_in) pip_estimate <- mcmc_total / i
     else pip_estimate <- rep(1 / covar_count, covar_count)
 
-    proposal <- mjmcmc.prop(data, loglik.pi, model.cur, complex, pip_estimate, probs, params, visited.models)
+    proposal <- mjmcmc.prop(data, loglik.pi, model.cur, complex, pip_estimate, probs, params, visited.models, sub = sub)
     if (proposal$crit > best.crit) {
       best.crit <- proposal$crit
       if (verbose) cat(paste("\rNew best population crit:", best.crit, "\n"))
@@ -154,7 +154,7 @@ mjmcmc.loop <- function (data, complex, loglik.pi, model.cur, N, probs, params, 
   }
 
   # Calculate and store the marginal inclusion probabilities and the model probabilities
-  marg.probs <- marginal.probs.renorm(c(models, lo.models), type = "both")
+  marg.probs <- marginal.probs.renorm(c(models, lo.models), type = "both", sub = sub)
 
   return(list(
     models = models,
@@ -177,11 +177,11 @@ mjmcmc.loop <- function (data, complex, loglik.pi, model.cur, N, probs, params, 
 #' @param probs A list of the various probability vectors to use
 #' @param params A list of the various parameters for all the parts of the algorithm
 #' @param visited.models A list of the previously visited models to use when subsampling and avoiding recalculation
-#'
+#' @param sub An indicator that if the likelihood is inexact and should be improved each model visit (EXPERIMENTAL!)
 #'
 #' @noRd
 #'
-mjmcmc.prop <- function (data, loglik.pi, model.cur, complex, pip_estimate, probs, params, visited.models=NULL) {
+mjmcmc.prop <- function (data, loglik.pi, model.cur, complex, pip_estimate, probs, params, visited.models=NULL, sub = FALSE) {
   l <- runif(1)
   if (l < probs$large) {
     ### Large jump
@@ -196,7 +196,7 @@ mjmcmc.prop <- function (data, loglik.pi, model.cur, complex, pip_estimate, prob
     chi.0.star <- xor(model.cur$model, large.jump$swap) # Swap large jump indices
 
     # Optimize to find a mode
-    localopt <- local.optim(chi.0.star, data, loglik.pi, !large.jump$swap, complex, q.o, params) # Do local optimization
+    localopt <- local.optim(chi.0.star, data, loglik.pi, !large.jump$swap, complex, q.o, params, visited.models=visited.models, sub = sub) # Do local optimization
     chi.k.star <- localopt$model
 
     # Randomize around the mode
@@ -207,7 +207,7 @@ mjmcmc.prop <- function (data, loglik.pi, model.cur, complex, pip_estimate, prob
     chi.0 <- xor(proposal$model, large.jump$swap)
 
     # Do a backwards local optimization
-    localopt2 <- local.optim(chi.0, data, loglik.pi, !large.jump$swap, complex, q.o, params, kernel = localopt$kern)
+    localopt2 <- local.optim(chi.0, data, loglik.pi, !large.jump$swap, complex, q.o, params, kernel = localopt$kern,  visited.models=visited.models, sub = sub)
     chi.k <- localopt2$model
 
     ### Calculate acceptance probability
@@ -231,14 +231,14 @@ mjmcmc.prop <- function (data, loglik.pi, model.cur, complex, pip_estimate, prob
     model.cur$prob <- prob.proposal(proposal$model, model.cur$model, q.g, params$mh, pip_estimate)
   }
   # Calculate log likelihoods for the proposed model
-  proposal.res <- loglik.pre(loglik.pi, proposal$model, complex, data, params$loglik)
+  proposal.res <- loglik.pre(loglik.pi, proposal$model, complex, data, params$loglik, visited.models=visited.models, sub = sub)
   proposal$crit <- proposal.res$crit
 
   # TODO: Compare to a list of best mliks for all visited models,
   # TODO: update that list if our estimate is better, otherwise update our estimate.
   # TODO: Save all models visited by local optim, and update the best mliks if we see one during local optim.
   # If we are running with subsampling, check the list for a better mlik
-  if (!is.null(visited.models)) {
+  if ((!is.null(visited.models)) & sub) {
     mod.idx <- vec_in_mat(visited.models$models[1:visited.models$count,,drop=FALSE], proposal$model)
     if (mod.idx != 0) proposal$crit <- max(proposal$crit, visited.models$crit[mod.idx])
   }

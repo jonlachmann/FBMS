@@ -106,7 +106,7 @@ gmjmcmc <- function (
     
     # Initialize first model of population
     model.cur <- as.logical(rbinom(n = length(S[[p]]), size = 1, prob = 0.5))
-    model.cur.res <- loglik.pre(loglik.pi, model.cur, complex, data.t, params$loglik)
+    model.cur.res <- loglik.pre(loglik.pi, model.cur, complex, data.t, params$loglik, NULL, FALSE)
     model.cur <- list(prob = 0, model = model.cur, coefs = model.cur.res$coefs, crit = model.cur.res$crit, alpha = 0)
     best.crit <- model.cur$crit # Reset first best criteria value
 

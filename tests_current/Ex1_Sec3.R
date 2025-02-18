@@ -33,16 +33,27 @@ use.fbms = FALSE
 ####################################################
 
 params <- gen.params.gmjmcmc(df)
-lmm <- lm(formula = MajorAxis ~ .,df)
-params$loglik$var <- var(lmm$residuals)
-set.seed(123)
+
+
+
+#setting residual variance fixed to the one from the Linear model
+#lmm <- lm(formula = MajorAxis ~ .,df)
+#params$loglik$var <- var(lmm$residuals)
+#set.seed(123)
+#to set variance to unknown use below
+#params$loglik$var <- "unknown"
+#to set to 1
+#params$loglik$var <- 1
 
 if (use.fbms) {
- result.default <- fbms(formula = MajorAxis ~ 1 + . , data = df, method = "gmjmcmc", transforms = transforms, P = 300, params = params)
+ result.default <- fbms(formula = MajorAxis ~ 1 + . , data = df, method = "gmjmcmc", transforms = transforms, params = params)
 } else {
- result.default <- gmjmcmc(df, transforms = transforms, params = params, P = 300)
+ result.default <- gmjmcmc(df, transforms = transforms, params = params)
 }
 summary(result.default, labels = names(df)[-1])
+
+preds <-  predict(result.default, df[,-1])  
+sqrt(mean((preds$aggr$mean - df$MajorAxis)^2))
 
 ####################################################
 #
@@ -69,7 +80,6 @@ summary(result.P50, labels = names(df)[-1])
 ####################################################
 
 set.seed(124)
-params$loglik$var = 1.02
 if (use.fbms) {
  result_parallel <- fbms(data = df, method = "gmjmcmc.parallel", transforms = transforms,
                          runs = 40, cores = 10, P=25,params = params)
@@ -162,7 +172,5 @@ plot(preds.multi$aggr$mean, df$MajorAxis)
 dev.off()
 
 rmse.parallel <- sqrt(mean((preds.multi$aggr$mean - df$MajorAxis)^2))
-
-
 
 c(rmse.default, rmse.P50, rmse.parallel)

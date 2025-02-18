@@ -42,7 +42,9 @@ probs <- gen.probs.gmjmcmc(transforms)
 probs$gen <- c(0,1,0,1) # Only modifications!
 params <- gen.params.gmjmcmc(df)
 params$feat$D <- 1   # Set depth of features to 1
-params$loglik$var <- "unknown"
+
+#to set variance to unknown uncomment below
+#params$loglik$var <- "unknown"
 
 ####################################################
 #

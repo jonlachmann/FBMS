@@ -87,6 +87,8 @@ probs.lin <- gen.probs.mjmcmc()
 params.lin <- gen.params.mjmcmc(df)
 params.lin$loglik$r <- 1/dim(df)[1] 
 
+#to set variance to unknown uncomment below
+#params.lin$loglik$var <- "unknown"
 
 if (use.fbms) {
   result.lin <- fbms(data = df, N = 5000)

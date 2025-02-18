@@ -11,6 +11,7 @@
   quantiles = c(0.025, 0.5, 0.975),
   pop = NULL,
   tol = 1e-07,
+  sub = FALSE,
   ...
 )
 }
@@ -26,6 +27,8 @@
 \item{pop}{The population to plot, defaults to last}
 
 \item{tol}{The tolerance to use for the correlation when finding equivalent features, default is 0.0000001}
+
+\item{sub}{first or last visit of the same model is used}
 
 \item{...}{Not used.}
 }

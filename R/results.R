@@ -13,6 +13,7 @@
 #' 1=total width, 2=operation count and 3=depth.
 #' @param tol The tolerance to use for the correlation when finding equivalent features, default is 0.0000001
 #' @param data Data to use when comparing features, default is NULL meaning that mock data will be generated,
+#' @param sub whether subsampling was used
 #' if data is supplied it should be of the same form as is required by gmjmcmc, i.e. with both x, y and an intercept.
 #'
 #' @return An object of class "gmjmcmc_merged" containing the following elements:
@@ -46,7 +47,7 @@
 #' merge_results(result$results)
 #'
 #' @export merge_results
-merge_results <- function (results, populations = NULL, complex.measure = NULL, tol = NULL, data = NULL) {
+merge_results <- function (results, populations = NULL, complex.measure = NULL, tol = NULL, data = NULL, sub = FALSE) {
   # Default values
   if (is.null(populations))
     populations <-"best"
@@ -99,7 +100,7 @@ merge_results <- function (results, populations = NULL, complex.measure = NULL, 
       results[[i]]$pop.weights[pop] <- pop.weights[weight_idx]
       weight_idx <- weight_idx + 1
 
-      model.probs <- marginal.probs.renorm(results[[i]]$models[[pop]], "models")
+      model.probs <- marginal.probs.renorm(results[[i]]$models[[pop]], "models",sub)
       results[[i]]$model.probs[[pop]] <- model.probs$probs
       results[[i]]$models[[pop]] <- results[[i]]$models[[pop]][model.probs$idx]
     }

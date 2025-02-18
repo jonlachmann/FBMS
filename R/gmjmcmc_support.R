@@ -63,11 +63,11 @@ marginal.probs <- function (models) {
 #' @param type Select which probabilities are of interest, features or models
 #' 
 #' @noRd
-marginal.probs.renorm <- function (models, type = "features") {
+marginal.probs.renorm <- function (models, type = "features", sub = FALSE) {
   models <- lapply(models, function (x) x[c("model", "crit")])
   model.size <- length(models[[1]]$model)
   models.matrix <- matrix(unlist(models), ncol = model.size + 1, byrow = TRUE)
-  duplicates <- duplicated(models.matrix[, 1:(model.size)], dim = 1, fromLast = TRUE)
+  duplicates <- duplicated(models.matrix[, 1:(model.size)], dim = 1, fromLast = sub)
   models.matrix <- models.matrix[!duplicates, ]
   if(!is.matrix(models.matrix))
     models.matrix <- t(as.matrix(models.matrix))
@@ -109,7 +109,18 @@ precalc.features <- function (data, features) {
 
 # TODO: Compare to previous mliks here instead, also add a flag to do that in full likelihood estimation scenarios.
 # Function to call the model function
-loglik.pre <- function (loglik.pi, model, complex, data, params = NULL) {
+loglik.pre <- function (loglik.pi, model, complex, data, params = NULL,  visited.models=visited.models, sub = sub) {
+  
+  if(!sub&!is.null(visited.models)){
+    mod.idx <- vec_in_mat(visited.models$models[seq_len(visited.models$count), , drop = FALSE], model)
+    if(mod.idx > 0)
+    {
+      crit <- visited.models$crit[mod.idx]
+      #sprint(crit)
+      return(list(crit = crit, c(-.Machine$double.xmax,model)))
+    }
+  }
+  
   # Get the complexity measures for just this model
   complex <- list(width = complex$width[model], oc = complex$oc[model], depth = complex$depth[model])
   # Call the model estimator with the data and the model, note that we add the intercept to every model
