@@ -115,6 +115,7 @@ loglik.pre <- function (loglik.pi, model, complex, data, params = NULL, visited.
       return(visited.models[[model]])
     } else {
       params$coefs <- visited.models[[model]]$coefs
+      params$crit <- visited.models[[model]]$crit
     }
   }
   # Get the complexity measures for just this model

@@ -214,15 +214,6 @@ mjmcmc.prop <- function (data, loglik.pi, model.cur, complex, pip_estimate, prob
   proposal.res <- loglik.pre(loglik.pi, proposal$model, complex, data, params$loglik, visited.models=visited.models, sub = sub)
   proposal$crit <- proposal.res$crit
 
-  # TODO: Compare to a list of best mliks for all visited models,
-  # TODO: update that list if our estimate is better, otherwise update our estimate.
-  # TODO: Save all models visited by local optim, and update the best mliks if we see one during local optim.
-  # If we are running with subsampling, check the list for a better mlik
-  if ((!is.null(visited.models)) & sub) {
-    mod.idx <- vec_in_mat(visited.models$models[1:visited.models$count,,drop=FALSE], proposal$model)
-    if (mod.idx != 0) proposal$crit <- max(proposal$crit, visited.models$crit[mod.idx])
-  }
-
   # Calculate acceptance probability for proposed model
   proposal$alpha <- min(0, (proposal$crit + model.cur$prob) - (model.cur$crit + proposal$prob))
 

@@ -48,19 +48,29 @@ probs <- gen.probs.gmjmcmc(transforms)
 
 logistic.posterior.bic.irlssgd <- function (y, x, model, complex, params) 
 {
-   mod <- irls.sgd(as.matrix(x[,model]), y, binomial(),
+  if (!is.null(params$crit)) {
+    mod <- glm.sgd(x[,model], y, binomial(), sgd.ctrl = list(start=params$coefs, subs=params$subs, maxit=10, alpha=0.00008, decay=0.99, histfreq=10))
+    mod$deviance <- get_deviance(mod$coefficients, x[,model], y, binomial())
+    mod$rank <- length(mod$coefficients)
+  } else {
+    mod <- irls.sgd(as.matrix(x[,model]), y, binomial(),
                   irls.control=list(subs=params$subs, maxit=20, tol=1e-7, cooling = c(1,0.9,0.75), expl = c(3,1.5,1)),
                   sgd.control=list(subs=params$subs, maxit=250, alpha=0.001, decay=0.99, histfreq=10))
+  }
   
   # logarithm of marginal likelihood
-  mloglik <- -mod$deviance /2 - 0.5*log(length(y)) * (mod$rank-1) 
+  mloglik <- -mod$deviance / 2 - 0.5 * log(length(y)) * (mod$rank - 1)
     
   # logarithm of model prior
   if (length(params$r) == 0)  params$r <- 1/dim(x)[1]  # default value or parameter r
   lp <- log.prior(params, complex)
+  crit <- mloglik + lp
+
+  if (!is.null(params$crit) && params$crit > crit) {
+    return(list(crit = params$crit, coefs = params$coefs))
+  }
   
-  return(list(crit = mloglik + lp, coefs = mod$coefficients))
-  
+  return(list(crit = crit, coefs = mod$coefficients))
 }
 
 
