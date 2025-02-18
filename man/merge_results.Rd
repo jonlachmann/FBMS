@@ -11,8 +11,7 @@ merge_results(
   populations = NULL,
   complex.measure = NULL,
   tol = NULL,
-  data = NULL,
-  sub = FALSE
+  data = NULL
 )
 }
 \arguments{

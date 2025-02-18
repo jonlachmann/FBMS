@@ -17,7 +17,8 @@ Depends:
     GenSA,
     parallel,
     stats,
-    graphics
+    graphics,
+    r2r
 Imports:
     Rcpp
 LinkingTo:

@@ -22,7 +22,7 @@ simulated.annealing <- function (model, data, loglik.pi, indices, complex, param
     for (m in 1:params$M) {
       # Get a modified model as proposal and calculate its likelihood
       proposal <- xor(model, gen.proposal(model, params$kern, kernel, indices)$swap)
-      model.proposal <- loglik.pre(loglik.pi, proposal, complex, data, loglikparams, visited.models=visited.models, sub = sub)
+      model.proposal <- loglik.pre(loglik.pi, proposal, complex, data, loglikparams, visited.models = visited.models, sub = sub)
       proposal.lik <- model.proposal$crit
       # Store the model that we have calculated
       models[[length(models) + 1]] <- list(prob=NA, model=proposal, coefs=model.proposal$coefs, crit=proposal.lik, alpha=NA)
@@ -42,7 +42,7 @@ simulated.annealing <- function (model, data, loglik.pi, indices, complex, param
   return(list(model=model, kern=kernel, models=models))
 }
 
-greedy.optim <- function (model, data, loglik.pi, indices, complex, params, loglikparams, kernel=NULL, visited.models=NULL, sub = FALSE) {
+greedy.optim <- function (model, data, loglik.pi, indices, complex, params, loglikparams, kernel = NULL, visited.models = NULL, sub = FALSE) {
   # Initialize a list to keep models that we visit in
   models <- vector("list", 0)
 
@@ -80,12 +80,12 @@ greedy.optim <- function (model, data, loglik.pi, indices, complex, params, logl
   return(list(model=model, kern=kernel, models=models))
 }
 
-local.optim <- function (model, data, loglik.pi, indices, complex, type, params, kernel=NULL,  visited.models=NULL, sub = FALSE) {
+local.optim <- function (model, data, loglik.pi, indices, complex, type, params, kernel = NULL, visited.models = NULL, sub = FALSE) {
   if (type == 1) {
-    return(simulated.annealing(model, data, loglik.pi, indices, complex, params$sa, params$loglik, kernel, visited.models=visited.models, sub = sub))
+    return(simulated.annealing(model, data, loglik.pi, indices, complex, params$sa, params$loglik, kernel, visited.models = visited.models, sub = sub))
   }
   if (type == 2) {
-    return(greedy.optim(model, data, loglik.pi, indices, complex, params$greedy, params$loglik, kernel, visited.models=visited.models, sub = sub))
+    return(greedy.optim(model, data, loglik.pi, indices, complex, params$greedy, params$loglik, kernel, visited.models = visited.models, sub = sub))
   }
   if (type == 3) {
     return("not implemented")

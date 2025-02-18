@@ -63,11 +63,11 @@ marginal.probs <- function (models) {
 #' @param type Select which probabilities are of interest, features or models
 #' 
 #' @noRd
-marginal.probs.renorm <- function (models, type = "features", sub = FALSE) {
+marginal.probs.renorm <- function (models, type = "features") {
   models <- lapply(models, function (x) x[c("model", "crit")])
   model.size <- length(models[[1]]$model)
   models.matrix <- matrix(unlist(models), ncol = model.size + 1, byrow = TRUE)
-  duplicates <- duplicated(models.matrix[, 1:(model.size)], dim = 1, fromLast = sub)
+  duplicates <- duplicated(models.matrix[, 1:(model.size)], dim = 1, fromLast = TRUE)
   models.matrix <- models.matrix[!duplicates, ]
   if(!is.matrix(models.matrix))
     models.matrix <- t(as.matrix(models.matrix))
@@ -109,18 +109,14 @@ precalc.features <- function (data, features) {
 
 # TODO: Compare to previous mliks here instead, also add a flag to do that in full likelihood estimation scenarios.
 # Function to call the model function
-loglik.pre <- function (loglik.pi, model, complex, data, params = NULL,  visited.models=visited.models, sub = sub) {
-  
-  if(!sub&!is.null(visited.models)){
-    mod.idx <- vec_in_mat(visited.models$models[seq_len(visited.models$count), , drop = FALSE], model)
-    if(mod.idx > 0)
-    {
-      crit <- visited.models$crit[mod.idx]
-      #sprint(crit)
-      return(list(crit = crit, c(-.Machine$double.xmax,model)))
+loglik.pre <- function (loglik.pi, model, complex, data, params = NULL, visited.models = visited.models, sub = sub) {
+  if (!is.null(visited.models) && has_key(visited.models, model)) {
+    if (!sub) {
+      return(visited.models[[model]])
+    } else {
+      params$coefs <- visited.models[[model]]$coefs
     }
   }
-  
   # Get the complexity measures for just this model
   complex <- list(width = complex$width[model], oc = complex$oc[model], depth = complex$depth[model])
   # Call the model estimator with the data and the model, note that we add the intercept to every model
@@ -129,7 +125,7 @@ loglik.pre <- function (loglik.pi, model, complex, data, params = NULL,  visited
   if (!is.numeric(model.res$crit) || is.nan(model.res$crit)) model.res$crit <- -.Machine$double.xmax
   # Alpha cannot be calculated if the current and proposed models have crit which are -Inf or Inf
   if (is.infinite(model.res$crit)) {
-    if (model.res$crit > 0)  model.res$crit <- .Machine$double.xmax
+    if (model.res$crit > 0) model.res$crit <- .Machine$double.xmax
     else model.res$crit <- -.Machine$double.xmax
   }
   return(model.res)

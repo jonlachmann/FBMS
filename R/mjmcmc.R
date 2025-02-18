@@ -96,7 +96,8 @@ mjmcmc.loop <- function (data, complex, loglik.pi, model.cur, N, probs, params, 
   # Initialize a vector to contain local opt visited models
   lo.models <- vector("list", 0)
   # Initialize list for keeping track of unique visited models
-  visited.models <- list(models = matrix(model.cur$model, 1, covar_count), crit = model.cur$crit, count = 1)
+  visited.models <- hashmap()
+  visited.models[[model.cur$model]] <- list(crit = model.cur$crit, coefs = model.cur$coefs)
   best.crit <- model.cur$crit # Set first best criteria value
 
   progress <- 0
@@ -116,33 +117,12 @@ mjmcmc.loop <- function (data, complex, loglik.pi, model.cur, N, probs, params, 
     # If we did a large jump and visited models to save
     if (!is.null(proposal$models)) {
       lo.models <- c(lo.models, proposal$models)
-      # If we are doing subsampling and want to update best mliks
-      if (sub) {
-        for (mod in seq_along(proposal$models)) {
-          # Check if we have seen this model before
-          mod.idx <- vec_in_mat(visited.models$models[seq_len(visited.models$count), , drop = FALSE], proposal$models[[mod]]$model)
-          if (mod.idx == 0) {
-            # If we have not seen the model before, add it
-            visited.models$count <- visited.models$count + 1
-            visited.models$crit <- c(visited.models$crit, proposal$models[[mod]]$crit)
-            visited.models$models <- rbind(visited.models$models, proposal$models[[mod]]$model)
-          } # This is a model seen before, set the best of the values available
-          else visited.models$crit[mod.idx] <- max(proposal$models[[mod]]$crit, visited.models$crit[mod.idx])
-        }
+      for (mod in seq_along(proposal$models)) {
+        visited.models[[proposal$models[[mod]]$model]] <- list(crit = proposal$models[[mod]]$crit, coefs = proposal$models[[mod]]$coefs)
       }
       proposal$models <- NULL
     }
-    if (sub) {
-      # Check if we have seen this model before
-      mod.idx <- vec_in_mat(visited.models$models[seq_len(visited.models$count), , drop = FALSE], proposal$model)
-      if (mod.idx == 0) {
-        # If we have not seen the model before, add it
-        visited.models$count <- visited.models$count + 1
-        visited.models$crit <- c(visited.models$crit, proposal$crit)
-        visited.models$models <- rbind(visited.models$models, proposal$model)
-      } # This is a model seen before, set the best of the values available
-      else visited.models$crit[mod.idx] <- max (proposal$crit, visited.models$crit[mod.idx])
-    }
+    visited.models[[proposal$model]] <- list(crit = proposal$crit, coefs = proposal$coefs)
 
     if (log(runif(1)) <= proposal$alpha) {
       model.cur <- proposal
@@ -154,7 +134,7 @@ mjmcmc.loop <- function (data, complex, loglik.pi, model.cur, N, probs, params, 
   }
 
   # Calculate and store the marginal inclusion probabilities and the model probabilities
-  marg.probs <- marginal.probs.renorm(c(models, lo.models), type = "both", sub = sub)
+  marg.probs <- marginal.probs.renorm(c(models, lo.models), type = "both")
 
   return(list(
     models = models,
@@ -181,7 +161,7 @@ mjmcmc.loop <- function (data, complex, loglik.pi, model.cur, N, probs, params, 
 #'
 #' @noRd
 #'
-mjmcmc.prop <- function (data, loglik.pi, model.cur, complex, pip_estimate, probs, params, visited.models=NULL, sub = FALSE) {
+mjmcmc.prop <- function (data, loglik.pi, model.cur, complex, pip_estimate, probs, params, visited.models = NULL, sub = FALSE) {
   l <- runif(1)
   if (l < probs$large) {
     ### Large jump
@@ -196,11 +176,11 @@ mjmcmc.prop <- function (data, loglik.pi, model.cur, complex, pip_estimate, prob
     chi.0.star <- xor(model.cur$model, large.jump$swap) # Swap large jump indices
 
     # Optimize to find a mode
-    localopt <- local.optim(chi.0.star, data, loglik.pi, !large.jump$swap, complex, q.o, params, visited.models=visited.models, sub = sub) # Do local optimization
+    localopt <- local.optim(chi.0.star, data, loglik.pi, !large.jump$swap, complex, q.o, params, visited.models = visited.models, sub = sub) # Do local optimization
     chi.k.star <- localopt$model
 
     # Randomize around the mode
-    proposal <- gen.proposal(chi.k.star, list(neigh.size = length(pip_estimate), neigh.min = 1, neigh.max = length(pip_estimate)), q.r, NULL, (pip_estimate*0 + 1 - params$random$prob), prob=TRUE)
+    proposal <- gen.proposal(chi.k.star, list(neigh.size = length(pip_estimate), neigh.min = 1, neigh.max = length(pip_estimate)), q.r, NULL, (pip_estimate * 0 + 1 - params$random$prob), prob=TRUE)
     proposal$model <- xor(chi.k.star, proposal$swap)
 
     # Do a backwards large jump and add in the kernel used in local optim to use the same for backwards local optim.

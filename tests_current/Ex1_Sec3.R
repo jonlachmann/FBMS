@@ -52,7 +52,7 @@ if (use.fbms) {
 }
 summary(result.default, labels = names(df)[-1])
 
-preds <-  predict(result.default, df[,-1])  
+preds <- predict(result.default, df[,-1])
 sqrt(mean((preds$aggr$mean - df$MajorAxis)^2))
 
 ####################################################
@@ -137,7 +137,7 @@ plot(result_parallel, 12)
 # Prediction
 
 #preds <-  predict(result, df[,-1], link = function(x) x)  
-preds <-  predict(result.default, df[,-1])  
+preds <-  predict(result.default, df[,-1])
 
 pdf("prediction.pdf") 
 plot(preds$aggr$mean, df$MajorAxis)
@@ -165,7 +165,7 @@ rmse.P50 <-  sqrt(mean((preds.P50$aggr$mean - df$MajorAxis)^2))
 ###############################
 
 
-preds.multi <- predict(result_parallel , df[,-1], link = function(x) x)  
+preds.multi <- predict(result_parallel , df[,-1], link = function(x) x)
 
 pdf("pred_parallel.pdf") 
 plot(preds.multi$aggr$mean, df$MajorAxis)

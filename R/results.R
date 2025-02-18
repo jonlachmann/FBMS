@@ -47,7 +47,7 @@
 #' merge_results(result$results)
 #'
 #' @export merge_results
-merge_results <- function (results, populations = NULL, complex.measure = NULL, tol = NULL, data = NULL, sub = FALSE) {
+merge_results <- function (results, populations = NULL, complex.measure = NULL, tol = NULL, data = NULL) {
   # Default values
   if (is.null(populations))
     populations <-"best"
@@ -100,7 +100,7 @@ merge_results <- function (results, populations = NULL, complex.measure = NULL, 
       results[[i]]$pop.weights[pop] <- pop.weights[weight_idx]
       weight_idx <- weight_idx + 1
 
-      model.probs <- marginal.probs.renorm(results[[i]]$models[[pop]], "models",sub)
+      model.probs <- marginal.probs.renorm(results[[i]]$models[[pop]], "models")
       results[[i]]$model.probs[[pop]] <- model.probs$probs
       results[[i]]$models[[pop]] <- results[[i]]$models[[pop]][model.probs$idx]
     }
