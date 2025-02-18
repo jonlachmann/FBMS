@@ -10,7 +10,7 @@
 
 # Logical to decide whether to perform analysis with fbms function
 # If FALSE then gmjmcmc or gmjmcmc.parallel function is used
-use.fbms = FALSE  
+use.fbms = FALSE
 
 library(FBMS)
 
@@ -21,7 +21,7 @@ colnames(df) = c("y",paste0("x",1:(ncol(df)-1)))
 
 # Candidates for the first MJMCMC round based on correlation with response
 c.vec = unlist(mclapply(2:ncol(df), function(x)abs(cor(df[,1],df[,x]))))
-ids = sort(order(c.vec,decreasing=TRUE)[1:50])          
+ids = sort(order(c.vec,decreasing=TRUE)[1:50])
 
 
 ####################################################
@@ -46,10 +46,10 @@ params$loglik$var = "unknown"
 set.seed(123)
 
 if (use.fbms) {
-  result1 <- fbms(data = df, method = "gmjmcmc", transforms = transforms, 
+  result1 <- fbms(data = df, method = "gmjmcmc", transforms = transforms,
                   probs = probs, params = params, P=25)
 } else {
-  result1 =  gmjmcmc(data = df, transforms = transforms, 
+  result1 =  gmjmcmc(data = df, transforms = transforms,
                      probs = probs, params = params, P=25)
 }
 summary(result1)
@@ -59,10 +59,10 @@ summary(result1)
 set.seed(124)   #Same analysis using a different seed
 
 if (use.fbms) {
-  result2 <- fbms(data = df, method = "gmjmcmc", transforms = transforms, 
+  result2 <- fbms(data = df, method = "gmjmcmc", transforms = transforms,
                   probs = probs, params = params, P=25)
 } else {
-  result2 =  gmjmcmc(data = df, transforms = transforms, 
+  result2 =  gmjmcmc(data = df, transforms = transforms,
                      probs = probs, params = params, P=25)
 }
 
@@ -80,7 +80,7 @@ summary(result1)
 
 ################################
 
-#Same analysis but using slightly different initial population           
+#Same analysis but using slightly different initial population
 # Candidates for the first MJMCMC round based on marginal p values
 ids3 = ids
 
@@ -97,17 +97,17 @@ probs$gen = c(0,0,0,1)
 set.seed(123)
 
 if (use.fbms) {
-  result3 <- fbms(data = df, method = "gmjmcmc", transforms = transforms, 
+  result3 <- fbms(data = df, method = "gmjmcmc", transforms = transforms,
                   probs = probs, params = params, P=25)
 } else {
-  result3 =  gmjmcmc(data = df, transforms = transforms, 
+  result3 =  gmjmcmc(data = df, transforms = transforms,
                      probs = probs, params = params, P=25)
 }
 
 
 # And again for the sake of comparison
 summary(result3,tol = 0.01)
-summary(result1,tol = 0.01)   
+summary(result1,tol = 0.01)
 summary(result2,tol = 0.01)
 
 
@@ -127,12 +127,12 @@ summary(result2,tol = 0.01)
 set.seed(123)
 
 if (use.fbms) {
-  result_parallel <- fbms(data = df, method = "gmjmcmc.parallel", runs = 10, cores = 10, 
-                                      transforms = transforms, probs = probs, params = params, 
+  result_parallel <- fbms(data = df, method = "gmjmcmc.parallel", runs = 10, cores = 10,
+                                      transforms = transforms, probs = probs, params = params,
                                       P=25, N.init=500, N.final=500)
 } else {
-  result_parallel =  gmjmcmc.parallel(runs = 10, cores = 10,data = df,  
-                                      transforms = transforms, probs = probs, params = params, 
+  result_parallel =  gmjmcmc.parallel(runs = 40, cores = 40,data = df,
+                                      transforms = transforms, probs = probs, params = params,
                                       P=25, N.init=500, N.final=500)
 }
 
@@ -158,12 +158,12 @@ hist(cor(X.best))
 set.seed(1234)
 
 if (use.fbms) {
-  result_parallel2 <- fbms(data = df, method = "gmjmcmc.parallel", runs = 40, cores = 40, 
-                          transforms = transforms, probs = probs, params = params, 
+  result_parallel2 <- fbms(data = df, method = "gmjmcmc.parallel", runs = 40, cores = 40,
+                          transforms = transforms, probs = probs, params = params,
                           P=25, N.init=500, N.final=500)
 } else {
-  result_parallel2 =  gmjmcmc.parallel(runs = 40, cores = 40,data = df, 
-                         transforms = transforms, probs = probs, params = params, 
+  result_parallel2 =  gmjmcmc.parallel(runs = 40, cores = 40,data = df,
+                         transforms = transforms, probs = probs, params = params,
                          P=25, N.init=500, N.final=500)
 }
 save(result_parallel2,file="Ex3_parallel2.RData")
