@@ -138,7 +138,7 @@ predict.gmjmcmc_merged <- function (object, x, link = function(x) x, quantiles =
       yhat <- matrix(0, nrow=nrow(x), ncol=length(models))
       for (k in seq_along(models)) {
         # Models which have 0 weight are skipped since they may also be invalid, and would not influence the predictions.
-        if (models[[k]]$crit == -.Machine$double.xmax | models[[k]]$coefs[1]==-.Machine$double.xmax) next
+        if (models[[k]]$crit == -.Machine$double.xmax) next
         yhat[, k] <- link(x.precalc[, c(TRUE, models[[k]]$model), drop=FALSE] %*% models[[k]]$coefs)
       }
 
