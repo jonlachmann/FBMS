@@ -1,8 +1,8 @@
 Package: FBMS
 Type: Package
 Title: Flexible Bayesian Model Selection and Model Averaging
-Version: 1.1
-Date: 2025-02-26
+Version: 1.2
+Date: 2025-08-28
 Encoding: UTF-8
 Language: en-US
 Authors@R: c(
@@ -10,6 +10,7 @@ Authors@R: c(
     person("Aliaksandr", "Hubin", email = "aliaksah@math.uio.no", role = "aut")
     )
 Description: Implements the Mode Jumping Markov Chain Monte Carlo algorithm described in <doi:10.1016/j.csda.2018.05.020> and its Genetically Modified counterpart described in <doi:10.1613/jair.1.13047> as well as the sub-sampling versions described in <doi:10.1016/j.ijar.2022.08.018> for flexible Bayesian model selection and model averaging.
+URL: https://github.com/jonlachmann/FBMS
 License: GPL-2
 Depends:
     R (>= 3.5.0),
