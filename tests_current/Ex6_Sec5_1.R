@@ -9,7 +9,7 @@
 #######################################################
 
 #library(devtools)
-#devtools::install_github("jonlachmann/GMJMCMC@FBMS", force=T, build_vignettes=F)
+#devtools::install_github("jonlachmann/FBMS@v1_arxiv", force=T, build_vignettes=F)
 
 library(FBMS)
 library(xtable)
@@ -48,7 +48,7 @@ params$feat$pop.max <- 50    # Maximum population size for the GMJMCMC search
 
 
 if (run.parallel) {
-  set.seed(123)
+  set.seed(12)
     result_parallel1 = fbms(data=df, transforms=transforms,
                             beta_prior = list(type="g-prior", g=max(n,p^2)),
                             probs=probs,params=params,
@@ -63,7 +63,7 @@ if (run.parallel) {
                            method="gmjmcmc.parallel",
                            P=50,N=1000,runs=10,cores=10)
   save(result_parallel2,file="Ex6_parallel2_orig.RData")
-  
+
   set.seed(123456)
      result_parallel3=fbms(data=df, transforms=transforms,
                            beta_prior = list(type="g-prior", g=max(n,p^2)),
@@ -73,22 +73,22 @@ if (run.parallel) {
   save(result_parallel3,file="Ex6_parallel3_orig.RData")
 
 } else {
-  
+
   # If not running gmjmcmc.parallel again, load previously saved results
-  load("Ex6_parallel1.RData")
-  load("Ex6_parallel2.RData")
-  load("Ex6_parallel3.RData")
-  
+  load("Ex6_parallel1_orig.RData")
+  load("Ex6_parallel2_orig.RData")
+  load("Ex6_parallel3_orig.RData")
+
 }
-  
-  
+
+
 # Summarize results from each of the three parallel runs with tolerance of 0.01
 
-res1 = summary(result_parallel1,tol=0.01)
+res1 = summary(result_parallel1,tol=0.05)
 res1$marg.probs = round(res1$marg.probs,3)
-res2 = summary(result_parallel2,tol=0.01)
+res2 = summary(result_parallel2,tol=0.05)
 res2$marg.probs = round(res2$marg.probs,3)
-res3 = summary(result_parallel3,tol=0.01)
+res3 = summary(result_parallel3,tol=0.05)
 res3$marg.probs = round(res3$marg.probs,3)
 
 # Combine unique feature names found in all three runs
@@ -118,4 +118,4 @@ X.best = df[,names.best]
 pdf("crossplot_Sanger_best.pdf")
 corrplot::corrplot(cor(X.best))
 dev.off()
-  
+

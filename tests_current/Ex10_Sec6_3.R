@@ -8,6 +8,10 @@
 #
 #######################################################
 
+#library(devtools)
+#devtools::install_github("jonlachmann/FBMS@v1_arxiv", force=T, build_vignettes=F)
+
+
 library(FBMS)
 library(INLA)
 library(tictoc)
