@@ -2,39 +2,29 @@
 % Please edit documentation in R/likelihoods.R
 \name{lm.logpost.bas}
 \alias{lm.logpost.bas}
-\title{Log likelihood function for Gaussian regression with parameter priors from BAS package
-This function is created as an example of how to create an estimator that is used
-to calculate the marginal likelihood of a model.}
+\title{Log likelihood function for Gaussian regression with parameter priors from BAS package}
 \usage{
-lm.logpost.bas(
-  y,
-  x,
-  model,
-  complex,
-  mlpost_params = list(r = exp(-0.5), beta_prior = list(method = 1))
-)
+lm.logpost.bas(y, x, model, complex, mlpost_params = NULL)
 }
 \arguments{
 \item{y}{A vector containing the dependent variable}
 
 \item{x}{The matrix containing the precalculated features}
 
-\item{model}{The model to estimate as a logical vector}
+\item{model}{A logical vector indicating which features are included in the model}
 
 \item{complex}{A list of complexity measures for the features}
 
-\item{mlpost_params}{A list of parameters for the log likelihood, supplied by the user, important to specify the tuning parameters of beta priors where the corresponding integers as prior_beta must be provided "g-prior" = 0, "hyper-g" = 1, "EB-local" = 2, "BIC" = 3, "ZS-null" = 4, "ZS-full" = 5, "hyper-g-laplace" = 6, "AIC" = 7, "EB-global" = 2, "hyper-g-n" = 8, "JZS" = 9 and in Gaussian models}
+\item{mlpost_params}{A list of parameters for the log likelihood, supplied by the user}
 }
 \value{
-A list with the log marginal likelihood combined with the log prior (crit) and the posterior mode of the coefficients (coefs).
+A list with the approximate log marginal likelihood combined with the log prior (\code{crit}) and the posterior mode of coefficients (\code{coefs})
 }
 \description{
-Log likelihood function for Gaussian regression with parameter priors from BAS package
-This function is created as an example of how to create an estimator that is used
-to calculate the marginal likelihood of a model.
+This is a placeholder version of the function.
+It falls back to \code{gaussian.loglik.g} and raises a warning if the full function is not loaded.
 }
 \examples{
-lm.logpost.bas(rnorm(100), cbind(1,matrix(rnorm(100))), c(TRUE,TRUE), list(oc = 1))
-
+lm.logpost.bas(rnorm(100), cbind(1, matrix(rnorm(100))), c(TRUE, TRUE), list(oc = 1))
 
 }

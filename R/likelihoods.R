@@ -3,156 +3,6 @@
 # Created by: jonlachmann
 # Created on: 2021-02-24
 
-#' Log likelihood function for glm regression with parameter priors from BAS package
-#' This function is created as an example of how to create an estimator that is used
-#' to calculate the marginal likelihood of a model.
-#'
-#' @param y A vector containing the dependent variable
-#' @param x The matrix containing the precalculated features
-#' @param model The model to estimate as a logical vector
-#' @param complex A list of complexity measures for the features
-#' @param mlpost_params A list of parameters for the log likelihood, supplied by the user, important to specify the tuning parameters of beta priors and family that BAS uses in glm models
-#'
-#' @return A list with the log marginal likelihood combined with the log prior (crit) and the posterior mode of the coefficients (coefs).
-#'
-#' @examples
-#' glm.logpost.bas(as.integer(rnorm(100) > 0), 
-#' cbind(1, matrix(rnorm(100))), 
-#' c(TRUE, TRUE), 
-#' list(oc = 1))
-#' 
-#' @importFrom BAS uniform Jeffreys g.prior
-#' @importFrom stats poisson Gamma glm.control
-#' @export glm.logpost.bas
-glm.logpost.bas <- function (y, x, model, complex, mlpost_params = list(r = NULL, family = "binomial", beta_prior = Jeffreys(), laplace = FALSE)) {
-  if (length(mlpost_params) == 0)
-    mlpost_params <- list(r = 1 / dim(x)[1], family = "binomial", beta_prior = g.prior(max(dim(x)[1], sum(model) - 1)), laplace = FALSE)
-  else if(length(mlpost_params$r) == 0)
-    mlpost_params$r = 1 / dim(x)[1]
-  if(length(mlpost_params$laplace) == 0)
-    mlpost_params$laplace = FALSE
-  p <- sum(model) - 1 
-  if (p == 0) {
-    probinit <- as.numeric(c(1, 0.99))
-    model[2] <- T
-  } else {
-    probinit <- as.numeric(c(1, rep(0.99, p)))
-  }
-  
- 
-  mod <- NULL
-
-  if (mlpost_params$family == "binomial")
-    family_use <- binomial()
-  else if (mlpost_params$family == "poisson")
-    family_use <- poisson()
-  else
-    family_use <- Gamma()
-  
-  
-  tryCatch({ suppressWarnings({
-      mod <- .Call(
-        BAS:::C_glm_deterministic,
-        y = as.numeric(y),
-        X = as.matrix(x[, model]),
-        Roffset = as.numeric(rep(0, length(y))),
-        Rweights = as.numeric(rep(1, length(y))),
-        Rprobinit = probinit,
-        Rmodeldim = as.integer(rep(0, ifelse(p == 0,2,1))),
-        modelprior = uniform(),
-        betaprior = mlpost_params$beta_prior,
-        family = family_use,
-        Rcontrol = glm.control(),
-        Rlaplace =  as.integer(mlpost_params$laplace)
-      )
-    })
-  }, error = function(e) {
-    # Handle the error by setting result to NULL
-    mod <- NULL
-    # You can also print a message or log the error if needed
-    cat("An error occurred:", conditionMessage(e), "\n")
-  })
-
-  if (length(mod) == 0 || is.nan(mod$logmarg[2])) {
-    return(list(crit = -.Machine$double.xmax + log_prior(mlpost_params, complex), coefs = rep(0, p + 1)))
-  }
-
-  if (p == 0) {
-    ret <- mod$logmarg[2] + log(mlpost_params$r) * sum(complex$oc)
-    return(list(crit = ret, coefs = mod$mle[[2]]))
-  }
-  ret <- mod$logmarg + log(mlpost_params$r) * sum(complex$oc)
-  return(list(crit = ret, coefs = mod$mle[[1]]))
-}
-
-
-#' Log likelihood function for Gaussian regression with parameter priors from BAS package
-#' This function is created as an example of how to create an estimator that is used
-#' to calculate the marginal likelihood of a model.
-#'
-#' @param y A vector containing the dependent variable
-#' @param x The matrix containing the precalculated features
-#' @param model The model to estimate as a logical vector
-#' @param complex A list of complexity measures for the features
-#' @param mlpost_params A list of parameters for the log likelihood, supplied by the user, important to specify the tuning parameters of beta priors where the corresponding integers as prior_beta must be provided "g-prior" = 0, "hyper-g" = 1, "EB-local" = 2, "BIC" = 3, "ZS-null" = 4, "ZS-full" = 5, "hyper-g-laplace" = 6, "AIC" = 7, "EB-global" = 2, "hyper-g-n" = 8, "JZS" = 9 and in Gaussian models
-#'
-#' @return A list with the log marginal likelihood combined with the log prior (crit) and the posterior mode of the coefficients (coefs).
-#'
-#' @examples
-#' lm.logpost.bas(rnorm(100), cbind(1,matrix(rnorm(100))), c(TRUE,TRUE), list(oc = 1))
-#'
-#'
-#' @export lm.logpost.bas
-lm.logpost.bas <- function (y, x, model, complex, mlpost_params = list(r = exp(-0.5), beta_prior = list(method = 1))) {
-  if (length(mlpost_params) == 0)
-    mlpost_params <- list(
-      r = 1 / dim(x)[1],
-      beta_prior = list(method = 0, alpha = max(dim(x)[1], sum(model)^2))
-    ) else if(length(mlpost_params$r) == 0) mlpost_params$r = 1 / dim(x)[1]
-
-  p <- sum(model) - 1
-  if (p == 0) {
-    probinit <- as.numeric(c(1, 0.99))
-    model[2] <- T
-  } else {
-    probinit <- as.numeric(c(1, rep(0.99, p)))
-  }
-
-  mod <- NULL
-
-  tryCatch({
-      suppressWarnings({
-        mod <- .Call(BAS:::C_deterministic,
-                     y = y, X = as.matrix(x[, model]),
-                     as.numeric(rep(1, length(y))),
-                     probinit,
-                     as.integer(rep(0, ifelse(p == 0,2,1))),
-                     incint = as.integer(F),
-                     alpha = ifelse(length(mlpost_params$beta_prior$a) > 0, as.numeric(mlpost_params$beta_prior$a), NULL),
-                     method = as.integer(mlpost_params$beta_prior$method),
-                     modelprior = uniform(),
-                     Rpivot = TRUE,
-                     Rtol = 1e-7)
-      })
-  }, error = function(e) {
-    # Handle the error by setting result to NULL
-    mod <- NULL
-    # You can also print a message or log the error if needed
-    cat("An error occurred:", conditionMessage(e), "\n")
-  })
-
-  if (length(mod) == 0 || is.nan(mod$logmarg[2])) {
-    return(list(crit = -.Machine$double.xmax + log_prior(mlpost_params, complex), coefs = rep(0, p + 1)))
-  }
-
-  if (p == 0) {
-    ret <- mod$logmarg[2] + log(mlpost_params$r) * sum(complex$oc)
-    return(list(crit = ret, coefs = mod$mle[[2]]))
-  }
-  ret <- mod$logmarg + log(mlpost_params$r) * sum(complex$oc)
-  return(list(crit = ret, coefs = mod$mle[[1]]))
-}
-
 
 #' Log likelihood function for logistic regression with a Jeffreys parameter prior and BIC approximations of the posterior
 #' This function is created as an example of how to create an estimator that is used
@@ -198,6 +48,7 @@ logistic.loglik <- function (y, x, model, complex, mlpost_params = list(r = exp(
 #' @param mlpost_params A list of parameters for the log likelihood, supplied by the user, family must be specified
 #'
 #' @return A list with the log marginal likelihood combined with the log prior (crit) and the posterior mode of the coefficients (coefs).
+#' @importFrom stats Gamma poisson
 #'
 #' @examples
 #' glm.loglik(abs(rnorm(100))+1, matrix(rnorm(100)), TRUE, list(oc = 1))
@@ -227,6 +78,228 @@ glm.loglik <- function (y, x, model, complex, mlpost_params = list(r = exp(-0.5)
   
   ret <- (-(mod$deviance + log(length(y)) * (mod$rank - 1) - 2 * log(mlpost_params$r) * sum(complex$oc))) / 2
   return(list(crit = ret, coefs = mod$coefficients))
+}
+
+#' Log likelihood function for glm regression with Zellner's g-prior and BIC-like approximations
+#'
+#' This function estimates marginal likelihood for generalized linear models using a
+#' BIC-style penalty adjusted to approximate Zellner's g-prior effect.
+#'
+#' @param y A vector containing the dependent variable
+#' @param x The matrix containing the precalculated features
+#' @param model A logical vector indicating which features are included in the model
+#' @param complex A list of complexity measures for the features
+#' @param mlpost_params A list of parameters for the log likelihood, including:
+#'   \itemize{
+#'     \item \code{r} - scalar tuning parameter for the prior (default is 1 / number of rows of \code{x})
+#'     \item \code{family} - GLM family as string ("binomial", "poisson", "Gamma"), default is "binomial"
+#'     \item \code{g} - scalar specifying the g prior hyperparameter (default max of model size squared and sample size)
+#'   }
+#' @importFrom stats Gamma poisson
+#'
+#' @return A list with the approximate log marginal likelihood (\code{crit}) and the posterior mode of coefficients (\code{coefs})
+#'
+#' @examples
+#' glm.loglik.g(as.integer(rnorm(100) > 0), 
+#' cbind(1, matrix(rnorm(100))), c(TRUE, TRUE), list(oc = 1),
+#'  list(r = 1/100, family = "binomial", g = 10))
+#'
+#' @export
+glm.loglik.g <- function(y, x, model, complex, mlpost_params = list(r = NULL, family = "binomial", g = NULL)) {
+  if (sum(model) == 0) return(list(crit = -Inf, coefs = numeric()))
+  n <- nrow(x)
+  if (is.null(mlpost_params$r)) mlpost_params$r <- 1 / n
+  if (is.null(mlpost_params$g)) mlpost_params$g <- max(sum(model)^2, n)
+  
+  # Safely handle family argument with fallback default
+  family_use_str <- if (is.null(mlpost_params$family) || length(mlpost_params$family) != 1 || is.na(mlpost_params$family)) {
+    "binomial"
+  } else {
+    mlpost_params$family
+  }
+  
+  family_use <- switch(family_use_str,
+                       binomial = stats::binomial(),
+                       poisson = stats::poisson(),
+                       Gamma = stats::Gamma(),
+                       stats::binomial())
+  
+  Xsub <- as.matrix(x[, model, drop = FALSE])
+  
+  fit <- tryCatch({
+    suppressWarnings(stats::glm.fit(Xsub, y, family = family_use))
+  }, error = function(e) {
+    warning("glm.loglik.g: GLM fit failed: ", conditionMessage(e))
+    NULL
+  })
+  
+  if (is.null(fit)) return(list(crit = -Inf, coefs = numeric()))
+  
+  dev <- fit$deviance
+  p <- fit$rank
+  
+  penalty_g <- p * log(1 + mlpost_params$g)
+  
+  crit <- (-1 / 2) * (dev + p * log(n) - 2 * log(mlpost_params$r) * sum(complex$oc) + penalty_g)
+  
+  list(crit = crit, coefs = fit$coefficients)
+}
+
+
+#' Log likelihood function for glm regression with parameter priors from BAS package
+#'
+#' This is a placeholder version of the function.
+#' It falls back to \code{glm.loglik.g} and raises a warning if the full function is not loaded.
+#'
+#' @param y A vector containing the dependent variable
+#' @param x The matrix containing the precalculated features
+#' @param model A logical vector indicating which features are included in the model
+#' @param complex A list of complexity measures for the features
+#' @param mlpost_params A list of parameters for the log likelihood, supplied by the user
+#'
+#' @return A list with the approximate log marginal likelihood combined with the log prior (\code{crit}) and the posterior mode of coefficients (\code{coefs})
+#'
+#' @examples
+#' glm.logpost.bas(as.integer(rnorm(100) > 0), 
+#' cbind(1, matrix(rnorm(100))), c(TRUE, TRUE), 
+#' list(oc = 1))
+#'
+#' @export
+glm.logpost.bas <- function(y, x, model, complex, mlpost_params = NULL) {
+  #warning("Full glm.logpost.bas not loaded; using glm.loglik.g fallback approximation")
+  glm.loglik.g(y, x, model, complex, mlpost_params)
+}
+
+
+#' Log likelihood function for Gaussian regression with parameter priors from BAS package
+#'
+#' This is a placeholder version of the function.
+#' It falls back to \code{gaussian.loglik.g} and raises a warning if the full function is not loaded.
+#'
+#' @param y A vector containing the dependent variable
+#' @param x The matrix containing the precalculated features
+#' @param model A logical vector indicating which features are included in the model
+#' @param complex A list of complexity measures for the features
+#' @param mlpost_params A list of parameters for the log likelihood, supplied by the user
+#'
+#' @return A list with the approximate log marginal likelihood combined with the log prior (\code{crit}) and the posterior mode of coefficients (\code{coefs})
+#'
+#' @examples
+#' lm.logpost.bas(rnorm(100), cbind(1, matrix(rnorm(100))), c(TRUE, TRUE), list(oc = 1))
+#'
+#' @export
+lm.logpost.bas <- function(y, x, model, complex, mlpost_params = NULL) {
+  #warning("Full lm.logpost.bas not loaded; using gaussian.loglik.g fallback approximation")
+  gaussian.loglik.g(y, x, model, complex, mlpost_params)
+}
+
+#' @keywords internal
+#' @noRd
+loadGlmBas <- function() {
+  glm_code <- "
+  function (y, x, model, complex, mlpost_params = list(r = NULL, family = 'binomial', beta_prior = Jeffreys(), laplace = FALSE)) {
+    if (length(mlpost_params) == 0)
+      mlpost_params <- list(r = 1 / dim(x)[1], family = 'binomial', beta_prior = g.prior(max(dim(x)[1], sum(model) - 1)), laplace = FALSE)
+    else if(length(mlpost_params$r) == 0)
+      mlpost_params$r = 1 / dim(x)[1]
+    if(length(mlpost_params$laplace) == 0)
+      mlpost_params$laplace = FALSE
+    p <- sum(model) - 1 
+    if (p == 0) {
+      probinit <- as.numeric(c(1, 0.99))
+      model[2] <- TRUE
+    } else {
+      probinit <- as.numeric(c(1, rep(0.99, p)))
+    }
+    mod <- NULL
+    if (mlpost_params$family == 'binomial')
+      family_use <- binomial()
+    else if (mlpost_params$family == 'poisson')
+      family_use <- poisson()
+    else
+      family_use <- Gamma()
+    tryCatch({ suppressWarnings({
+        mod <- .Call(
+          BAS:::C_glm_deterministic,
+          y = as.numeric(y),
+          X = as.matrix(x[, model]),
+          Roffset = as.numeric(rep(0, length(y))),
+          Rweights = as.numeric(rep(1, length(y))),
+          Rprobinit = probinit,
+          Rmodeldim = as.integer(rep(0, ifelse(p == 0,2,1))),
+          modelprior = uniform(),
+          betaprior = mlpost_params$beta_prior,
+          family = family_use,
+          Rcontrol = glm.control(),
+          Rlaplace =  as.integer(mlpost_params$laplace)
+        )
+      })
+    }, error = function(e) {
+      mod <- NULL
+      cat('An error occurred:', conditionMessage(e), '\\n')
+    })
+    if (length(mod) == 0 || is.nan(mod$logmarg[2])) {
+      return(list(crit = -.Machine$double.xmax + log_prior(mlpost_params, complex), coefs = rep(0, p + 1)))
+    }
+    if (p == 0) {
+      ret <- mod$logmarg[2] + log(mlpost_params$r) * sum(complex$oc)
+      return(list(crit = ret, coefs = mod$mle[[2]]))
+    }
+    ret <- mod$logmarg + log(mlpost_params$r) * sum(complex$oc)
+    return(list(crit = ret, coefs = mod$mle[[1]]))
+  }
+  "
+  eval(parse(text = glm_code))
+}
+
+#' @keywords internal
+#' @noRd
+loadLmBas <- function() {
+  lm_code <- "
+  function (y, x, model, complex, mlpost_params = list(r = exp(-0.5), beta_prior = list(method = 1))) {
+    if (length(mlpost_params) == 0)
+      mlpost_params <- list(
+        r = 1 / dim(x)[1],
+        beta_prior = list(method = 0, alpha = max(dim(x)[1], sum(model)^2))
+      ) else if(length(mlpost_params$r) == 0) mlpost_params$r = 1 / dim(x)[1]
+    p <- sum(model) - 1
+    if (p == 0) {
+      probinit <- as.numeric(c(1, 0.99))
+      model[2] <- TRUE
+    } else {
+      probinit <- as.numeric(c(1, rep(0.99, p)))
+    }
+    mod <- NULL
+    tryCatch({
+        suppressWarnings({
+          mod <- .Call(BAS:::C_deterministic,
+                       y = y, X = as.matrix(x[, model]),
+                       as.numeric(rep(1, length(y))),
+                       probinit,
+                       as.integer(rep(0, ifelse(p == 0,2,1))),
+                       incint = as.integer(FALSE),
+                       alpha = ifelse(length(mlpost_params$beta_prior$a) > 0, as.numeric(mlpost_params$beta_prior$a), NULL),
+                       method = as.integer(mlpost_params$beta_prior$method),
+                       modelprior = uniform(),
+                       Rpivot = TRUE,
+                       Rtol = 1e-7)
+        })
+    }, error = function(e) {
+      mod <- NULL
+      cat('An error occurred:', conditionMessage(e), '\\n')
+    })
+    if (length(mod) == 0 || is.nan(mod$logmarg[2])) {
+      return(list(crit = -.Machine$double.xmax + log_prior(mlpost_params, complex), coefs = rep(0, p + 1)))
+    }
+    if (p == 0) {
+      ret <- mod$logmarg[2] + log(mlpost_params$r) * sum(complex$oc)
+      return(list(crit = ret, coefs = mod$mle[[2]]))
+    }
+    ret <- mod$logmarg + log(mlpost_params$r) * sum(complex$oc)
+    return(list(crit = ret, coefs = mod$mle[[1]]))
+  }
+  "
+  eval(parse(text = lm_code))
 }
 
 

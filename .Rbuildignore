@@ -7,3 +7,6 @@ README.md
 ^.*\.Rproj$
 ^\.Rproj\.user$
 ^CRAN-SUBMISSION$
+^\\.github$
+^doc$
+^missing_data$

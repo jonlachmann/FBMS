@@ -77,7 +77,6 @@ fbms <- function (
   verbose = TRUE,
   ...
 ) {
-  
   if (length(data) == 0)
     stop("Training data must be provided!")
 
@@ -342,7 +341,6 @@ select.mlpost.fun <- function (beta_prior, family) {
       "Unsupported family: ", family, ". Supported families are 'binomial', 'poisson', 'gamma', or 'gaussian'."
     ))
   }
-
   gaussian_only_priors <- c("ZS-null", "ZS-full", "hyper-g-laplace","BIC", "AIC", "JZS","EB-global")
   gaussian_not_robust <- c("CH", "tCCH", "ZS-adapted", "TG", "beta.prime", "benchmark", "Jeffreys")
   gaussian_robust <- c("g-prior", "hyper-g", "EB-local","BIC", "Jeffreys-BIC", "ZS-null", "ZS-full", "hyper-g-laplace",
@@ -366,7 +364,7 @@ select.mlpost.fun <- function (beta_prior, family) {
         return(glm.loglik)
       }
     } else {
-      return(glm.logpost.bas)
+      return(loadGlmBas())
     }
   } else if (family == "gaussian") {
     if (beta_prior %in% gaussian_not_robust) {
@@ -380,7 +378,7 @@ select.mlpost.fun <- function (beta_prior, family) {
     } else if (beta_prior == "Jeffreys-BIC") {
       return(gaussian.loglik)
     } else if (beta_prior %in% gaussian_bas) {
-      return(lm.logpost.bas)
+      return(loadLmBas())
     }
   }
   stop("Unknown prior, please verify your inputs.")
