@@ -9,9 +9,6 @@
 #######################################################
 
 #install.packages("FBMS")
-#install.packages("devtools")
-#library(devtools)
-#devtools::install_github("jonlachmann/GMJMCMC@data-inputs", force=T, build_vignettes=F)
 
 library(mvtnorm)
 library(FBMS)

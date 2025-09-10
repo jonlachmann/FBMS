@@ -12,9 +12,6 @@
 #
 #######################################################
 
-#library(devtools)
-#devtools::install_github("jonlachmann/GMJMCMC@FBMS", force=T, build_vignettes=F)
-
 library(FBMS)
 
 n = 2000

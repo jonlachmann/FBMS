@@ -8,9 +8,6 @@
 #
 #######################################################
 
-#library(devtools)
-#devtools::install_github("jonlachmann/GMJMCMC@FBMS", force=T, build_vignettes=F)
-
 library(FBMS)
 library(xtable)
 library(tictoc)

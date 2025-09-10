@@ -172,7 +172,7 @@ $$
 ### Parameter priors available (and where to tune)
 
 | Prior (Alias) | $a$ | $b$ | $\rho$ | $s$ | $v$ | $k$ | Families |
-|---------|---------|---------|---------|---------|---------|---------|---------|
+|----|----|----|----|----|----|----|----|
 | **Default:** |  |  |  |  |  |  |  |
 | `g-prior` | $g$ (default: $\max(n, p^2)$) |  |  |  |  |  | GLM |
 | **tCCH-Related Priors:** |  |  |  |  |  |  |  |
