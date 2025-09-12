@@ -306,7 +306,7 @@ result_single <- fbms(
   model_prior = list(r = 1/dim(data)[1]),
   method      = "gmjmcmc",
   transforms  = transforms,
-  P           = 20
+  P           = 10
 )
 
 # Summarize
@@ -334,9 +334,9 @@ result_parallel <- fbms(
   model_prior = list(r = 1/dim(data)[1]),
   method      = "gmjmcmc.parallel",
   transforms  = transforms,
-  runs        = runs*10,  # by default the rmd has runs =  1; increase for convergence
+  runs        = runs,     # by default the rmd has runs =  1; increase for convergence
   cores       = cores,    # by default the rmd has cores = 1; increase for convergence
-  P           = 20
+  P           = 10
 )
 
 # Summarize
@@ -508,7 +508,7 @@ result <- fbms(
   beta_prior = list(type = "Jeffreys-BIC"),
   probs      = probs,
   params     = params,
-  P          = 25
+  P          = 10
 )
 
 printn(summary(result))
@@ -525,7 +525,7 @@ result_parallel <- fbms(
   beta_prior = list(type = "Jeffreys-BIC"),
   probs      = probs,
   params     = params,
-  P          = 25,
+  P          = 10,
   runs       = runs,
   cores      = cores
 )
@@ -585,7 +585,7 @@ result2a <- fbms(
   transforms   = transforms,
   probs        = probs,
   params       = params,
-  P            = 25,
+  P            = 10,
   N            = 100,
   runs         = runs,
   cores        = cores,
@@ -671,7 +671,7 @@ result <- fbms(
   method      = "gmjmcmc",
   transforms  = transforms,
   N           = 500,
-  P           = 25,
+  P           = 10,
   family      = "custom",
   loglik.pi   = estimate.logic.lm,
   probs       = probs,
