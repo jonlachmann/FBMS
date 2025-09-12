@@ -44,7 +44,7 @@ Defaults typically favor interactions and modifications (0.4 each) over projecti
 
 \item{loglik.pi}{A function specifying the marginal log-posterior of the model up to a constant, including the logarithm of the model prior:
 \eqn{\log p(M|Y) = \text{const} + \log p(Y|M) + \log p(M)}.
-Typically assumes a Gaussian model with Zellner'swith \eqn{g = max(n,p^2) by default}.}
+Typically assumes a Gaussian model with Zellner's with \eqn{g = max(n,p^2) by default}.}
 
 \item{loglik.alpha}{Relevant only if the non-linear projection features depend on parameters \eqn{\alpha}.
 If \eqn{\alpha} is estimated, this argument specifies the corresponding marginal log-likelihood.
