@@ -77,6 +77,7 @@ summary.gmjmcmc <- function (object, pop = "best", tol = 0.0001, labels = FALSE,
 }
 
 
+
 #' Function to print a quick summary of the results
 #'
 #' @param object The results to use
