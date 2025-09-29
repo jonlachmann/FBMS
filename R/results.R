@@ -560,6 +560,26 @@ plot.gmjmcmc <- function (x, count = "all", pop = "best", tol = 0.0000001, data 
   return("done")
 }
 
+
+#' Plot BGNLM Model
+#'
+#' Plots the coefficients of a BGNLM model.
+#'
+#' @param x Object of class "bgnlm_model".
+#' @param ... Additional arguments passed to barplot.
+#' @return The input object (invisibly).
+#' @method plot bgnlm_model
+#' @export
+#' @examples
+#' data(exoplanet)
+#' model <- get.best.model(fbms(semimajoraxis ~ ., data = exoplanet, family = "gaussian"))
+#' plot(model)
+plot.bgnlm_model <- function(x, ...) {
+  stopifnot(inherits(x, "bgnlm_model"))
+  coefs <- coef(x)
+  barplot(coefs, main = "BGNLM Coefficients", names.arg = names(coefs), horiz  = TRUE, ...)
+}
+
 #' Function to plot the results, works both for results from gmjmcmc and
 #' merged results from merge.results
 #'
