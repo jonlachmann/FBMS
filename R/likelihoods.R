@@ -599,10 +599,6 @@ logistic.loglik.alpha <- function (a, data, mu_func) {
 #' as a string with the alphas as a\[i\].
 #'
 #' @return A numeric with the log likelihood.
-#' @examples
-#'\dontrun{
-#'gaussian.loglik.alpha(my_alpha,my_data,my_mu)
-#'}
 #' @export gaussian.loglik.alpha
 gaussian.loglik.alpha <- function (a, data, mu_func) {
   m <- eval(parse(text = mu_func))

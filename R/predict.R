@@ -17,23 +17,9 @@
 #'         where \eqn{X} is the design matrix and \eqn{\beta} are the model coefficients.
 #'
 #' @examples
-#' \dontrun{
-#' # Example with simulated data
-#' set.seed(123)
-#' x_train <- data.frame(PlanetaryMassJpt = rnorm(100), RadiusJpt = rnorm(100))
-#' model <- list(
-#'   coefs = c(Intercept = -0.5, PlanetaryMassJpt = 0.2, RadiusJpt = -0.1),
-#'   class = "bgnlm_model"
-#' )
-#' class(model) <- "bgnlm_model"
-#'
-#' # New data for prediction
-#' x_new <- data.frame(PlanetaryMassJpt = c(0.1, -0.3), RadiusJpt = c(0.2, -0.1))
-#'
-#' # Predict using the identity link (default)
-#' preds <- predict.bgnlm_model(model, x_new)
-#' }
-#'
+#' data(exoplanet)
+#' model <- fbms(semimajoraxis ~ ., data = exoplanet)
+#' preds <- predict(get.best.model(model), exoplanet[,-1])
 #' @export
 predict.bgnlm_model <- function(object, x, link = function(x) {x}, x_train = NULL, ... ) {
   if(is.null(x_train))
