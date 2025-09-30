@@ -37,24 +37,10 @@ logistic.loglik <- function (y, x, model, complex, mlpost_params = list(r = exp(
   return(list(crit = ret, coefs = mod$coefficients))
 }
 
-#' Log likelihood function for glm regression with a Jeffreys parameter prior and BIC approximations of the posterior
-#' This function is created as an example of how to create an estimator that is used
-#' to calculate the marginal likelihood of a model.
-#'
-#' @param y A vector containing the dependent variable
-#' @param x The matrix containing the precalculated features
-#' @param model The model to estimate as a logical vector
-#' @param complex A list of complexity measures for the features
-#' @param mlpost_params A list of parameters for the log likelihood, supplied by the user, family must be specified
-#'
-#' @return A list with the log marginal likelihood combined with the log prior (crit) and the posterior mode of the coefficients (coefs).
+
 #' @importFrom stats Gamma poisson
-#'
-#' @examples
-#' glm.loglik(abs(rnorm(100))+1, matrix(rnorm(100)), TRUE, list(oc = 1))
-#'
-#'
-#' @export glm.loglik
+#' @keywords internal
+#' @noRd
 glm.loglik <- function (y, x, model, complex, mlpost_params = list(r = exp(-0.5), family = "Gamma")) {
   if (length(mlpost_params) == 0)
     mlpost_params <- list(r = 1 / dim(x)[1])
@@ -80,31 +66,10 @@ glm.loglik <- function (y, x, model, complex, mlpost_params = list(r = exp(-0.5)
   return(list(crit = ret, coefs = mod$coefficients))
 }
 
-#' Log likelihood function for glm regression with Zellner's g-prior and BIC-like approximations
-#'
-#' This function estimates marginal likelihood for generalized linear models using a
-#' BIC-style penalty adjusted to approximate Zellner's g-prior effect.
-#'
-#' @param y A vector containing the dependent variable
-#' @param x The matrix containing the precalculated features
-#' @param model A logical vector indicating which features are included in the model
-#' @param complex A list of complexity measures for the features
-#' @param mlpost_params A list of parameters for the log likelihood, including:
-#'   \itemize{
-#'     \item \code{r} - scalar tuning parameter for the prior (default is 1 / number of rows of \code{x})
-#'     \item \code{family} - GLM family as string ("binomial", "poisson", "Gamma"), default is "binomial"
-#'     \item \code{g} - scalar specifying the g prior hyperparameter (default max of model size squared and sample size)
-#'   }
+
 #' @importFrom stats Gamma poisson
-#'
-#' @return A list with the approximate log marginal likelihood (\code{crit}) and the posterior mode of coefficients (\code{coefs})
-#'
-#' @examples
-#' glm.loglik.g(as.integer(rnorm(100) > 0), 
-#' cbind(1, matrix(rnorm(100))), c(TRUE, TRUE), list(oc = 1),
-#'  list(r = 1/100, family = "binomial", g = 10))
-#'
-#' @export
+#' @keywords internal
+#' @noRd
 glm.loglik.g <- function(y, x, model, complex, mlpost_params = list(r = NULL, family = "binomial", g = NULL)) {
   if (sum(model) == 0) return(list(crit = -Inf, coefs = numeric()))
   n <- nrow(x)
@@ -146,48 +111,16 @@ glm.loglik.g <- function(y, x, model, complex, mlpost_params = list(r = NULL, fa
 }
 
 
-#' Log likelihood function for glm regression with parameter priors from BAS package
-#'
-#' This is a placeholder version of the function.
-#' It falls back to \code{glm.loglik.g} and raises a warning if the full function is not loaded.
-#'
-#' @param y A vector containing the dependent variable
-#' @param x The matrix containing the precalculated features
-#' @param model A logical vector indicating which features are included in the model
-#' @param complex A list of complexity measures for the features
-#' @param mlpost_params A list of parameters for the log likelihood, supplied by the user
-#'
-#' @return A list with the approximate log marginal likelihood combined with the log prior (\code{crit}) and the posterior mode of coefficients (\code{coefs})
-#'
-#' @examples
-#' glm.logpost.bas(as.integer(rnorm(100) > 0), 
-#' cbind(1, matrix(rnorm(100))), c(TRUE, TRUE), 
-#' list(oc = 1))
-#'
-#' @export
+#' @keywords internal
+#' @noRd
 glm.logpost.bas <- function(y, x, model, complex, mlpost_params = NULL) {
   #warning("Full glm.logpost.bas not loaded; using glm.loglik.g fallback approximation")
   glm.loglik.g(y, x, model, complex, mlpost_params)
 }
 
 
-#' Log likelihood function for Gaussian regression with parameter priors from BAS package
-#'
-#' This is a placeholder version of the function.
-#' It falls back to \code{gaussian.loglik.g} and raises a warning if the full function is not loaded.
-#'
-#' @param y A vector containing the dependent variable
-#' @param x The matrix containing the precalculated features
-#' @param model A logical vector indicating which features are included in the model
-#' @param complex A list of complexity measures for the features
-#' @param mlpost_params A list of parameters for the log likelihood, supplied by the user
-#'
-#' @return A list with the approximate log marginal likelihood combined with the log prior (\code{crit}) and the posterior mode of coefficients (\code{coefs})
-#'
-#' @examples
-#' lm.logpost.bas(rnorm(100), cbind(1, matrix(rnorm(100))), c(TRUE, TRUE), list(oc = 1))
-#'
-#' @export
+#' @keywords internal
+#' @noRd
 lm.logpost.bas <- function(y, x, model, complex, mlpost_params = NULL) {
   #warning("Full lm.logpost.bas not loaded; using gaussian.loglik.g fallback approximation")
   gaussian.loglik.g(y, x, model, complex, mlpost_params)
@@ -338,20 +271,8 @@ gaussian.loglik <- function (y, x, model, complex, mlpost_params) {
 }
 
 
-#' Log likelihood function for linear regression using Zellners g-prior
-#'
-#' @param y A vector containing the dependent variable
-#' @param x The matrix containing the precalculated features
-#' @param model The model to estimate as a logical vector
-#' @param complex A list of complexity measures for the features
-#' @param mlpost_params A list of parameters for the log likelihood, supplied by the user
-#'
-#' @return A list with the log marginal likelihood combined with the log prior (crit) and the posterior mode of the coefficients (coefs).
-#'
-#' @examples
-#' gaussian.loglik.g(rnorm(100), matrix(rnorm(100)), TRUE, list(oc=1))
-#'
-#' @export gaussian.loglik.g
+#' @keywords internal
+#' @noRd
 gaussian.loglik.g <- function (y, x, model, complex, mlpost_params = NULL) {
   if (sum(model) == 0)
     return(list(crit = -Inf, coefs = numeric()))
@@ -387,26 +308,10 @@ gaussian.loglik.g <- function (y, x, model, complex, mlpost_params = NULL) {
 }
 
 
-#' Log likelihood function for Gaussian regression with parameter priors from BAS package
-#'
-#' This function computes the marginal likelihood of a Gaussian regression model under different priors.
-#'
-#' @param y A numeric vector containing the dependent variable.
-#' @param x A matrix containing the independent variables, including an intercept column.
-#' @param model A logical vector indicating which variables to include in the model.
-#' @param complex A list containing complexity measures for the features.
-#' @param mlpost_params A list of parameters for the log likelihood, specifying the tuning parameters of beta priors.
-#'
-#' @return A list with elements:
-#'   \item{crit}{Log marginal likelihood combined with the log prior.}
-#'   \item{coefs}{Posterior mode of the coefficients.}
-#'
-#' @examples
-#' gaussian_tcch_log_likelihood(rnorm(100), matrix(rnorm(100)), c(TRUE), list(oc=1))
-#'
 #' @importFrom BAS phi1 hypergeometric1F1 hypergeometric2F1
 #' @importFrom tolerance F1
-#' @export
+#' @keywords internal
+#' @noRd
 gaussian_tcch_log_likelihood <- function(y, x, model, complex, mlpost_params = list(r = exp(-0.5), beta_prior = list(type = "intrinsic"))) {
   # Fit the linear model using fastglm
   fitted_model <- fastglm(as.matrix(x[, model]), y, family = gaussian())
@@ -545,23 +450,8 @@ gaussian_tcch_log_likelihood <- function(y, x, model, complex, mlpost_params = l
 
 
 
-#' Log likelihood function for logistic regression with an approximate Laplace approximations used
-#' This function is created as an example of how to create an estimator that is used
-#' to calculate the marginal likelihood of a model.
-#'
-#' @param y A vector containing the dependent variable
-#' @param x The matrix containing the precalculated features
-#' @param model The model to estimate as a logical vector
-#' @param complex A list of complexity measures for the features
-#' @param mlpost_params A list of parameters for the log likelihood, supplied by the user
-#'
-#' @return A list with the log marginal likelihood combined with the log prior (crit) and the posterior mode of the coefficients (coefs).
-#'
-#' @examples
-#' logistic.loglik.ala(as.integer(rnorm(100) > 0), matrix(rnorm(100)), TRUE, list(oc = 1))
-#'
-#'
-#' @export logistic.loglik.ala
+#' @keywords internal
+#' @noRd
 logistic.loglik.ala <- function (y, x, model, complex, mlpost_params = list(r = exp(-0.5))) {
   if (length(mlpost_params) == 0)
     mlpost_params <- list(r = 1/dim(x)[1])
@@ -572,34 +462,16 @@ logistic.loglik.ala <- function (y, x, model, complex, mlpost_params = list(r = 
 
 
 
-#' Log likelihood function for logistic regression for alpha calculation
-#' This function is just the bare likelihood function
-#'
-#' @param a A vector of the alphas to be used
-#' @param data The data to be used for calculation
-#' @param mu_func The function linking the mean to the covariates,
-#' as a string with the alphas as a\[i\].
-#'
-#' @return A numeric with the log likelihood.
-#'
-#' @export logistic.loglik.alpha
+#' @keywords internal
+#' @noRd
 logistic.loglik.alpha <- function (a, data, mu_func) {
   m <- 1 / (1 + exp(-eval(parse(text = mu_func))))
   -sum((data$y[,1] * log(m) + (1 - data$y[, 1]) * log(1 - m)))
 }
 
 
-#' Log likelihood function for gaussian regression for alpha calculation
-#' This function is just the bare likelihood function
-#' Note that it only gives a proportional value and is equivalent to least squares
-#'
-#' @param a A vector of the alphas to be used
-#' @param data The data to be used for calculation
-#' @param mu_func The function linking the mean to the covariates,
-#' as a string with the alphas as a\[i\].
-#'
-#' @return A numeric with the log likelihood.
-#' @export gaussian.loglik.alpha
+#' @keywords internal
+#' @noRd
 gaussian.loglik.alpha <- function (a, data, mu_func) {
   m <- eval(parse(text = mu_func))
   sum((data$y[, 1] - m)^2)
