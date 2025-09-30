@@ -2,7 +2,7 @@
 % Please edit documentation in R/diagnostics.R
 \name{diagn_plot}
 \alias{diagn_plot}
-\title{Plot convergence of best/median/mean/other summary log posteriors in time}
+\title{Plot Convergence Diagnostics for GMJMCMC or GMJMCMC Merged Results}
 \usage{
 diagn_plot(
   res,
@@ -15,31 +15,30 @@ diagn_plot(
 )
 }
 \arguments{
-\item{res}{Object corresponding gmjmcmc output}
+\item{res}{Object of class \code{gmjmcmc} or \code{gmjmcmc_merged} containing results from a GMJMCMC run or merged runs.}
 
-\item{FUN}{The summary statistics to check convergence}
+\item{FUN}{Function to compute summary statistics (e.g., \code{median}, \code{mean}). Default is \code{median}.}
 
-\item{conf}{Which confidence intervals to plot}
+\item{conf}{Numeric; confidence level for intervals (e.g., 0.95 for 95\%). Default is 0.95.}
 
-\item{burnin}{How many first populations to skip}
+\item{burnin}{Integer; number of initial populations to skip. Default is 0.}
 
-\item{window}{Sliding window for computing the standard deviation}
+\item{window}{Integer; size of the sliding window for computing standard deviation. Default is 5.}
 
-\item{ylim}{Limits for the plotting range; if unspecified, min and max of confidence intervals will be used}
+\item{ylim}{Numeric vector; y-axis limits for the plot. If \code{NULL}, computed from confidence intervals.}
 
-\item{...}{Additional graphical parameters passed to plot and lines functions, e.g. col, lwd, lty, main, xlab, ylab, ylim}
+\item{...}{Additional graphical parameters passed to \code{plot} and \code{lines} (e.g., \code{col}, \code{lwd}, \code{lty}, \code{main}, \code{xlab}, \code{ylab}).}
 }
 \value{
-A list of summary statistics for checking convergence with given confidence intervals
+Returns \code{invisible(NULL)}. The function is called for its side effect of producing a plot.
 }
 \description{
-Plot convergence of best/median/mean/other summary log posteriors in time
+Plots the convergence of summary statistics (e.g., median, mean) of log posteriors or marginal likelihoods
+over populations for a GMJMCMC or GMJMCMC merged result object, with confidence intervals.
 }
 \examples{
-result <- gmjmcmc(y = matrix(rnorm(100), 100),
-                  x = matrix(rnorm(600), 100), 
-                  P = 2, 
-                  transforms =  c("p0", "exp_dbl"))
-diagnstats <- diagn_plot(result)
+data(exoplanet)
+result <- fbms(semimajoraxis ~ ., data = exoplanet, method = "gmjmcmc", transforms = c("sin"))
+diagn_plot(result, FUN = median, conf = 0.95, main = "Convergence Plot", col = "blue")
 
 }
