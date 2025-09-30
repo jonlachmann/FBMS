@@ -4,13 +4,16 @@
 \alias{get.best.model}
 \title{Extract the Best Model from MJMCMC or GMJMCMC Results}
 \usage{
-get.best.model(result, labels = FALSE)
+get.best.model(result, labels = FALSE, ...)
 }
 \arguments{
-\item{result}{An object of class \code{"mjmcmc"}, \code{"mjmcmc_parallel"}, \code{"gmjmcmc"}, or \code{"gmjmcmc_merged"},
+\item{result}{An object of class \code{mjmcmc}, \code{mjmcmc_parallel}, \code{gmjmcmc}, or \code{gmjmcmc_merged},
 containing the results from the corresponding model search algorithms.}
 
-\item{labels}{Logical; if \code{TRUE}, uses labeled feature names when naming the model coefficients. Default is \code{FALSE}.}
+\item{labels}{Logical; if \code{TRUE}, uses labeled feature names when naming the model coefficients.
+Alternatively, a character vector of feature names. Default is \code{FALSE}.}
+
+\item{...}{Additional arguments passed to methods.}
 }
 \value{
 A list containing the details of the best model:
@@ -23,23 +26,23 @@ A list containing the details of the best model:
 }
 }
 \description{
-This function retrieves the best model from the results of MJMCMC, MJMCMC parallel, GMJMCMC, or GMJMCMC merged runs
-based on the maximum criterion value (\code{crit}). The returned list includes the model probability, selected features,
-criterion value, intercept parameter, and named coefficients.
+Retrieves the best model from the results of MJMCMC, MJMCMC parallel, GMJMCMC, or GMJMCMC merged runs
+based on the maximum criterion value (\code{crit}). The returned list includes the model probability,
+selected features, criterion value, intercept parameter, and named coefficients.
 }
 \details{
-The function identifies the best model by selecting the one with the highest \code{crit} value. Selection logic depends on the class of the \code{result} object:
+The function identifies the best model by selecting the one with the highest \code{crit} value.
+Selection logic depends on the class of the \code{result} object:
 \describe{
-\item{\code{"mjmcmc"}}{Selects the top model from a single MJMCMC run.}
-\item{\code{"mjmcmc_parallel"}}{Identifies the best chain, then selects the best model from that chain.}
-\item{\code{"gmjmcmc"}}{Selects the best population and model within that population.}
-\item{\code{"gmjmcmc_merged"}}{Finds the best chain and population before extracting the top model.}
+\item{\code{mjmcmc}}{Selects the top model from a single MJMCMC run.}
+\item{\code{mjmcmc_parallel}}{Identifies the best chain, then selects the best model from that chain.}
+\item{\code{gmjmcmc}}{Selects the best population and model within that population.}
+\item{\code{gmjmcmc_merged}}{Finds the best chain and population before extracting the top model.}
 }
 }
 \examples{
-result <- gmjmcmc(x = matrix(rnorm(600), 100),
-y = matrix(rnorm(100), 100), 
-P = 2, transforms = c("p0", "exp_dbl"))
+data(exoplanet)
+result <- fbms(semimajoraxis ~ ., data = exoplanet, method = "mjmcmc")
 get.best.model(result)
 
 }

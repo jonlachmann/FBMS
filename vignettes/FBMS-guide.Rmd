@@ -30,9 +30,8 @@ printn <- function(x) {
   # Combine lines with newline, send as a message to be shown in output
   message(paste(txt, collapse = "\n"))
 }
-
+library(fastglm)
 library(FBMS)
-library(fastglm)  # Load fastglm for vignette
 ```
 
 ```{r eval=FALSE, include=FALSE}
