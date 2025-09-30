@@ -12,7 +12,7 @@
 \item{...}{Additional arguments passed to summary method.}
 }
 \value{
-Summary of the input method
+Prints a summary of the model and returns NULL
 }
 \description{
 Displays a concise summary of an MJMCMC parallel model object.

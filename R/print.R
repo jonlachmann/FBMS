@@ -5,7 +5,7 @@
 #'
 #' @param x Object of class "gmjmcmc".
 #' @param ... Additional arguments passed to summary method.
-#' @return Summary of the input method
+#' @return Prints a summary of the model and returns NULL
 #' @method print gmjmcmc
 #' @export
 #' @examples
@@ -24,7 +24,7 @@ print.gmjmcmc <- function(x, ...) {
 #'
 #' @param x Object of class "mjmcmc".
 #' @param ... Additional arguments passed to summary method.
-#' @return Summary of the input method
+#' @return Prints a summary of the model and returns NULL
 #' @method print mjmcmc
 #' @export
 #' @examples
@@ -43,14 +43,16 @@ print.mjmcmc <- function(x, ...) {
 #'
 #' @param x Object of class "bgnlm_model".
 #' @param ... Additional arguments (ignored).
-#' @return Summary of the input method
+#' @return Prints a summary of the model and returns NULL
 #' @method print bgnlm_model
 #' @export
 #' @examples
 #' data(exoplanet)
-#' model <- get.best.model(fbms(semimajoraxis ~ ., data = exoplanet, family = "gaussian"))
+#' model <- get.best.model(fbms(semimajoraxis ~ ., data = exoplanet, 
+#' family = "gaussian"))
 #' print(model)
-#' model <- get.mpm.model(fbms(semimajoraxis ~ ., data = exoplanet, family = "gaussian"), y = exoplanet[,1],x = exoplanet[,-1])
+#' model <- get.mpm.model(fbms(semimajoraxis ~ ., data = exoplanet, 
+#' family = "gaussian"), y = exoplanet[,1],x = exoplanet[,-1])
 #' print(model)
 print.bgnlm_model <- function(x, ...) {
   stopifnot(inherits(x, "bgnlm_model"))
@@ -65,7 +67,7 @@ print.bgnlm_model <- function(x, ...) {
 #'
 #' @param x Object of class "mjmcmc_parallel".
 #' @param ... Additional arguments passed to summary method.
-#' @return Summary of the input method
+#' @return Prints a summary of the model and returns NULL
 #' @method print mjmcmc_parallel
 #' @export
 #' @examples
@@ -84,12 +86,15 @@ print.mjmcmc_parallel <- function(x, ...) {
 #'
 #' @param x Object of class "gmjmcmc_merged".
 #' @param ... Additional arguments passed to summary method.
-#' @return Summary of the input method
+#' @return Prints a summary of the model and returns NULL
 #' @method print gmjmcmc_merged
 #' @export
 #' @examples
 #' data(exoplanet)
-#' model <- fbms(semimajoraxis ~ ., data = exoplanet, method = "gmjmcmc.parallel", cores = 1, runs = 2, transforms = c("sigmoid"))
+#' model <- fbms(semimajoraxis ~ ., data = exoplanet, 
+#' method = "gmjmcmc.parallel", cores = 1, runs = 2, 
+#' transforms = c("sigmoid"))
+#' 
 #' print(model)
 print.gmjmcmc_merged <- function(x, ...) {
   stopifnot(inherits(x, "gmjmcmc_merged"))

@@ -12,13 +12,16 @@
 \item{...}{Additional arguments passed to summary method.}
 }
 \value{
-Summary of the input method
+Prints a summary of the model and returns NULL
 }
 \description{
 Displays a concise summary of a GMJMCMC merged model object.
 }
 \examples{
 data(exoplanet)
-model <- fbms(semimajoraxis ~ ., data = exoplanet, method = "gmjmcmc.parallel", cores = 1, runs = 2, transforms = c("sigmoid"))
+model <- fbms(semimajoraxis ~ ., data = exoplanet, 
+method = "gmjmcmc.parallel", cores = 1, runs = 2, 
+transforms = c("sigmoid"))
+
 print(model)
 }

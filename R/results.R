@@ -29,19 +29,15 @@
 #' \item{rep.thread}{The index of the thread which contains reported.}
 #'
 #' @examples
-#' result <- gmjmcmc.parallel(
-#'  runs = 1,
-#'  cores = 1,
-#'  y = matrix(rnorm(100), 100),x = matrix(rnorm(600), 100),
-#'  P = 2,
-#'  transforms = c("p0", "exp_dbl")
-#' )
+#' result <-  fbms(semimajoraxis ~ ., data = exoplanet,
+#'  method = "gmjmcmc.parallel", transforms = c("sigmoid"), 
+#'  runs = 2, cores = 1)
 #' 
 #' summary(result)
 #' 
 #' plot(result)
 #' 
-#' merge_results(result$results)
+#' merge_results(result$results.raw)
 #'
 #' @export merge_results
 merge_results <- function (results, populations = NULL, complex.measure = NULL, tol = NULL, data = NULL) {
@@ -569,6 +565,7 @@ plot.gmjmcmc <- function (x, count = "all", pop = "best", tol = 0.0000001, data 
 #' @param ... Additional arguments passed to barplot.
 #' @return The input object (invisibly).
 #' @method plot bgnlm_model
+#' @importFrom stats coef
 #' @export
 #' @examples
 #' data(exoplanet)

@@ -84,7 +84,9 @@ coef.mjmcmc_parallel <- function(object, ...) {
 #' @export
 #' @examples
 #' data(exoplanet)
-#' model <- fbms(semimajoraxis ~ ., data = exoplanet, method = "gmjmcmc.parallel", transforms = c("sigmoid"), runs = 2, cores = 1)
+#' model <- fbms(semimajoraxis ~ ., data = exoplanet, 
+#' method = "gmjmcmc.parallel", transforms = c("sigmoid"), 
+#' runs = 2, cores = 1)
 #' coef(model)
 coef.gmjmcmc_merged <- function(object, ...) {
   stopifnot(inherits(object, "gmjmcmc_merged"))

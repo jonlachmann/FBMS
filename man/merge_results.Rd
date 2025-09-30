@@ -47,18 +47,14 @@ This function will weight the features based on the best marginal posterior in t
 and merge the results together, simplifying by merging equivalent features (having high correlation).
 }
 \examples{
-result <- gmjmcmc.parallel(
- runs = 1,
- cores = 1,
- y = matrix(rnorm(100), 100),x = matrix(rnorm(600), 100),
- P = 2,
- transforms = c("p0", "exp_dbl")
-)
+result <-  fbms(semimajoraxis ~ ., data = exoplanet,
+ method = "gmjmcmc.parallel", transforms = c("sigmoid"), 
+ runs = 2, cores = 1)
 
 summary(result)
 
 plot(result)
 
-merge_results(result$results)
+merge_results(result$results.raw)
 
 }

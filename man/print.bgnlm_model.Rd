@@ -12,15 +12,17 @@
 \item{...}{Additional arguments (ignored).}
 }
 \value{
-Summary of the input method
+Prints a summary of the model and returns NULL
 }
 \description{
 Displays the coefficients of a BGNLM model object.
 }
 \examples{
 data(exoplanet)
-model <- get.best.model(fbms(semimajoraxis ~ ., data = exoplanet, family = "gaussian"))
+model <- get.best.model(fbms(semimajoraxis ~ ., data = exoplanet, 
+family = "gaussian"))
 print(model)
-model <- get.mpm.model(fbms(semimajoraxis ~ ., data = exoplanet, family = "gaussian"), y = exoplanet[,1],x = exoplanet[,-1])
+model <- get.mpm.model(fbms(semimajoraxis ~ ., data = exoplanet, 
+family = "gaussian"), y = exoplanet[,1],x = exoplanet[,-1])
 print(model)
 }

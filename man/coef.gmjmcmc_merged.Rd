@@ -19,6 +19,8 @@ Extracts coefficients from the best GMJMCMC merged model.
 }
 \examples{
 data(exoplanet)
-model <- fbms(semimajoraxis ~ ., data = exoplanet, method = "gmjmcmc.parallel", transforms = c("sigmoid"), runs = 2, cores = 1)
+model <- fbms(semimajoraxis ~ ., data = exoplanet, 
+method = "gmjmcmc.parallel", transforms = c("sigmoid"), 
+runs = 2, cores = 1)
 coef(model)
 }

@@ -41,7 +41,7 @@ residuals.gmjmcmc <- function(object, y, x, ...) {
 residuals.mjmcmc <- function(object, y, x, ...) {
   stopifnot(inherits(object, "mjmcmc"))
   if (is.null(object$residuals)) {
-    pred <- predict(object, x)$mean
+    pred <- predict(object, x)$aggr$mean
     return(y - pred)
   } else {
     object$residuals
@@ -113,7 +113,9 @@ residuals.mjmcmc_parallel <- function(object, y, x, ...) {
 #' @export
 #' @examples
 #' data(exoplanet)
-#' model <- fbms(semimajoraxis ~ ., data = exoplanet, method = "gmjmcmc.parallel", transforms = c("sigmoid"), runs = 2, cores = 1)
+#' model <- fbms(semimajoraxis ~ ., data = exoplanet, 
+#' method = "gmjmcmc.parallel", transforms = c("sigmoid"), 
+#' runs = 2, cores = 1)
 #' hist(residuals(model, exoplanet[,1], exoplanet[,-1]))
 residuals.gmjmcmc_merged <- function(object, y, x, ...) {
   stopifnot(inherits(object, "gmjmcmc_merged"))
