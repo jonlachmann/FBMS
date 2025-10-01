@@ -13,6 +13,7 @@
 #' coef(model)
 coef.gmjmcmc <- function(object, ...) {
   stopifnot(inherits(object, "gmjmcmc"))
+  cat("Posterior mode for the parameters of the best found single model:\n")
   best.mod <- get.best.model(object)
   best.mod$coefs
 }
@@ -32,6 +33,7 @@ coef.gmjmcmc <- function(object, ...) {
 #' coef(model)
 coef.mjmcmc <- function(object, ...) {
   stopifnot(inherits(object, "mjmcmc"))
+  cat("Posterior mode for the parameters of the best found single model:\n")
   best.mod <- get.best.model(object)
   best.mod$coefs
 }
@@ -51,6 +53,7 @@ coef.mjmcmc <- function(object, ...) {
 #' coef(model)
 coef.bgnlm_model <- function(object, ...) {
   stopifnot(inherits(object, "bgnlm_model"))
+  cat("Posterior mode for the parameters of the best found single model:\n")
   object$coefs
 }
 
@@ -69,6 +72,7 @@ coef.bgnlm_model <- function(object, ...) {
 #' coef(model)
 coef.mjmcmc_parallel <- function(object, ...) {
   stopifnot(inherits(object, "mjmcmc_parallel"))
+  cat("Posterior mode for the parameters of the best found single model:\n")
   best.mod <- get.best.model(object)
   best.mod$coefs
 }

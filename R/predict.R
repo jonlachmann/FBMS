@@ -381,7 +381,7 @@ aggr.fbms_predict <- function(object, ...) {
 #' @param ... Additional arguments passed to methods.
 #' @return Quantile predictions (format depends on the object class).
 #' @export
-quantiles <- function(object, ...) UseMethod("quantiles")
+predquantiles <- function(object, ...) UseMethod("predquantiles")
 
 #' Access Quantile Predictions
 #'
@@ -396,18 +396,30 @@ quantiles <- function(object, ...) UseMethod("quantiles")
 #' data(exoplanet)
 #' model <- fbms(semimajoraxis ~ ., data = exoplanet, method = "mjmcmc")
 #' pred <- predict(model, exoplanet[51:60, -1])
-#' quantiles(pred)
+#' predquantiles(pred)
 #' }
-quantiles.fbms_predict <- function(object, ...) {
+predquantiles.fbms_predict <- function(object, ...) {
   stopifnot(inherits(object, "fbms_predict"))
   object$aggr$quantiles
 }
+
+
+#' Generic for Accessing Mean Predictions
+#'
+#' Dispatches to methods for extracting quantile predictions from objects.
+#'
+#' @param object An object.
+#' @param ... Additional arguments passed to methods.
+#' @return Posterior mean predictions (format depends on the object class).
+#' @export
+predmean <- function(object, ...) UseMethod("predmean")
+
 
 #' Access Mean Predictions
 #'
 #' Extracts the mean predictions from an FBMS prediction object.
 #'
-#' @param x Object of class "fbms_predict".
+#' @param object Object of class "fbms_predict".
 #' @param ... Additional arguments (ignored).
 #' @return Vector of mean predictions.
 #' @export
@@ -416,11 +428,11 @@ quantiles.fbms_predict <- function(object, ...) {
 #' data(exoplanet)
 #' model <- fbms(semimajoraxis ~ ., data = exoplanet, method = "mjmcmc")
 #' pred <- predict(model, exoplanet[51:60, -1])
-#' mean(pred)
+#' predmean(pred)
 #' }
-mean.fbms_predict <- function(x, ...) {
-  stopifnot(inherits(x, "fbms_predict"))
-  x$aggr$mean
+predmean.fbms_predict <- function(object, ...) {
+  stopifnot(inherits(object, "fbms_predict"))
+  object$aggr$mean
 }
 
 #' Access Fitted Values
