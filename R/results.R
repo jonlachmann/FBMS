@@ -123,7 +123,7 @@ merge_results <- function (results, populations = NULL, complex.measure = NULL, 
   # Generate mock data to compare features with
   uk <- 1 
   good.mock <- FALSE
-  while(!good.mock & uk < 10)
+  while(!good.mock & uk < 5)
   {
     uk <- uk + 1
     if (is.null(data)) mock.data <- list(x = matrix(runif((results[[1]]$ncov)^2, -100, 100), ncol = results[[1]]$ncov))
@@ -140,17 +140,8 @@ merge_results <- function (results, populations = NULL, complex.measure = NULL, 
       break
     }
   }
-  if(uk == 10)
-    warning(
-      "Constant features detected in merge_results().\n",
-      " - If not already, provide the 'data' argument in the function call.\n",
-      " - If the warning persists, one or more features in your dataset are constant (no variation).\n",
-      "This should not affect results critically, but please:\n",
-      "   * check your input data, or\n",
-      "   * reconsider the chosen nonlinearities/features."
-    )
-  # Calculate the correlation to find equivalent features
-  cors <- cor(mock.data.precalc)
+ 
+  cors <- suppressWarnings(cor(mock.data.precalc))
   
   # A map to link equivalent features together,
   # row 1-3 are the simplest equivalent features based on three different complexity measures

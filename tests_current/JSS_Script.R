@@ -83,7 +83,7 @@ result.P50 <- fbms(data = df.train, method = "gmjmcmc", transforms = transforms,
 set.seed(123)
 
 result_parallel <- fbms(data = df.train, method = "gmjmcmc.parallel", transforms = transforms,
-                          runs = 40, cores = 8, P = 25)
+                          runs = 40, cores = parallel::detectCores()-1, P = 25)
 
 
 ####################################################
@@ -455,7 +455,7 @@ c(time.lme4$callback_msg, time.inla$callback_msg, time.rtmb$callback_msg)
 
 
 result2a <- fbms(formula = z ~ 1+., data = df, N = 5000,
-                 method = "mjmcmc.parallel", runs = 40, cores = 8,
+                 method = "mjmcmc.parallel", runs = 40, cores = parallel::detectCores()-1,
                  family = "custom", loglik.pi = mixed.model.loglik.lme4,
                  model_prior = list(r = 1/dim(df)[1]), 
                  extra_params = list(dr = droplevels(Zambia$dr)))
@@ -476,7 +476,7 @@ params$feat$pop.max = 10
 
 result2b <- fbms(formula = z ~ 1+., data = df, transforms = transforms,
                  probs = probs, params = params, P=25, N = 100,
-                 method = "gmjmcmc.parallel", runs = 40, cores = 8,
+                 method = "gmjmcmc.parallel", runs = 40, cores = parallel::detectCores()-1,
                  family = "custom", loglik.pi = mixed.model.loglik.lme4,
                  model_prior = list(r = 1/dim(df)[1]), 
                  extra_params = list(dr = droplevels(Zambia$dr)))
@@ -496,7 +496,7 @@ params$feat$pop.max = 10
 
 result2c <- fbms(formula = z ~ 1+., data = df, transforms = transforms,
                  probs = probs, params = params, P=25, N = 100,
-                 method = "gmjmcmc.parallel", runs = 40, cores = 8,
+                 method = "gmjmcmc.parallel", runs = 40, cores = parallel::detectCores()-1,
                  family = "custom", loglik.pi = mixed.model.loglik.lme4,
                  model_prior = list(r = 1/dim(df)[1]), 
                  extra_params = list(dr = droplevels(Zambia$dr)))
