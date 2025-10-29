@@ -82,7 +82,7 @@ result.P50 <- fbms(data = df.train, method = "gmjmcmc", transforms = transforms,
 
 set.seed(123)
 
-result_parallel <- fbms(data = df.train, method = "gmjmcmc.parallel", transforms = transforms,
+result.parallel <- fbms(data = df.train, method = "gmjmcmc.parallel", transforms = transforms,
                           runs = 40, cores = parallel::detectCores()-1, P = 25)
 
 
@@ -105,10 +105,10 @@ summary(result.P50, pop = "last", labels = paste0("x",1:length(df.train[,-1])))
 summary(result.P50, pop = "last", tol = 0.01, labels = paste0("x",1:length(df.train[,-1])))
 summary(result.P50, pop = "all")
 
-summary(result_parallel)
+summary(result.parallel)
 library(tictoc)
 tic()
-summary(result_parallel, tol = 0.01, pop = "all",data = df.train)
+summary(result.parallel, tol = 0.01, pop = "all",data = df.train)
 toc()
 
 
@@ -133,11 +133,11 @@ plot(result.P50)
 
 
 
-pdf("result_parallel.pdf") 
-plot(result_parallel)
+pdf("result.parallel.pdf") 
+plot(result.parallel)
 dev.off()
 
-plot(result_parallel)
+plot(result.parallel)
 
 
 ####################################################
@@ -185,7 +185,7 @@ plot(predmean(preds.P50), df.test$semimajoraxis)
 ###############################
 
 
-preds.multi <- predict(result_parallel , df.test[,-1], link = function(x) x)
+preds.multi <- predict(result.parallel , df.test[,-1], link = function(x) x)
 rmse.parallel <- sqrt(mean((predmean(preds.multi) - df.test$semimajoraxis)^2))
 
 pdf("pred_parallel.pdf") 
@@ -211,8 +211,8 @@ sqrt(mean((preds.mpm - df.test$semimajoraxis)^2))
 
 
 
-get.best.model(result = result_parallel)
-preds.best_parallel <- predict(get.best.model(result_parallel), df.test[, -1])
+get.best.model(result = result.parallel)
+preds.best_parallel <- predict(get.best.model(result.parallel), df.test[, -1])
 sqrt(mean((preds.best_parallel - df.test$semimajoraxis)^2))
 
 
@@ -222,7 +222,7 @@ sqrt(mean((preds.best_parallel - df.test$semimajoraxis)^2))
 
 coef(result.default)
 coef(result.P50)
-coef(result_parallel)
+coef(result.parallel)
 
 
 ####################################################
@@ -245,10 +245,10 @@ diagn_plot(result.P50, ylim = c(600,1500), FUN = max)
 
 
 pdf("diagn_par.pdf") 
-diagn_plot(result_parallel, ylim = c(600,1500),FUN = max)
+diagn_plot(result.parallel, ylim = c(600,1500),FUN = max)
 dev.off()
 
-diagn_plot(result_parallel, ylim = c(600,1500),FUN = max)
+diagn_plot(result.parallel, ylim = c(600,1500),FUN = max)
 
 
 
