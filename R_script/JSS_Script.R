@@ -287,7 +287,7 @@ df <- as.data.frame(sapply(Zambia[1:5],scale))
 
 transforms <- c("p0","p2","p3","p05","pm05","pm1","pm2","p0p0","p0p05","p0p1","p0p2","p0p3","p0p05","p0pm05","p0pm1","p0pm2")
 probs <- gen.probs.gmjmcmc(transforms)
-probs$gen <- c(1,1,0,1) # Modifications and interactions!
+probs$gen <- c(1/3,1/3,0,1/3) # Modifications and interactions!
 
 params <- gen.params.gmjmcmc(ncol(df) - 1)
 params$feat$D <- 1   # Set depth of features to 1 (still allows for interactions)
@@ -468,7 +468,7 @@ plot(result2a)
 
 # Analysis with fractional polynomials
 probs <- gen.probs.gmjmcmc(transforms)
-probs$gen <- c(1,1,0,1) # Modifications and interactions!
+probs$gen <- c(1/3,1/3,0,1/3) # Modifications and interactions!
 
 params <- gen.params.gmjmcmc(ncol(df) - 1)
 params$feat$D <- 1   # Set depth of features to 1 (still allows for interactions)
@@ -488,7 +488,7 @@ summary(result2b,tol = 0.05,labels=names(df)[-1])
 # Analysis with non-linear projections
 transforms <- c("sigmoid")
 probs <- gen.probs.gmjmcmc(transforms)
-probs$gen <- c(0,0,1,1) 
+probs$gen <- c(0,0,0.5,0.5) 
 
 params <- gen.params.gmjmcmc(ncol(df) - 1)
 params$feat$pop.max = 10
