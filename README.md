@@ -1,7 +1,7 @@
 [![](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 [![](https://img.shields.io/github/last-commit/jonlachmann/FBMS.svg)](https://github.com/jonlachmann/FBMS/commits/master)
 [![](https://img.shields.io/github/languages/code-size/jonlachmann/FBMS.svg)](https://github.com/jonlachmann/FBMS)
-[![R build status](https://github.com/jonlachmann/FBMS/workflows/R-CMD-check/badge.svg)](https://github.com/jonlachmann/FBMS/actions)
+[![R build status](https://github.com/LarsELund/LBBNN/workflows/R-CMD-check/badge.svg)](https://github.com/jonlachmann/FBMS/actions)
 [![codecov](https://codecov.io/gh/jonlachmann/FBMS/branch/master/graph/badge.svg)](https://codecov.io/gh/jonlachmann/FBMS)
 [![License: GPL](https://img.shields.io/badge/license-GPL-blue.svg)](https://cran.r-project.org/web/licenses/GPL)
 
