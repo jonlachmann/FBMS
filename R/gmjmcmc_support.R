@@ -3,8 +3,9 @@
 # Created by: jonlachmann
 # Created on: 2021-02-11
 
-#' Set the transformations option for GMJMCMC (Genetically Modified MJMCMC),
-#' this is also done when running the algorithm, but this function allows for it to be done manually.
+#' Set the transformations option for GMJMCMC (Genetically Modified MJMCMC).
+#'
+#' This is also done when running the algorithm, but this function allows for it to be done manually.
 #'
 #' @param transforms The vector of non-linear transformations
 #'

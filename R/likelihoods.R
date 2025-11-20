@@ -4,7 +4,8 @@
 # Created on: 2021-02-24
 
 
-#' Log likelihood function for logistic regression with a Jeffreys parameter prior and BIC approximations of the posterior
+#' Log likelihood function for logistic regression with a Jeffreys parameter prior and BIC approximations of the posterior.
+#'
 #' This function is created as an example of how to create an estimator that is used
 #' to calculate the marginal likelihood of a model.
 #'
@@ -236,7 +237,7 @@ loadLmBas <- function() {
 }
 
 
-#' Log likelihood function for gaussian regression with a Jeffreys prior and BIC approximation of MLIK with both known and unknown variance of the responses
+#' Log likelihood function for gaussian regression with a Jeffreys prior and BIC approximation
 #'
 #' @param y A vector containing the dependent variable
 #' @param x The matrix containing the precalculated features

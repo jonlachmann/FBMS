@@ -3,7 +3,7 @@
 \docType{data}
 \name{SangerData2}
 \alias{SangerData2}
-\title{Gene expression data lymphoblastoid cell lines of all 210 unrelated HapMap
+\title{Gene expression data lymphoblastoid cell lines of 210 unrelated HapMap
 individuals from four populations}
 \format{
 A data frame  with 210 rows and 3221 variables

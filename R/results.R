@@ -4,6 +4,7 @@
 # Created on: 2021-05-06
 
 #' Merge a list of multiple results from many runs
+#'
 #' This function will weight the features based on the best marginal posterior in that population
 #' and merge the results together, simplifying by merging equivalent features (having high correlation).
 #'
@@ -577,7 +578,7 @@ string.population.models <- function(features, models, round = 2, link = "I") {
   cbind(sapply(seq_along(models), FUN = function(x) model.string(features = features, model = (models[[x]]$model), round = round, link = "I")))
 }
 
-#' Function to plot the results, works both for results from gmjmcmc and
+#' Function to plot the results, for results from gmjmcmc and
 #' merged results from merge.results
 #'
 #' @param x The results to use
@@ -641,7 +642,7 @@ plot.bgnlm_model <- function(x, ...) {
   barplot(coefs, main = "BGNLM Coefficients", names.arg = names(coefs), horiz  = TRUE, ...)
 }
 
-#' Function to plot the results, works both for results from gmjmcmc and
+#' Function to plot the results, for results from gmjmcmc and
 #' merged results from merge.results
 #'
 #' @param x The results to use

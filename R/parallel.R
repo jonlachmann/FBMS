@@ -109,7 +109,7 @@ mjmcmc.parallel <- function(runs = 2, cores = getOption("mc.cores", 2L), ...) {
 }
 
 
-#' Run multiple gmjmcmc (Genetically Modified MJMCMC) runs in parallel returning a list of all results.
+#' Run multiple gmjmcmc (Genetically Modified MJMCMC) runs in parallel.
 #' @param x matrix containing the design matrix with data to use in the algorithm
 #' @param y response variable 
 #' @param loglik.pi The (log) density to explore

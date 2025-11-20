@@ -1,6 +1,5 @@
-#' Fit a BGNLM  model using Genetically Modified Mode Jumping Markov Chain Monte Carlo (MCMC) sampling.
-#' Or Fit a BGLM model using Modified Mode Jumping Markov Chain Monte Carlo (MCMC) sampling.
-#' 
+#' Fit a BGNLM Model Using MJMCMC or GMJMCMC Sampling.
+#'
 #' This function fits a model using the relevant MCMC sampling. The user can specify the formula,
 #' family, data, transforms, and other parameters to customize the model.
 #'
