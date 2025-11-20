@@ -2,7 +2,7 @@
 % Please edit documentation in R/nonlinear_functions.R
 \name{relu}
 \alias{relu}
-\title{ReLu function}
+\title{ReLU Function}
 \usage{
 relu(x)
 }
@@ -13,7 +13,7 @@ relu(x)
 max(x,0)
 }
 \description{
-ReLu function
+ReLU Function
 }
 \examples{
 relu(2)

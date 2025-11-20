@@ -2,7 +2,7 @@
 % Please edit documentation in R/results.R
 \name{plot.mjmcmc_parallel}
 \alias{plot.mjmcmc_parallel}
-\title{Plot a mjmcmc_parallel run}
+\title{Plot an mjmcmc_parallel Run}
 \usage{
 \method{plot}{mjmcmc_parallel}(x, count = "all", ...)
 }
@@ -17,7 +17,7 @@
 No return value, just creates a plot
 }
 \description{
-Plot a mjmcmc_parallel run
+Plot an mjmcmc_parallel Run
 }
 \examples{
 result <- mjmcmc.parallel(runs = 1, 

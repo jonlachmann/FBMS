@@ -2,7 +2,7 @@
 % Please edit documentation in R/parallel.R
 \name{mjmcmc.parallel}
 \alias{mjmcmc.parallel}
-\title{Run multiple mjmcmc runs in parallel, merging the results before returning.}
+\title{Run Multiple MJMCMC Runs in Parallel, Merging the Results Before Returning.}
 \usage{
 mjmcmc.parallel(runs = 2, cores = getOption("mc.cores", 2L), ...)
 }
@@ -17,7 +17,7 @@ mjmcmc.parallel(runs = 2, cores = getOption("mc.cores", 2L), ...)
 Merged results from multiple mjmcmc runs
 }
 \description{
-Run multiple mjmcmc runs in parallel, merging the results before returning.
+Run Multiple MJMCMC Runs in Parallel, Merging the Results Before Returning.
 }
 \examples{
 result <- mjmcmc.parallel(runs = 1, 

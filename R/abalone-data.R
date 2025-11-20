@@ -1,4 +1,4 @@
-#' Physical measurements of 4177 abalones, a species of sea snail.
+#' Physical Measurements of 4177 Abalones, a Species of Sea Snail.
 #'
 #' %% ~~ A concise (1-5 lines) description of the dataset. ~~
 #'

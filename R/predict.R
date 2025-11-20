@@ -1,4 +1,4 @@
-#' Predict responses from a BGNLM model
+#' Predict Responses from a BGNLM Model
 #'
 #' This function generates predictions from a fitted \code{bgnlm_model} object given a new dataset.
 #'
@@ -68,7 +68,7 @@ predict.bgnlm_model <- function(object, x, link = function(x) {x}, x_train = NUL
 }
 
 
-#' Predict using a gmjmcmc result object.
+#' Predict Using a GMJMCMC Result Object
 #'
 #' @inheritParams predict.gmjmcmc_merged
 #' @return A list containing aggregated predictions and per model predictions.
@@ -98,7 +98,7 @@ predict.gmjmcmc <- function (object, x, link = function(x) x, quantiles = c(0.02
   return(predict.gmjmcmc_merged(merged, x, link, quantiles))
 }
 
-#' New idea for a more streamlined function...
+#' New Idea for a More Streamlined Function...
 #' Produces slightly different results from the fun above since this is using all lo.models too.
 #' @inheritParams predict.gmjmcmc_merged
 #' @param pop The population to use.
@@ -118,7 +118,7 @@ predict.gmjmcmc.2 <- function (object, x, link = function(x) x, quantiles = c(0.
   return(predict.mjmcmc(mmodel, x.precalc, link, quantiles))
 }
 
-#' Predict using a merged gmjmcmc result object.
+#' Predict Using a Merged GMJMCMC Result Object
 #'
 #' @param object The model to use.
 #' @param x The new data to use for the prediction, a matrix where each row is an observation.
@@ -203,7 +203,7 @@ predict.gmjmcmc_merged <- function (object, x, link = function(x) x, quantiles =
   return(result)
 }
 
-#' Predict using a mjmcmc result object.
+#' Predict Using an MJMCMC Result Object
 #'
 #' @inheritParams predict.gmjmcmc_merged
 #' @return A list containing aggregated predictions.
@@ -248,7 +248,7 @@ predict.mjmcmc <- function (object, x, link = function(x) x, quantiles = c(0.025
   return(result)
 }
 
-#' Predict using a mjmcmc result object from a parallel run.
+#' Predict Using an MJMCMC Result Object from a Parallel Run
 #'
 #' @inheritParams predict.gmjmcmc_merged
 #' @return A list containing aggregated predictions.
@@ -290,7 +290,7 @@ predict.mjmcmc_parallel <- function (object, x, link = function(x) x, quantiles 
   
 }
 
-#' Predict using a gmjmcmc result object from a parallel run.
+#' Predict Using a GMJMCMC Result Object from a Parallel Run
 #'
 #' @inheritParams predict.gmjmcmc_merged
 #' @param ... Additional arguments to pass to merge_results.
@@ -322,7 +322,7 @@ predict.gmjmcmc_parallel <- function (object, x, link = function(x) x, quantiles
   return(results)
 }
 
-#' Calculate weighted quantiles
+#' Calculate Weighted Quantiles
 #'
 #' @param values The values to use
 #' @param weights The weights of the values
@@ -576,4 +576,3 @@ plot.fbms_predict <- function(x, ...) {
   }
   invisible(NULL)
 }
-

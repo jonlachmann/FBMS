@@ -1,4 +1,4 @@
-#' rmclapply: Cross-platform mclapply/forking hack for Windows
+#' rmclapply: Cross-Platform mclapply/Forking Hack for Windows
 #'
 #' This function applies a function in parallel to a list or vector (`X`) using multiple cores.
 #' On Linux/macOS, it uses `mclapply`, while on Windows it uses a hackish version of parallelism.
@@ -81,7 +81,7 @@ rmclapply <- function(runs, args, fun, mc.cores = NULL) {
 
 
 
-#' Run multiple mjmcmc runs in parallel, merging the results before returning.
+#' Run Multiple MJMCMC Runs in Parallel, Merging the Results Before Returning.
 #' @param runs The number of runs to run
 #' @param cores The number of cores to run on
 #' @param ... Further parameters passed to mjmcmc.
@@ -109,7 +109,7 @@ mjmcmc.parallel <- function(runs = 2, cores = getOption("mc.cores", 2L), ...) {
 }
 
 
-#' Run multiple gmjmcmc (Genetically Modified MJMCMC) runs in parallel returning a list of all results.
+#' Run Multiple GMJMCMC (Genetically Modified MJMCMC) Runs in Parallel.
 #' @param x matrix containing the design matrix with data to use in the algorithm
 #' @param y response variable 
 #' @param loglik.pi The (log) density to explore

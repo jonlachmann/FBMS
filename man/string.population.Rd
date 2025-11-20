@@ -2,7 +2,7 @@
 % Please edit documentation in R/results.R
 \name{string.population}
 \alias{string.population}
-\title{Function to get a character representation of a list of features}
+\title{Function to Get a Character Representation of a List of Features}
 \usage{
 string.population(x, round = 2)
 }
@@ -15,7 +15,7 @@ string.population(x, round = 2)
 A matrix of character representations of the features of a model.
 }
 \description{
-Function to get a character representation of a list of features
+Function to Get a Character Representation of a List of Features
 }
 \examples{
 result <- gmjmcmc(y = matrix(rnorm(100), 100),

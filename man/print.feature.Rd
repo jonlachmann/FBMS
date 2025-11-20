@@ -2,7 +2,7 @@
 % Please edit documentation in R/feature.R
 \name{print.feature}
 \alias{print.feature}
-\title{Print method for "feature" class}
+\title{Print Method for \"feature\" Class}
 \usage{
 \method{print}{feature}(
   x,
@@ -33,7 +33,7 @@
 String representation of a feature
 }
 \description{
-Print method for "feature" class
+Print Method for \"feature\" Class
 }
 \examples{
 result <- gmjmcmc(x = matrix(rnorm(600), 100),

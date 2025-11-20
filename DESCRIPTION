@@ -13,11 +13,12 @@ Description: Implements the Mode Jumping Markov Chain Monte Carlo algorithm desc
 URL: https://github.com/jonlachmann/FBMS
 License: GPL-2
 Depends:
-    R (>= 3.5.0),
+    R (>= 3.5.0)
 Imports:
     Rcpp,
     fastglm,
     GenSA,
+    parallel,
     methods,
     r2r,
     BAS,

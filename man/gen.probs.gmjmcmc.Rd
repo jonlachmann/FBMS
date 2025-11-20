@@ -2,7 +2,7 @@
 % Please edit documentation in R/arguments.R
 \name{gen.probs.gmjmcmc}
 \alias{gen.probs.gmjmcmc}
-\title{Generate a probability list for GMJMCMC (Genetically Modified MJMCMC)}
+\title{Generate a Probability List for GMJMCMC (Genetically Modified MJMCMC)}
 \usage{
 gen.probs.gmjmcmc(transforms)
 }
@@ -58,7 +58,7 @@ By default, a uniform distribution is assigned, but this can be modified by prov
 }
 }
 \description{
-Generate a probability list for GMJMCMC (Genetically Modified MJMCMC)
+Generate a Probability List for GMJMCMC (Genetically Modified MJMCMC)
 }
 \examples{
 gen.probs.gmjmcmc(c("p0", "exp_dbl"))

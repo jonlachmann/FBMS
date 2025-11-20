@@ -2,7 +2,7 @@
 % Please edit documentation in R/nonlinear_functions.R
 \name{nrelu}
 \alias{nrelu}
-\title{negative ReLu function}
+\title{Negative ReLU Function}
 \usage{
 nrelu(x)
 }
@@ -13,7 +13,7 @@ nrelu(x)
 max(-x,0)
 }
 \description{
-negative ReLu function
+Negative ReLU Function
 }
 \examples{
 nrelu(2)

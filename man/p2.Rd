@@ -2,7 +2,7 @@
 % Please edit documentation in R/nonlinear_functions.R
 \name{p2}
 \alias{p2}
-\title{p2 polynomial term}
+\title{p2 Polynomial Term}
 \usage{
 p2(x)
 }
@@ -13,7 +13,7 @@ p2(x)
 x^(2)
 }
 \description{
-p2 polynomial term
+p2 Polynomial Term
 }
 \examples{
 p2(2)

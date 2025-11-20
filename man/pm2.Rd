@@ -2,7 +2,7 @@
 % Please edit documentation in R/nonlinear_functions.R
 \name{pm2}
 \alias{pm2}
-\title{pm2 polynomial term}
+\title{pm2 Polynomial Term}
 \usage{
 pm2(x)
 }
@@ -13,7 +13,7 @@ pm2(x)
 sign(x)*(abs(x)+.Machine$double.eps)^(-2)
 }
 \description{
-pm2 polynomial term
+pm2 Polynomial Term
 }
 \examples{
 pm2(2)

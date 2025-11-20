@@ -2,8 +2,7 @@
 % Please edit documentation in R/fbms.R
 \name{fbms}
 \alias{fbms}
-\title{Fit a BGNLM  model using Genetically Modified Mode Jumping Markov Chain Monte Carlo (MCMC) sampling.
-Or Fit a BGLM model using Modified Mode Jumping Markov Chain Monte Carlo (MCMC) sampling.}
+\title{Fit a BGNLM Model Using MJMCMC or GMJMCMC Sampling.}
 \usage{
 fbms(
   formula = NULL,

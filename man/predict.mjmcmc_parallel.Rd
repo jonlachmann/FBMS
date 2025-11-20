@@ -2,7 +2,7 @@
 % Please edit documentation in R/predict.R
 \name{predict.mjmcmc_parallel}
 \alias{predict.mjmcmc_parallel}
-\title{Predict using a mjmcmc result object from a parallel run.}
+\title{Predict Using an MJMCMC Result Object from a Parallel Run}
 \usage{
 \method{predict}{mjmcmc_parallel}(
   object,
@@ -32,7 +32,7 @@ A list containing aggregated predictions.
 \item{quantiles}{Quantiles of aggregated predictions.}
 }
 \description{
-Predict using a mjmcmc result object from a parallel run.
+Predict Using an MJMCMC Result Object from a Parallel Run
 }
 \examples{
 result <- mjmcmc.parallel(runs = 1, 

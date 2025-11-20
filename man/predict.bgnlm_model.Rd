@@ -2,7 +2,7 @@
 % Please edit documentation in R/predict.R
 \name{predict.bgnlm_model}
 \alias{predict.bgnlm_model}
-\title{Predict responses from a BGNLM model}
+\title{Predict Responses from a BGNLM Model}
 \usage{
 \method{predict}{bgnlm_model}(
   object,

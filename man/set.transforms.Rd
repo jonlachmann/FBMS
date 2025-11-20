@@ -2,8 +2,7 @@
 % Please edit documentation in R/gmjmcmc_support.R
 \name{set.transforms}
 \alias{set.transforms}
-\title{Set the transformations option for GMJMCMC (Genetically Modified MJMCMC),
-this is also done when running the algorithm, but this function allows for it to be done manually.}
+\title{Set the Transformations Option for GMJMCMC (Genetically Modified MJMCMC).}
 \usage{
 set.transforms(transforms)
 }
@@ -14,8 +13,7 @@ set.transforms(transforms)
 No return value, just sets the gmjmcmc-transformations option
 }
 \description{
-Set the transformations option for GMJMCMC (Genetically Modified MJMCMC),
-this is also done when running the algorithm, but this function allows for it to be done manually.
+This is also done when running the algorithm, but this function allows for it to be done manually.
 }
 \examples{
 set.transforms(c("p0","p1"))

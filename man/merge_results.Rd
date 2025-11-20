@@ -2,9 +2,7 @@
 % Please edit documentation in R/results.R
 \name{merge_results}
 \alias{merge_results}
-\title{Merge a list of multiple results from many runs
-This function will weight the features based on the best marginal posterior in that population
-and merge the results together, simplifying by merging equivalent features (having high correlation).}
+\title{Merge a List of Multiple Results from Many Runs}
 \usage{
 merge_results(
   results,
@@ -42,7 +40,6 @@ An object of class "gmjmcmc_merged" containing the following elements:
 \item{rep.thread}{The index of the thread which contains reported.}
 }
 \description{
-Merge a list of multiple results from many runs
 This function will weight the features based on the best marginal posterior in that population
 and merge the results together, simplifying by merging equivalent features (having high correlation).
 }

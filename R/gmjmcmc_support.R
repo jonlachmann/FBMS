@@ -3,8 +3,9 @@
 # Created by: jonlachmann
 # Created on: 2021-02-11
 
-#' Set the transformations option for GMJMCMC (Genetically Modified MJMCMC),
-#' this is also done when running the algorithm, but this function allows for it to be done manually.
+#' Set the Transformations Option for GMJMCMC (Genetically Modified MJMCMC).
+#'
+#' This is also done when running the algorithm, but this function allows for it to be done manually.
 #'
 #' @param transforms The vector of non-linear transformations
 #'
@@ -38,7 +39,7 @@ verify.inputs <- function (data, loglik.pi, transforms, T, N, N.final, probs, pa
   if (sum(probs$large.kern > 1 | probs$large.kern < 0) != 0) error <- c(error, "Large jump kernel probabilities must be in [0,1].")
 }
 
-#' Function for calculating marginal inclusion probabilities of features given a list of models
+#' Function for Calculating Marginal Inclusion Probabilities of Features Given a List of Models
 #' @param models The list of models to use.
 #'
 #' @return A numeric vector of marginal model probabilities based on relative frequencies of model visits in MCMC.
@@ -61,7 +62,7 @@ marginal.probs <- function (models) {
   return(probs)
 }
 
-#' Function for calculating feature importance through renormalized model estimates
+#' Function for Calculating Feature Importance Through Renormalized Model Estimates
 #' @param models The models to use.
 #' @param type Select which probabilities are of interest, features or models
 #' 

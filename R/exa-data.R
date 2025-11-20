@@ -1,4 +1,4 @@
-#' Excerpt from the Open Exoplanet Catalogue data set
+#' Excerpt from the Open Exoplanet Catalogue Data Set
 #'
 #' Data fields include planet and host star attributes.
 #'

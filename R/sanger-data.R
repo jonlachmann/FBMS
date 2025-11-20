@@ -1,4 +1,4 @@
-#' Gene expression data lymphoblastoid cell lines of all 210 unrelated HapMap 
+#' Gene Expression Data for Lymphoblastoid Cell Lines of 210 Unrelated HapMap
 #' individuals from four populations
 #'
 #' A 210 times 3221 matrix with indviduals along the rows and expression data along the columns

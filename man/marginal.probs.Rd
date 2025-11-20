@@ -2,7 +2,7 @@
 % Please edit documentation in R/gmjmcmc_support.R
 \name{marginal.probs}
 \alias{marginal.probs}
-\title{Function for calculating marginal inclusion probabilities of features given a list of models}
+\title{Function for Calculating Marginal Inclusion Probabilities of Features Given a List of Models}
 \usage{
 marginal.probs(models)
 }
@@ -13,7 +13,7 @@ marginal.probs(models)
 A numeric vector of marginal model probabilities based on relative frequencies of model visits in MCMC.
 }
 \description{
-Function for calculating marginal inclusion probabilities of features given a list of models
+Function for Calculating Marginal Inclusion Probabilities of Features Given a List of Models
 }
 \examples{
 result <- gmjmcmc(x = matrix(rnorm(600), 100),

@@ -2,8 +2,7 @@
 % Please edit documentation in R/results.R
 \name{plot.mjmcmc}
 \alias{plot.mjmcmc}
-\title{Function to plot the results, works both for results from gmjmcmc and
-merged results from merge.results}
+\title{Function to Plot GMJMCMC Results and Merged Results from merge.results}
 \usage{
 \method{plot}{mjmcmc}(x, count = "all", ...)
 }
@@ -18,8 +17,7 @@ merged results from merge.results}
 No return value, just creates a plot
 }
 \description{
-Function to plot the results, works both for results from gmjmcmc and
-merged results from merge.results
+Function to Plot GMJMCMC Results and Merged Results from merge.results
 }
 \examples{
 result <- mjmcmc(

@@ -2,7 +2,7 @@
 % Please edit documentation in R/nonlinear_functions.R
 \name{sin_deg}
 \alias{sin_deg}
-\title{Sine function for degrees}
+\title{Sine Function for Degrees}
 \usage{
 sin_deg(x)
 }
@@ -13,7 +13,7 @@ sin_deg(x)
 The sine of x
 }
 \description{
-Sine function for degrees
+Sine Function for Degrees
 }
 \examples{
 sin_deg(0)

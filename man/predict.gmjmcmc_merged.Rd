@@ -2,7 +2,7 @@
 % Please edit documentation in R/predict.R
 \name{predict.gmjmcmc_merged}
 \alias{predict.gmjmcmc_merged}
-\title{Predict using a merged gmjmcmc result object.}
+\title{Predict Using a Merged GMJMCMC Result Object}
 \usage{
 \method{predict}{gmjmcmc_merged}(
   object,
@@ -38,7 +38,7 @@ A list containing aggregated predictions and per model predictions.
 \item{preds}{A list of lists containing individual predictions per model per population in object.}
 }
 \description{
-Predict using a merged gmjmcmc result object.
+Predict Using a Merged GMJMCMC Result Object
 }
 \examples{
 result <- gmjmcmc.parallel(

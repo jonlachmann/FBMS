@@ -2,7 +2,7 @@
 % Please edit documentation in R/nonlinear_functions.R
 \name{erf}
 \alias{erf}
-\title{erf function}
+\title{Erf Function}
 \usage{
 erf(x)
 }
@@ -13,7 +13,7 @@ erf(x)
 2 * pnorm(x * sqrt(2)) - 1
 }
 \description{
-erf function
+Erf Function
 }
 \examples{
 erf(2)

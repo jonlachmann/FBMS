@@ -2,7 +2,7 @@
 % Please edit documentation in R/nonlinear_functions.R
 \name{hs}
 \alias{hs}
-\title{heavy side function}
+\title{Heavy Side Function}
 \usage{
 hs(x)
 }
@@ -13,7 +13,7 @@ hs(x)
 as.integer(x>0)
 }
 \description{
-heavy side function
+Heavy Side Function
 }
 \examples{
 hs(2)
