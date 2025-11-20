@@ -2,7 +2,7 @@
 % Please edit documentation in R/nonlinear_functions.R
 \name{troot}
 \alias{troot}
-\title{Cube root function}
+\title{Cube Root Function}
 \usage{
 troot(x)
 }
@@ -13,7 +13,7 @@ troot(x)
 The cube root of x
 }
 \description{
-Cube root function
+Cube Root Function
 }
 \examples{
 troot(27)

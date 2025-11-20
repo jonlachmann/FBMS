@@ -16,7 +16,7 @@
 # | NA          FEAT3 ALPHA3 |
 # ...
 
-#' Create method for "feature" class
+#' Create Method for \"feature\" Class
 #'
 #' @param transform A numeric denoting the transform type
 #' @param features A list of features to include
@@ -58,7 +58,7 @@ create.feature <- function (transform, features, trans.priors, alphas=NULL) {
   return(feature)
 }
 
-#' Update alphas on a feature
+#' Update Alphas on a Feature
 #'
 #' @param feature The feature to be updated
 #' @param alphas The alphas that will be used
@@ -93,7 +93,7 @@ update.alphas <- function (feature, alphas, recurse=FALSE) {
   else return(feature)
 }
 
-#' Print method for "feature" class
+#' Print Method for \"feature\" Class
 #'
 #' @param x An object of class "feature"
 #' @param dataset Set the regular covariates as columns in a dataset

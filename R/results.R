@@ -3,7 +3,7 @@
 # Created by: jonlachmann
 # Created on: 2021-05-06
 
-#' Merge a list of multiple results from many runs
+#' Merge a List of Multiple Results from Many Runs
 #'
 #' This function will weight the features based on the best marginal posterior in that population
 #' and merge the results together, simplifying by merging equivalent features (having high correlation).
@@ -222,7 +222,7 @@ population.weigths <- function (results, pops.use) {
   return(list(weights = exp(max.crits-max.crit) / sum(exp(max.crits-max.crit)), best = max.crit, thread.best = thread.best, pop.best = pop.best))
 }
 
-#' Function to generate a function string for a model consisting of features
+#' Function to Generate a Function String for a Model Consisting of Features
 #'
 #' @param model A logical vector indicating which features to include
 #' @param features The population of features
@@ -538,7 +538,7 @@ get.best.model.gmjmcmc_merged <- function(result, labels = FALSE, ...) {
 }
 
 
-#' Function to get a character representation of a list of features
+#' Function to Get a Character Representation of a List of Features
 #'
 #' @param x A list of feature objects
 #' @param round Rounding precision for parameters of the features
@@ -557,7 +557,7 @@ string.population <- function(x, round = 2) {
   cbind(sapply(x, print.feature, round = round))
 }
 
-#' Function to get a character representation of a list of models
+#' Function to Get a Character Representation of a List of Models
 #'
 #' @param features A list of feature objects on which the models are build
 #' @param models A list of model objects
@@ -578,8 +578,7 @@ string.population.models <- function(features, models, round = 2, link = "I") {
   cbind(sapply(seq_along(models), FUN = function(x) model.string(features = features, model = (models[[x]]$model), round = round, link = "I")))
 }
 
-#' Function to plot the results, for results from gmjmcmc and
-#' merged results from merge.results
+#' Function to Plot GMJMCMC Results and Merged Results from merge.results
 #'
 #' @param x The results to use
 #' @param count The number of features to plot, defaults to all
@@ -642,8 +641,7 @@ plot.bgnlm_model <- function(x, ...) {
   barplot(coefs, main = "BGNLM Coefficients", names.arg = names(coefs), horiz  = TRUE, ...)
 }
 
-#' Function to plot the results, for results from gmjmcmc and
-#' merged results from merge.results
+#' Function to Plot GMJMCMC Results and Merged Results from merge.results
 #'
 #' @param x The results to use
 #' @param count The number of features to plot, defaults to all
@@ -688,7 +686,7 @@ marg.prob.plot <- function (feats.strings, marg.probs, count = "all", ...) {
   text((max(marg.probs[(tot - count + 1):tot]) / 2), y, feats.strings[(tot - count + 1):tot])
 }
 
-#' Plot a mjmcmc_parallel run
+#' Plot an mjmcmc_parallel Run
 #' @inheritParams plot.mjmcmc
 #' @return No return value, just creates a plot
 #' 
@@ -729,7 +727,7 @@ run.weigths <- function (results) {
   return(exp(best.crits - max.crit) / sum(exp(best.crits - max.crit)))
 }
 
-#' Plot a gmjmcmc_merged run
+#' Plot a gmjmcmc_merged Run
 #' @inheritParams plot.gmjmcmc
 #' @return No return value, just creates a plot
 #' 
@@ -757,7 +755,7 @@ plot.gmjmcmc_merged <- function (x, count = "all", pop = NULL,tol =  0.0000001, 
 }
 
 
-#' Compute effects for specified in labels covariates using a fitted model.
+#' Compute Effects for Specified Covariates Using a Fitted Model
 #'
 #' This function computes model averaged effects for specified covariates using a fitted model object.
 #' The effects are expected change in the BMA linear predictor having an increase of the corresponding covariate by one unit, while other covariates are fixed to 0.

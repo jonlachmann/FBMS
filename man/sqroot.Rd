@@ -2,7 +2,7 @@
 % Please edit documentation in R/nonlinear_functions.R
 \name{sqroot}
 \alias{sqroot}
-\title{Square root function}
+\title{Square Root Function}
 \usage{
 sqroot(x)
 }
@@ -13,7 +13,7 @@ sqroot(x)
 The square root of the absolute value of x
 }
 \description{
-Square root function
+Square Root Function
 }
 \examples{
 sqroot(4)

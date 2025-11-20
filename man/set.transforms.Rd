@@ -2,7 +2,7 @@
 % Please edit documentation in R/gmjmcmc_support.R
 \name{set.transforms}
 \alias{set.transforms}
-\title{Set the transformations option for GMJMCMC (Genetically Modified MJMCMC).}
+\title{Set the Transformations Option for GMJMCMC (Genetically Modified MJMCMC).}
 \usage{
 set.transforms(transforms)
 }

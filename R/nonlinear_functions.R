@@ -3,7 +3,7 @@
 # Created by: jonlachmann
 # Created on: 2021-03-22
 
-#' Sigmoid function
+#' Sigmoid Function
 #'
 #' @param x The vector of values
 #' @return The sigmoid of x
@@ -15,7 +15,7 @@
 #' @export sigmoid
 sigmoid <- function(x)  1 / (1 + exp(-x))
 
-#' Sine function for degrees
+#' Sine Function for Degrees
 #'
 #' @param x The vector of values in degrees
 #' @return The sine of x
@@ -26,7 +26,7 @@ sigmoid <- function(x)  1 / (1 + exp(-x))
 #' @export sin_deg
 sin_deg <- function(x) sin(x / 180 * pi)
 
-#' Cosine function for degrees
+#' Cosine Function for Degrees
 #'
 #' @param x The vector of values in degrees
 #' @return The cosine of x
@@ -37,7 +37,7 @@ sin_deg <- function(x) sin(x / 180 * pi)
 #' @export cos_deg
 cos_deg <- function(x) cos(x / 180 * pi)
 
-#' Double exponential function
+#' Double Exponential Function
 #'
 #' @param x The vector of values
 #' @return e^(-abs(x))
@@ -49,7 +49,7 @@ cos_deg <- function(x) cos(x / 180 * pi)
 exp_dbl <- function(x) exp(-abs(x))
 
 
-#' Square root function
+#' Square Root Function
 #'
 #' @param x The vector of values
 #' @return The square root of the absolute value of x
@@ -60,7 +60,7 @@ exp_dbl <- function(x) exp(-abs(x))
 #' @export sqroot
 sqroot <- function(x) abs(x)^(1/2)
 
-#' Cube root function
+#' Cube Root Function
 #'
 #' @param x The vector of values
 #' @return The cube root of x
@@ -71,7 +71,7 @@ sqroot <- function(x) abs(x)^(1/2)
 #' @export troot
 troot <- function(x) abs(x)^(1/3)
 
-#' arcsinh transform
+#' Arcsinh Transform
 #'
 #' @param x The vector of values
 #' @return arcsinh(x)
@@ -82,7 +82,7 @@ troot <- function(x) abs(x)^(1/3)
 #' @export arcsinh
 arcsinh <- function(x) asinh(x)
 
-#' p0 polynomial term
+#' p0 Polynomial Term
 #'
 #' @param x The vector of values
 #' @return log(abs(x) + .Machine$double.eps)
@@ -93,7 +93,7 @@ arcsinh <- function(x) asinh(x)
 #' @export p0
 p0 <- function(x) log(abs(x)+.Machine$double.eps)
 
-#' pm1 polynomial term
+#' pm1 Polynomial Term
 #'
 #' @param x The vector of values
 #' @return sign(x)*(abs(x)+.Machine$double.eps)^(-1)
@@ -104,7 +104,7 @@ p0 <- function(x) log(abs(x)+.Machine$double.eps)
 #' @export pm1
 pm1 <- function(x) sign(x)*(abs(x)+.Machine$double.eps)^(-1)
 
-#' pm2 polynomial term
+#' pm2 Polynomial Term
 #'
 #' @param x The vector of values
 #' @return sign(x)*(abs(x)+.Machine$double.eps)^(-2)
@@ -115,7 +115,7 @@ pm1 <- function(x) sign(x)*(abs(x)+.Machine$double.eps)^(-1)
 #' @export pm2
 pm2 <- function(x) sign(x)*(abs(x)+.Machine$double.eps)^(-2)
 
-#' pm05 polynomial term
+#' pm05 Polynomial Term
 #'
 #' @param x The vector of values
 #' @return  (abs(x)+.Machine$double.eps)^(-0.5)
@@ -126,7 +126,7 @@ pm2 <- function(x) sign(x)*(abs(x)+.Machine$double.eps)^(-2)
 #' @export pm05
 pm05 <- function(x) (abs(x)+.Machine$double.eps)^(-0.5)
 
-#' p05 polynomial term
+#' p05 Polynomial Term
 #'
 #' @param x The vector of values
 #' @return (abs(x)+.Machine$double.eps)^(0.5)
@@ -137,7 +137,7 @@ pm05 <- function(x) (abs(x)+.Machine$double.eps)^(-0.5)
 #' @export p05
 p05 <- function(x) (abs(x)+.Machine$double.eps)^(0.5)
 
-#' p2 polynomial term
+#' p2 Polynomial Term
 #'
 #' @param x The vector of values
 #' @return x^(2)
@@ -148,7 +148,7 @@ p05 <- function(x) (abs(x)+.Machine$double.eps)^(0.5)
 #' @export p2
 p2 <- function(x) x^(2)
 
-#' p3 polynomial term
+#' p3 Polynomial Term
 #'
 #' @param x The vector of values
 #' @return x^(3)
@@ -159,7 +159,7 @@ p2 <- function(x) x^(2)
 #' @export p3
 p3 <- function(x) x^(3)
 
-#' p0p0 polynomial term
+#' p0p0 Polynomial Term
 #'
 #' @param x The vector of values
 #' @return p0(x)*p0(x)
@@ -170,7 +170,7 @@ p3 <- function(x) x^(3)
 #' @export p0p0
 p0p0 <- function(x) p0(x)*p0(x)
 
-#' p0pm1 polynomial terms
+#' p0pm1 Polynomial Terms
 #'
 #' @param x The vector of values
 #' @return p0(x)*(x+.Machine$double.eps)^(-1)
@@ -181,7 +181,7 @@ p0p0 <- function(x) p0(x)*p0(x)
 #' @export p0pm1
 p0pm1 <- function(x) p0(x)*(x+.Machine$double.eps)^(-1)
 
-#' p0pm2 polynomial term
+#' p0pm2 Polynomial Term
 #'
 #' @param x The vector of values
 #' @return p0(x)*sign(x)*(abs(x)+.Machine$double.eps)^(-2)
@@ -192,7 +192,7 @@ p0pm1 <- function(x) p0(x)*(x+.Machine$double.eps)^(-1)
 #' @export p0pm2
 p0pm2 <- function(x) p0(x)*sign(x)*(abs(x)+.Machine$double.eps)^(-2)
 
-#' p0pm05 polynomial term
+#' p0pm05 Polynomial Term
 #'
 #' @param x The vector of values
 #' @return p0(x)*sign(x)*(abs(x)+.Machine$double.eps)^(-0.5)
@@ -203,7 +203,7 @@ p0pm2 <- function(x) p0(x)*sign(x)*(abs(x)+.Machine$double.eps)^(-2)
 #' @export p0pm05
 p0pm05 <- function(x) p0(x)*(abs(x)+.Machine$double.eps)^(-0.5)
 
-#' p0p05 polynomial term
+#' p0p05 Polynomial Term
 #'
 #' @param x The vector of values
 #' @return p0(x)*(abs(x)+.Machine$double.eps)^(0.5)
@@ -214,7 +214,7 @@ p0pm05 <- function(x) p0(x)*(abs(x)+.Machine$double.eps)^(-0.5)
 #' @export p0p05
 p0p05 <- function(x) p0(x)*(abs(x)+.Machine$double.eps)^(0.5)
 
-#' p0p1 polynomial term
+#' p0p1 Polynomial Term
 #'
 #' @param x The vector of values
 #' @return  p0(x)*x
@@ -225,7 +225,7 @@ p0p05 <- function(x) p0(x)*(abs(x)+.Machine$double.eps)^(0.5)
 #' @export p0p1
 p0p1 <- function(x) p0(x)*x
 
-#' p0p2 polynomial term
+#' p0p2 Polynomial Term
 #'
 #' @param x The vector of values
 #' @return p0(x)*x^(2)
@@ -236,7 +236,7 @@ p0p1 <- function(x) p0(x)*x
 #' @export p0p2
 p0p2 <- function(x) p0(x)*x^(2)
 
-#' p0p3 polynomial term
+#' p0p3 Polynomial Term
 #'
 #' @param x The vector of values
 #' @return p0(x)*x^(3)
@@ -248,7 +248,7 @@ p0p2 <- function(x) p0(x)*x^(2)
 p0p3 <- function(x) p0(x)*x^(3)
 
 
-#' ReLu function
+#' ReLU Function
 #'
 #' @param x The vector of values
 #' @return max(x,0)
@@ -260,7 +260,7 @@ p0p3 <- function(x) p0(x)*x^(3)
 relu <- function(x) max(x,0)
 
 
-#' negative ReLu function
+#' Negative ReLU Function
 #'
 #' @param x The vector of values
 #' @return max(-x,0)
@@ -271,7 +271,7 @@ relu <- function(x) max(x,0)
 #' @export nrelu
 nrelu <- function(x) max(-x,0)
 
-#' GELU function
+#' GELU Function
 #'
 #' @param x The vector of values
 #' @return x*pnorm(x)
@@ -283,7 +283,7 @@ nrelu <- function(x) max(-x,0)
 gelu <- function(x)x *pnorm(x)
 
 
-#' Negative GELU function
+#' Negative GELU Function
 #'
 #' @param x The vector of values
 #' @return -x*pnorm(-x)
@@ -294,7 +294,7 @@ gelu <- function(x)x *pnorm(x)
 #' @export ngelu
 ngelu <- function(x) -x*pnorm(-x)
 
-#' erf function
+#' Erf Function
 #'
 #' @param x The vector of values
 #' @return 2 * pnorm(x * sqrt(2)) - 1
@@ -306,7 +306,7 @@ ngelu <- function(x) -x*pnorm(-x)
 erf <- function(x) 2 * pnorm(x * sqrt(2)) - 1
 
 
-#' heavy side function
+#' Heavy Side Function
 #'
 #' @param x The vector of values
 #' @return as.integer(x>0)
@@ -318,7 +318,7 @@ erf <- function(x) 2 * pnorm(x * sqrt(2)) - 1
 hs <- function(x) as.integer(x>0)
 
 
-#' negative heavy side function
+#' Negative Heavy Side Function
 #'
 #' @param x The vector of values
 #' @return as.integer(x<0)
@@ -329,7 +329,7 @@ hs <- function(x) as.integer(x>0)
 #' @export nhs
 nhs <- function(x) as.integer(x<0)
 
-#' not x
+#' Not x
 #'
 #' @param x The vector of binary values
 #' @return 1-x
@@ -339,4 +339,3 @@ nhs <- function(x) as.integer(x<0)
 #'
 #' @export not
 not <- function(x) (1-x)
-

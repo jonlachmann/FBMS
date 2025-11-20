@@ -2,7 +2,7 @@
 % Please edit documentation in R/parallel.R
 \name{rmclapply}
 \alias{rmclapply}
-\title{rmclapply: Cross-platform mclapply/forking hack for Windows}
+\title{rmclapply: Cross-Platform mclapply/Forking Hack for Windows}
 \usage{
 rmclapply(runs, args, fun, mc.cores = NULL)
 }

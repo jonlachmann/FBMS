@@ -2,7 +2,7 @@
 % Please edit documentation in R/nonlinear_functions.R
 \name{cos_deg}
 \alias{cos_deg}
-\title{Cosine function for degrees}
+\title{Cosine Function for Degrees}
 \usage{
 cos_deg(x)
 }
@@ -13,7 +13,7 @@ cos_deg(x)
 The cosine of x
 }
 \description{
-Cosine function for degrees
+Cosine Function for Degrees
 }
 \examples{
 cos_deg(0)

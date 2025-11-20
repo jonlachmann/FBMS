@@ -2,7 +2,7 @@
 % Please edit documentation in R/nonlinear_functions.R
 \name{p0p0}
 \alias{p0p0}
-\title{p0p0 polynomial term}
+\title{p0p0 Polynomial Term}
 \usage{
 p0p0(x)
 }
@@ -13,7 +13,7 @@ p0p0(x)
 p0(x)*p0(x)
 }
 \description{
-p0p0 polynomial term
+p0p0 Polynomial Term
 }
 \examples{
 p0p0(2)

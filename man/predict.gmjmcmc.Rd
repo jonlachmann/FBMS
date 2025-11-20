@@ -2,7 +2,7 @@
 % Please edit documentation in R/predict.R
 \name{predict.gmjmcmc}
 \alias{predict.gmjmcmc}
-\title{Predict using a gmjmcmc result object.}
+\title{Predict Using a GMJMCMC Result Object}
 \usage{
 \method{predict}{gmjmcmc}(
   object,
@@ -38,7 +38,7 @@ A list containing aggregated predictions and per model predictions.
 \item{preds}{A list of lists containing individual predictions per model per population in object.}
 }
 \description{
-Predict using a gmjmcmc result object.
+Predict Using a GMJMCMC Result Object
 }
 \examples{
 result <- gmjmcmc(

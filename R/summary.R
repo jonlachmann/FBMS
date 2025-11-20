@@ -1,4 +1,4 @@
-#' Function to print a quick summary of the results
+#' Function to Print a Quick Summary of the Results
 #'
 #' @param object The results to use
 #' @param pop The population to print for, defaults to last
@@ -78,7 +78,7 @@ summary.gmjmcmc <- function (object, pop = "best", tol = 0.0001, labels = FALSE,
 
 
 
-#' Function to print a quick summary of the results
+#' Function to Print a Quick Summary of the Results
 #'
 #' @param object The results to use
 #' @param tol The tolerance to use as a threshold when reporting the results.
@@ -138,7 +138,7 @@ summary.gmjmcmc_merged <- function (object, tol = 0.0001, labels = FALSE, effect
   return(obj)
 }
 
-#' Function to print a quick summary of the results
+#' Function to Print a Quick Summary of the Results
 #'
 #' @param object The results to use
 #' @param tol The tolerance to use as a threshold when reporting the results.
@@ -168,7 +168,7 @@ summary.mjmcmc <- function (object, tol = 0.0001, labels = FALSE, effects = NULL
   ))
 }
 
-#' Function to print a quick summary of the results
+#' Function to Print a Quick Summary of the Results
 #'
 #' @param object The results to use
 #' @param tol The tolerance to use as a threshold when reporting the results.

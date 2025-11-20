@@ -2,7 +2,7 @@
 % Please edit documentation in R/arguments.R
 \name{gen.params.gmjmcmc}
 \alias{gen.params.gmjmcmc}
-\title{Generate a parameter list for GMJMCMC (Genetically Modified MJMCMC)}
+\title{Generate a Parameter List for GMJMCMC (Genetically Modified MJMCMC)}
 \usage{
 gen.params.gmjmcmc(ncov)
 }

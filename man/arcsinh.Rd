@@ -2,7 +2,7 @@
 % Please edit documentation in R/nonlinear_functions.R
 \name{arcsinh}
 \alias{arcsinh}
-\title{arcsinh transform}
+\title{Arcsinh Transform}
 \usage{
 arcsinh(x)
 }
@@ -13,7 +13,7 @@ arcsinh(x)
 arcsinh(x)
 }
 \description{
-arcsinh transform
+Arcsinh Transform
 }
 \examples{
 arcsinh(2)

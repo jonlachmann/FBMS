@@ -2,7 +2,7 @@
 % Please edit documentation in R/impute.R
 \name{impute_x}
 \alias{impute_x}
-\title{Impute Missing Values the Data}
+\title{Impute Missing Values in the Data}
 \usage{
 impute_x(object, x)
 }

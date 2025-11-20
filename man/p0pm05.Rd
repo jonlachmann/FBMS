@@ -2,7 +2,7 @@
 % Please edit documentation in R/nonlinear_functions.R
 \name{p0pm05}
 \alias{p0pm05}
-\title{p0pm05 polynomial term}
+\title{p0pm05 Polynomial Term}
 \usage{
 p0pm05(x)
 }
@@ -13,7 +13,7 @@ p0pm05(x)
 p0(x)\emph{sign(x)}(abs(x)+.Machine$double.eps)^(-0.5)
 }
 \description{
-p0pm05 polynomial term
+p0pm05 Polynomial Term
 }
 \examples{
 p0pm05(2)

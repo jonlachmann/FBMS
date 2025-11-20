@@ -2,7 +2,7 @@
 % Please edit documentation in R/arguments.R
 \name{gen.params.mjmcmc}
 \alias{gen.params.mjmcmc}
-\title{Generate a parameter list for MJMCMC (Mode Jumping MCMC)}
+\title{Generate a Parameter List for MJMCMC (Mode Jumping MCMC)}
 \usage{
 gen.params.mjmcmc(ncov)
 }
@@ -70,7 +70,7 @@ Note that the \verb{$loglik} item is an empty list, which is passed to the log l
 intended to store parameters that the estimator function should use.
 }
 \description{
-Generate a parameter list for MJMCMC (Mode Jumping MCMC)
+Generate a Parameter List for MJMCMC (Mode Jumping MCMC)
 }
 \examples{
 gen.params.mjmcmc(matrix(rnorm(600), 100))

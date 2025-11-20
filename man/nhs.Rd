@@ -2,7 +2,7 @@
 % Please edit documentation in R/nonlinear_functions.R
 \name{nhs}
 \alias{nhs}
-\title{negative heavy side function}
+\title{Negative Heavy Side Function}
 \usage{
 nhs(x)
 }
@@ -13,7 +13,7 @@ nhs(x)
 as.integer(x<0)
 }
 \description{
-negative heavy side function
+Negative Heavy Side Function
 }
 \examples{
 nhs(2)

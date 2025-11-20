@@ -2,7 +2,7 @@
 % Please edit documentation in R/nonlinear_functions.R
 \name{ngelu}
 \alias{ngelu}
-\title{Negative GELU function}
+\title{Negative GELU Function}
 \usage{
 ngelu(x)
 }
@@ -13,7 +13,7 @@ ngelu(x)
 -x*pnorm(-x)
 }
 \description{
-Negative GELU function
+Negative GELU Function
 }
 \examples{
 ngelu(2)

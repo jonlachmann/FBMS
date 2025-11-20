@@ -2,7 +2,7 @@
 % Please edit documentation in R/nonlinear_functions.R
 \name{p0pm1}
 \alias{p0pm1}
-\title{p0pm1 polynomial terms}
+\title{p0pm1 Polynomial Terms}
 \usage{
 p0pm1(x)
 }
@@ -13,7 +13,7 @@ p0pm1(x)
 p0(x)*(x+.Machine$double.eps)^(-1)
 }
 \description{
-p0pm1 polynomial terms
+p0pm1 Polynomial Terms
 }
 \examples{
 p0pm1(2)

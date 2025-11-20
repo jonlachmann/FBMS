@@ -3,7 +3,7 @@
 # Created by: jonlachmann
 # Created on: 2021-04-27
 
-#' Main algorithm for MJMCMC (Genetically Modified MJMCMC)
+#' Main Algorithm for MJMCMC (Genetically Modified MJMCMC)
 #'
 #' @param x matrix containing the design matrix with data to use in the algorithm,
 #' @param y response variable
@@ -109,7 +109,7 @@ mjmcmc <- function (
   return(result)
 }
 
-#' The main loop for the MJMCMC (Mode Jumping MCMC) algorithm, used in both MJMCMC and GMJMCMC (Genetically Modified MJMCMC)
+#' The Main Loop for the MJMCMC (Mode Jumping MCMC) Algorithm, Used in Both MJMCMC and GMJMCMC (Genetically Modified MJMCMC)
 #'
 #' @param data The data to use
 #' @param complex The complexity measures of the data
@@ -195,7 +195,7 @@ mjmcmc.loop <- function (data, complex, loglik.pi, model.cur, N, probs, params, 
   ))
 }
 
-#' Subalgorithm for generating a proposal and acceptance probability in (G)MJMCMC
+#' Subalgorithm for Generating a Proposal and Acceptance Probability in (G)MJMCMC
 #'
 #' @param data The data to use in the algorithm
 #' @param loglik.pi The the (log) density to explore

@@ -2,7 +2,7 @@
 % Please edit documentation in R/likelihoods.R
 \name{logistic.loglik}
 \alias{logistic.loglik}
-\title{Log likelihood function for logistic regression with a Jeffreys parameter prior and BIC approximations of the posterior.}
+\title{Log Likelihood Function for Logistic Regression with a Jeffreys Parameter Prior and BIC Approximations of the Posterior.}
 \usage{
 logistic.loglik(y, x, model, complex, mlpost_params = list(r = exp(-0.5)))
 }

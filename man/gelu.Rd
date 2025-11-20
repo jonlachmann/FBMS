@@ -2,7 +2,7 @@
 % Please edit documentation in R/nonlinear_functions.R
 \name{gelu}
 \alias{gelu}
-\title{GELU function}
+\title{GELU Function}
 \usage{
 gelu(x)
 }
@@ -13,7 +13,7 @@ gelu(x)
 x*pnorm(x)
 }
 \description{
-GELU function
+GELU Function
 }
 \examples{
 gelu(2)

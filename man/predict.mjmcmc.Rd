@@ -2,7 +2,7 @@
 % Please edit documentation in R/predict.R
 \name{predict.mjmcmc}
 \alias{predict.mjmcmc}
-\title{Predict using a mjmcmc result object.}
+\title{Predict Using an MJMCMC Result Object}
 \usage{
 \method{predict}{mjmcmc}(
   object,
@@ -32,7 +32,7 @@ A list containing aggregated predictions.
 \item{quantiles}{Quantiles of aggregated predictions.}
 }
 \description{
-Predict using a mjmcmc result object.
+Predict Using an MJMCMC Result Object
 }
 \examples{
 result <- mjmcmc(

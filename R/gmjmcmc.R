@@ -8,7 +8,7 @@
 #' @importFrom Rcpp sourceCpp
 NULL
 
-#' Main algorithm for GMJMCMC (Genetically Modified MJMCMC)
+#' Main Algorithm for GMJMCMC (Genetically Modified MJMCMC)
 #'
 #' @param x matrix containing the design matrix with data to use in the algorithm
 #' @param y response variable
@@ -202,7 +202,7 @@ gmjmcmc <- function (
 }
 
 
-#' Subalgorithm for generating a new population of features in GMJMCMC (Genetically Modified MJMCMC)
+#' Subalgorithm for Generating a New Population of Features in GMJMCMC (Genetically Modified MJMCMC)
 #'
 #' @param S.t The current population of features
 #' @param F.0 The initial population of features, i.e. the bare covariates
@@ -294,4 +294,3 @@ gmjmcmc.transition <- function (S.t, F.0, data, loglik.alpha, marg.probs.F.0, ma
   }
   return(S.t)
 }
-

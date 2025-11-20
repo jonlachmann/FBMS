@@ -2,7 +2,7 @@
 % Please edit documentation in R/mjmcmc.R
 \name{mjmcmc}
 \alias{mjmcmc}
-\title{Main algorithm for MJMCMC (Genetically Modified MJMCMC)}
+\title{Main Algorithm for MJMCMC (Genetically Modified MJMCMC)}
 \usage{
 mjmcmc(
   x,
@@ -55,7 +55,7 @@ A list containing the following elements:
 \item{populations}{The covariates represented as a list of features.}
 }
 \description{
-Main algorithm for MJMCMC (Genetically Modified MJMCMC)
+Main Algorithm for MJMCMC (Genetically Modified MJMCMC)
 }
 \examples{
 result <- mjmcmc(

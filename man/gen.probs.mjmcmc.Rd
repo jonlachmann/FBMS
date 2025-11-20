@@ -2,7 +2,7 @@
 % Please edit documentation in R/arguments.R
 \name{gen.probs.mjmcmc}
 \alias{gen.probs.mjmcmc}
-\title{Generate a probability list for MJMCMC (Mode Jumping MCMC)}
+\title{Generate a Probability List for MJMCMC (Mode Jumping MCMC)}
 \usage{
 gen.probs.mjmcmc()
 }
@@ -24,7 +24,7 @@ These probabilities will be automatically normalized if they do not sum to 1.}
 }
 }
 \description{
-Generate a probability list for MJMCMC (Mode Jumping MCMC)
+Generate a Probability List for MJMCMC (Mode Jumping MCMC)
 }
 \examples{
 gen.probs.mjmcmc()

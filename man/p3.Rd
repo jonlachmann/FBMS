@@ -2,7 +2,7 @@
 % Please edit documentation in R/nonlinear_functions.R
 \name{p3}
 \alias{p3}
-\title{p3 polynomial term}
+\title{p3 Polynomial Term}
 \usage{
 p3(x)
 }
@@ -13,7 +13,7 @@ p3(x)
 x^(3)
 }
 \description{
-p3 polynomial term
+p3 Polynomial Term
 }
 \examples{
 p3(2)

@@ -3,7 +3,7 @@
 # Created by: jonlachmann
 # Created on: 2021-02-19
 
-#' Generate a probability list for MJMCMC (Mode Jumping MCMC)
+#' Generate a Probability List for MJMCMC (Mode Jumping MCMC)
 #'
 #' @return A named list with five elements:
 #' \describe{
@@ -41,7 +41,7 @@ gen.probs.mjmcmc <- function () {
   return(probs)
 }
 
-#' Generate a probability list for GMJMCMC (Genetically Modified MJMCMC)
+#' Generate a Probability List for GMJMCMC (Genetically Modified MJMCMC)
 #'
 #' @param transforms A list of the transformations used (to get the count).
 #'
@@ -119,7 +119,7 @@ gen.probs.gmjmcmc <- function (transforms) {
   return(probs)
 }
 
-#' Generate a parameter list for MJMCMC (Mode Jumping MCMC)
+#' Generate a Parameter List for MJMCMC (Mode Jumping MCMC)
 #'
 #' @param ncov The number of covariates in the dataset that will be used in the algorithm
 #'
@@ -216,7 +216,7 @@ gen.params.mjmcmc <- function (ncov) {
   return(params)
 }
 
-#' Generate a parameter list for GMJMCMC (Genetically Modified MJMCMC)
+#' Generate a Parameter List for GMJMCMC (Genetically Modified MJMCMC)
 #'
 #' This function generates the full list of parameters required for the Generalized Mode Jumping Markov Chain Monte Carlo (GMJMCMC) algorithm, building upon the parameters from \code{gen.params.mjmcmc}. The generated parameter list includes feature generation settings, population control parameters, and optimization controls for the search process.
 #'

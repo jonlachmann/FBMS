@@ -2,7 +2,7 @@
 % Please edit documentation in R/results.R
 \name{plot.gmjmcmc_merged}
 \alias{plot.gmjmcmc_merged}
-\title{Plot a gmjmcmc_merged run}
+\title{Plot a gmjmcmc_merged Run}
 \usage{
 \method{plot}{gmjmcmc_merged}(x, count = "all", pop = NULL, tol = 1e-07, data = NULL, ...)
 }
@@ -23,7 +23,7 @@
 No return value, just creates a plot
 }
 \description{
-Plot a gmjmcmc_merged run
+Plot a gmjmcmc_merged Run
 }
 \examples{
 result <- gmjmcmc.parallel(

@@ -2,7 +2,7 @@
 % Please edit documentation in R/results.R
 \name{model.string}
 \alias{model.string}
-\title{Function to generate a function string for a model consisting of features}
+\title{Function to Generate a Function String for a Model Consisting of Features}
 \usage{
 model.string(model, features, link = "I", round = 2)
 }
@@ -19,7 +19,7 @@ model.string(model, features, link = "I", round = 2)
 A character representation of a model
 }
 \description{
-Function to generate a function string for a model consisting of features
+Function to Generate a Function String for a Model Consisting of Features
 }
 \examples{
 result <- gmjmcmc(y = matrix(rnorm(100), 100),

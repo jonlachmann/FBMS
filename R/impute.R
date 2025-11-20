@@ -1,5 +1,5 @@
 
-#' Impute Missing Values the Data
+#' Impute Missing Values in the Data
 #'
 #' Imputes missing values in the data using median imputation based on the data  set.
 #'

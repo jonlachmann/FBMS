@@ -9,7 +9,7 @@ gen.alphas <- function (strategy, feature, data, loglik, verbose) {
   return(feature)
 }
 
-#' Alpha generator using strategy 1 as per Hubin et. al.
+#' Alpha Generator Using Strategy 1 as per Hubin et. al.
 #' TODO: This is just a placeholder.
 #'
 #' @noRd
@@ -19,7 +19,7 @@ alpha_1 <- function (feature) {
   return(feature)
 }
 
-#' Alpha generator using strategy 2 as per Hubin et. al.
+#' Alpha Generator Using Strategy 2 as per Hubin et. al.
 #' TODO: This is just a placeholder.
 #'
 #' @noRd
@@ -29,7 +29,7 @@ alpha_2 <- function (feature) {
   return(feature)
 }
 
-#' Alpha generator using strategy 3 as per Hubin et. al.
+#' Alpha Generator Using Strategy 3 as per Hubin et. al.
 #'
 #' @param feature The feature to generate alphas for
 #' @param data The dataset used
@@ -65,7 +65,7 @@ alpha_3 <- function (feature, data, loglik, verbose) {
   return(feature)
 }
 
-#' Alpha generator using strategy 4 as per Hubin et. al.
+#' Alpha Generator Using Strategy 4 as per Hubin et. al.
 #'
 #' @param feature The feature to generate alphas for
 #'

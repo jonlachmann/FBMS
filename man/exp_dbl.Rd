@@ -2,7 +2,7 @@
 % Please edit documentation in R/nonlinear_functions.R
 \name{exp_dbl}
 \alias{exp_dbl}
-\title{Double exponential function}
+\title{Double Exponential Function}
 \usage{
 exp_dbl(x)
 }
@@ -13,7 +13,7 @@ exp_dbl(x)
 e^(-abs(x))
 }
 \description{
-Double exponential function
+Double Exponential Function
 }
 \examples{
 exp_dbl(2)

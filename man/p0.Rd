@@ -2,7 +2,7 @@
 % Please edit documentation in R/nonlinear_functions.R
 \name{p0}
 \alias{p0}
-\title{p0 polynomial term}
+\title{p0 Polynomial Term}
 \usage{
 p0(x)
 }
@@ -13,7 +13,7 @@ p0(x)
 log(abs(x) + .Machine$double.eps)
 }
 \description{
-p0 polynomial term
+p0 Polynomial Term
 }
 \examples{
 p0(2)

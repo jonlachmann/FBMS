@@ -2,7 +2,7 @@
 % Please edit documentation in R/results.R
 \name{merge_results}
 \alias{merge_results}
-\title{Merge a list of multiple results from many runs}
+\title{Merge a List of Multiple Results from Many Runs}
 \usage{
 merge_results(
   results,

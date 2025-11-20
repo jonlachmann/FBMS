@@ -3,7 +3,7 @@
 \docType{data}
 \name{exoplanet}
 \alias{exoplanet}
-\title{Excerpt from the Open Exoplanet Catalogue data set}
+\title{Excerpt from the Open Exoplanet Catalogue Data Set}
 \format{
 A data frame with 223 rows and 11 variables
 }

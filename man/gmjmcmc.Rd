@@ -2,7 +2,7 @@
 % Please edit documentation in R/gmjmcmc.R
 \name{gmjmcmc}
 \alias{gmjmcmc}
-\title{Main algorithm for GMJMCMC (Genetically Modified MJMCMC)}
+\title{Main Algorithm for GMJMCMC (Genetically Modified MJMCMC)}
 \usage{
 gmjmcmc(
   x,
@@ -75,7 +75,7 @@ A list containing the following elements:
 \item{best}{Best marginal model probability throughout the run, represented as the maximum value in \code{unlist(best.margs)}.}
 }
 \description{
-Main algorithm for GMJMCMC (Genetically Modified MJMCMC)
+Main Algorithm for GMJMCMC (Genetically Modified MJMCMC)
 }
 \examples{
 result <- gmjmcmc(y = matrix(rnorm(100), 100),

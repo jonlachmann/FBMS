@@ -2,7 +2,7 @@
 % Please edit documentation in R/parallel.R
 \name{gmjmcmc.parallel}
 \alias{gmjmcmc.parallel}
-\title{Run multiple gmjmcmc (Genetically Modified MJMCMC) runs in parallel.}
+\title{Run Multiple GMJMCMC (Genetically Modified MJMCMC) Runs in Parallel.}
 \usage{
 gmjmcmc.parallel(
   x,
@@ -45,7 +45,7 @@ gmjmcmc.parallel(
 Results from multiple gmjmcmc runs
 }
 \description{
-Run multiple gmjmcmc (Genetically Modified MJMCMC) runs in parallel.
+Run Multiple GMJMCMC (Genetically Modified MJMCMC) Runs in Parallel.
 }
 \examples{
 result <- gmjmcmc.parallel(

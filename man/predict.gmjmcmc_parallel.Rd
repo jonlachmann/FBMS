@@ -2,7 +2,7 @@
 % Please edit documentation in R/predict.R
 \name{predict.gmjmcmc_parallel}
 \alias{predict.gmjmcmc_parallel}
-\title{Predict using a gmjmcmc result object from a parallel run.}
+\title{Predict Using a GMJMCMC Result Object from a Parallel Run}
 \usage{
 \method{predict}{gmjmcmc_parallel}(
   object,
@@ -32,7 +32,7 @@ A list containing aggregated predictions and per model predictions.
 \item{preds}{A list of lists containing individual predictions per model per population in object.}
 }
 \description{
-Predict using a gmjmcmc result object from a parallel run.
+Predict Using a GMJMCMC Result Object from a Parallel Run
 }
 \examples{
 result <- gmjmcmc.parallel(

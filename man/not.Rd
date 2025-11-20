@@ -2,7 +2,7 @@
 % Please edit documentation in R/nonlinear_functions.R
 \name{not}
 \alias{not}
-\title{not x}
+\title{Not x}
 \usage{
 not(x)
 }
@@ -13,7 +13,7 @@ not(x)
 1-x
 }
 \description{
-not x
+Not x
 }
 \examples{
 not(TRUE)

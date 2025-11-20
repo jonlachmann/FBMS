@@ -2,7 +2,7 @@
 % Please edit documentation in R/likelihoods.R
 \name{log_prior}
 \alias{log_prior}
-\title{Log model prior function}
+\title{Log Model Prior Function}
 \usage{
 log_prior(mlpost_params, complex)
 }
@@ -15,7 +15,7 @@ log_prior(mlpost_params, complex)
 A numeric with the log model prior.
 }
 \description{
-Log model prior function
+Log Model Prior Function
 }
 \examples{
 log_prior(mlpost_params = list(r=2), complex = list(oc = 2))

@@ -3,7 +3,7 @@
 \docType{data}
 \name{abalone}
 \alias{abalone}
-\title{Physical measurements of 4177 abalones, a species of sea snail.}
+\title{Physical Measurements of 4177 Abalones, a Species of Sea Snail.}
 \format{
 A data frame with 4177 observations on the following 9 variables.
 \describe{

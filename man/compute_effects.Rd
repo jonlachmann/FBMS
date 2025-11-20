@@ -2,7 +2,7 @@
 % Please edit documentation in R/results.R
 \name{compute_effects}
 \alias{compute_effects}
-\title{Compute effects for specified in labels covariates using a fitted model.}
+\title{Compute Effects for Specified Covariates Using a Fitted Model}
 \usage{
 compute_effects(object, labels, quantiles = c(0.025, 0.5, 0.975))
 }

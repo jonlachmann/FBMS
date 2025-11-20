@@ -2,7 +2,7 @@
 % Please edit documentation in R/summary.R
 \name{summary.gmjmcmc}
 \alias{summary.gmjmcmc}
-\title{Function to print a quick summary of the results}
+\title{Function to Print a Quick Summary of the Results}
 \usage{
 \method{summary}{gmjmcmc}(
   object,
@@ -38,7 +38,7 @@ A data frame containing the following columns:
 \item{marg.probs}{Marginal probabilities corresponding to the ordered feature strings.}
 }
 \description{
-Function to print a quick summary of the results
+Function to Print a Quick Summary of the Results
 }
 \examples{
 result <- gmjmcmc(y = matrix(rnorm(100), 100),

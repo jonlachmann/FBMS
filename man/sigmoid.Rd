@@ -2,7 +2,7 @@
 % Please edit documentation in R/nonlinear_functions.R
 \name{sigmoid}
 \alias{sigmoid}
-\title{Sigmoid function}
+\title{Sigmoid Function}
 \usage{
 sigmoid(x)
 }
@@ -13,7 +13,7 @@ sigmoid(x)
 The sigmoid of x
 }
 \description{
-Sigmoid function
+Sigmoid Function
 }
 \examples{
 sigmoid(2)
