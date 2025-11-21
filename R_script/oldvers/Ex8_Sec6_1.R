@@ -99,13 +99,13 @@ summary(result_parallel)
 #
 
 # Model averaging
-pred_parallel = predict(result_parallel, x =  df[,-1], link = function(x)(1/(1+exp(-x))))  
+pred_parallel <- predict(result_parallel, x =  df[,-1], link = function(x)(1/(1+exp(-x))))  
 mean(round(pred_parallel$aggr$mean)==df$y)
 
 # Best Model
-#bm_parallel <- get.best.model(result_parallel)
-#pred_bm_parallel <-  predict(bm_parallel, df[,-1],link = function(x)(1/(1+exp(-x))))
-#mean(round(pred_bm_parallel)==df$y)
+bm_parallel <- get.best.model(result_parallel)
+pred_bm_parallel <-  predict(bm_parallel, df[,-1],link = function(x)(1/(1+exp(-x))))
+mean(round(pred_bm_parallel)==df$y)
 
 # Median Probability Model
 mpm_parallel <-  predict(get.mpm.model(result = result_parallel,family = "binomial",y = df$y,x=df[,-1]), df[,-1],link = function(x)(1/(1+exp(-x))))

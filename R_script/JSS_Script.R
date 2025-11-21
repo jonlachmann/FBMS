@@ -4,7 +4,7 @@
 #
 # Kepler Example with the most recent database update
 #
-# Basic introduction of the FBMS package
+# Basic introduction of the FBMS packagea
 #
 ##################################################
 
@@ -82,7 +82,7 @@ result.P50 <- fbms(data = df.train, method = "gmjmcmc", transforms = transforms,
 
 set.seed(123)
 
-result_parallel <- fbms(data = df.train, method = "gmjmcmc.parallel", transforms = transforms,
+result.parallel <- fbms(data = df.train, method = "gmjmcmc.parallel", transforms = transforms,
                           runs = 40, cores = parallel::detectCores()-1, P = 25)
 
 
@@ -105,10 +105,10 @@ summary(result.P50, pop = "last", labels = paste0("x",1:length(df.train[,-1])))
 summary(result.P50, pop = "last", tol = 0.01, labels = paste0("x",1:length(df.train[,-1])))
 summary(result.P50, pop = "all")
 
-summary(result_parallel)
+summary(result.parallel)
 library(tictoc)
 tic()
-summary(result_parallel, tol = 0.01, pop = "all",data = df.train)
+summary(result.parallel, tol = 0.01, pop = "all",data = df.train)
 toc()
 
 
@@ -133,11 +133,11 @@ plot(result.P50)
 
 
 
-pdf("result_parallel.pdf") 
-plot(result_parallel)
+pdf("result.parallel.pdf") 
+plot(result.parallel)
 dev.off()
 
-plot(result_parallel)
+plot(result.parallel)
 
 
 ####################################################
@@ -185,7 +185,7 @@ plot(predmean(preds.P50), df.test$semimajoraxis)
 ###############################
 
 
-preds.multi <- predict(result_parallel , df.test[,-1], link = function(x) x)
+preds.multi <- predict(result.parallel , df.test[,-1], link = function(x) x)
 rmse.parallel <- sqrt(mean((predmean(preds.multi) - df.test$semimajoraxis)^2))
 
 pdf("pred_parallel.pdf") 
@@ -211,8 +211,8 @@ sqrt(mean((preds.mpm - df.test$semimajoraxis)^2))
 
 
 
-get.best.model(result = result_parallel)
-preds.best_parallel <- predict(get.best.model(result_parallel), df.test[, -1])
+get.best.model(result = result.parallel)
+preds.best_parallel <- predict(get.best.model(result.parallel), df.test[, -1])
 sqrt(mean((preds.best_parallel - df.test$semimajoraxis)^2))
 
 
@@ -222,7 +222,7 @@ sqrt(mean((preds.best_parallel - df.test$semimajoraxis)^2))
 
 coef(result.default)
 coef(result.P50)
-coef(result_parallel)
+coef(result.parallel)
 
 
 ####################################################
@@ -245,10 +245,10 @@ diagn_plot(result.P50, ylim = c(600,1500), FUN = max)
 
 
 pdf("diagn_par.pdf") 
-diagn_plot(result_parallel, ylim = c(600,1500),FUN = max)
+diagn_plot(result.parallel, ylim = c(600,1500),FUN = max)
 dev.off()
 
-diagn_plot(result_parallel, ylim = c(600,1500),FUN = max)
+diagn_plot(result.parallel, ylim = c(600,1500),FUN = max)
 
 
 
@@ -287,7 +287,7 @@ df <- as.data.frame(sapply(Zambia[1:5],scale))
 
 transforms <- c("p0","p2","p3","p05","pm05","pm1","pm2","p0p0","p0p05","p0p1","p0p2","p0p3","p0p05","p0pm05","p0pm1","p0pm2")
 probs <- gen.probs.gmjmcmc(transforms)
-probs$gen <- c(1,1,0,1) # Modifications and interactions!
+probs$gen <- c(1/3,1/3,0,1/3) # Modifications and interactions!
 
 params <- gen.params.gmjmcmc(ncol(df) - 1)
 params$feat$D <- 1   # Set depth of features to 1 (still allows for interactions)
@@ -468,7 +468,7 @@ plot(result2a)
 
 # Analysis with fractional polynomials
 probs <- gen.probs.gmjmcmc(transforms)
-probs$gen <- c(1,1,0,1) # Modifications and interactions!
+probs$gen <- c(1/3,1/3,0,1/3) # Modifications and interactions!
 
 params <- gen.params.gmjmcmc(ncol(df) - 1)
 params$feat$D <- 1   # Set depth of features to 1 (still allows for interactions)
@@ -488,7 +488,7 @@ summary(result2b,tol = 0.05,labels=names(df)[-1])
 # Analysis with non-linear projections
 transforms <- c("sigmoid")
 probs <- gen.probs.gmjmcmc(transforms)
-probs$gen <- c(0,0,1,1) 
+probs$gen <- c(0,0,0.5,0.5) 
 
 params <- gen.params.gmjmcmc(ncol(df) - 1)
 params$feat$pop.max = 10
