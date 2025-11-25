@@ -4,7 +4,7 @@
 #
 # Kepler Example with the most recent database update
 #
-# Basic introduction of the FBMS packagea
+# Basic introduction of the FBMS package
 #
 ##################################################
 
