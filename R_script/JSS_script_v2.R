@@ -419,7 +419,7 @@ result1a <- fbms(
 )
 time.lme4 <- toc()
 
-
+time.inla <- -1
 if (requireNamespace("INLA", quietly = TRUE)) {
   library(INLA)
   library(cAIC4)
@@ -441,7 +441,7 @@ if (requireNamespace("INLA", quietly = TRUE)) {
   time.inla <- toc()
 }
 
-
+time.rtmb <- -1
 if (requireNamespace("RTMB", quietly = TRUE)) {
   library(RTMB)
   
@@ -465,6 +465,8 @@ if (requireNamespace("RTMB", quietly = TRUE)) {
   time.rtmb <- toc()
 }
 
+cat(c(time.lme4$callback_msg, time.inla$callback_msg, time.rtmb$callback_msg)
+)
 
 ###############################################################
 # 2.3 Serious analysis with lme4 (Section 4). Runs within time
@@ -475,7 +477,7 @@ if (requireNamespace("RTMB", quietly = TRUE)) {
 
 # Specify if to run long chains under mixed effect models.
 # Default is false as these chains an run longer than 20 minutes 
-# depending on the eequipment used. 
+# depending on the machines used. 
 run.long.mixed = TRUE
 
 if(run.long.mixed)
