@@ -9,11 +9,10 @@
 ##################################################
 
 
-#install.packages("FBMS")
-#install.packages("devtools")
 
+#install.packages("devtools")
 library(devtools)
-install_github("jonlachmann/FBMS", force=T, build_vignettes=F)
+install_github("jonlachmann/FBMS@jss_v2", force=T, build_vignettes=F)
 
 library(FBMS)
 
