@@ -227,9 +227,19 @@ library(FBMS)
 ###############################################################
 # 2.0 Load Zambia data (requires cAIC4)
 ###############################################################
+if (!requireNamespace("lme4", quietly = TRUE)) {
+  stop("Optional package 'lme4' is required for Example 2. Please install it.")
+}
+if (!requireNamespace("tictoc", quietly = TRUE)) {
+  stop("Optional package 'tictoc' is required for Example 2. Please install it.")
+}
 if (!requireNamespace("cAIC4", quietly = TRUE)) {
   stop("Optional package 'cAIC4' is required for Example 2. Please install it.")
 }
+
+library(tictoc)
+library(lme4)
+
 
 data(Zambia, package = "cAIC4")
 df <- as.data.frame(sapply(Zambia[1:5],scale))
@@ -254,8 +264,6 @@ params$feat$pop.max = 10
 ###############################################################
 
 # lme4 version
-
-library(lme4)
 mixed.model.loglik.lme4 <- function (y, x, model, complex, mlpost_params) 
 {
   
@@ -284,23 +292,16 @@ mixed.model.loglik.lme4 <- function (y, x, model, complex, mlpost_params)
 # 2.2 Small demonstration run for runtime comparisons
 ###############################################################
 
-set.seed(3052024)
 
-library(tictoc)
+set.seed(03052024)
 
 tic()
-result1a <- fbms(
-  formula = z ~ 1+., data = df,
-  transforms = transforms,
-  method = "gmjmcmc", P = 3, N = 30,
-  probs = gen.probs.gmjmcmc(transforms),
-  params = gen.params.gmjmcmc(ncol(df) - 1),
-  family = "custom",
-  loglik.pi = mixed.model.loglik.lme4,
-  model_prior = list(r = 1/nrow(df)),
-  extra_params = list(dr = droplevels(Zambia$dr))
-)
-time.lme4 <- toc()
+result1a <- fbms(formula = z ~ 1+., data = df, transforms = transforms,
+                 method = "gmjmcmc",probs = probs, params = params, P=3, N = 30,
+                 family = "custom", loglik.pi = mixed.model.loglik.lme4,
+                 model_prior = list(r = 1/dim(df)[1]), 
+                 extra_params = list(dr = droplevels(Zambia$dr)))
+time.lme4 = toc()
 
 
 cat(c(time.lme4$callback_msg))
