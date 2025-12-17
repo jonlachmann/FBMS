@@ -18,7 +18,7 @@
 \arguments{
 \item{object}{The results to use}
 
-\item{pop}{The population to print for, defaults to last}
+\item{pop}{The population to print for, defaults to "best", other options are "last" and "all"}
 
 \item{tol}{The tolerance to use as a threshold when reporting the results.}
 

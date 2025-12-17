@@ -1,7 +1,7 @@
 #' Function to Print a Quick Summary of the Results
 #'
 #' @param object The results to use
-#' @param pop The population to print for, defaults to last
+#' @param pop The population to print for, defaults to "best", other options are "last" and "all"
 #' @param tol The tolerance to use as a threshold when reporting the results.
 #' @param labels Should the covariates be named, or just referred to as their place in the data.frame.
 #' @param effects Quantiles for posterior modes of the effects across models to be reported, if either effects are NULL or if labels are NULL, no effects are reported.
