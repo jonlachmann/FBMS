@@ -179,7 +179,7 @@ plot(predmean(preds), df.test$semimajoraxis)
 
 ###############################
 
-preds.P50 = predict(result.P50, df.test[,-1])  
+preds.P50 <- predict(result.P50, df.test[,-1])  
 rmse.P50 <-  sqrt(mean((predmean(preds.P50) - df.test$semimajoraxis)^2))
 plot(predmean(preds.P50), df.test$semimajoraxis)
 
@@ -255,7 +255,7 @@ probs$gen <- c(1/3,1/3,0,1/3) # Modifications and interactions!
 
 params <- gen.params.gmjmcmc(ncol(df) - 1)
 params$feat$D <- 1   # Set depth of features to 1 (still allows for interactions)
-params$feat$pop.max = 10
+params$feat$pop.max <- 10
 
 
 
@@ -301,7 +301,7 @@ result1a <- fbms(formula = z ~ 1+., data = df, transforms = transforms,
                  family = "custom", loglik.pi = mixed.model.loglik.lme4,
                  model_prior = list(r = 1/dim(df)[1]), 
                  extra_params = list(dr = droplevels(Zambia$dr)))
-time.lme4 = toc()
+time.lme4 <- toc()
 
 
 cat(c(time.lme4$callback_msg))
@@ -316,7 +316,7 @@ cat(c(time.lme4$callback_msg))
 # Specify if to run long chains under mixed effect models.
 # Default is false as these chains an run longer than 20 minutes 
 # depending on the machines used. 
-run.long.mixed = TRUE
+run.long.mixed <- TRUE
 
 if(run.long.mixed)
 {
