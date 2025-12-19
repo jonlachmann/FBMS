@@ -1,5 +1,5 @@
 ###############################################################
-# FBMS Reproducibility Script (JSS Submission)
+# FBMS Reproducibility Script (SoftwareX Submission)
 # -------------------------------------------------------------
 # This script reproduces examples in:
 #
