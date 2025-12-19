@@ -8,10 +8,10 @@
 # It installs the correct package versions and runs the two
 # main examples used in the article.
 #
-# The script uses minimal, readable checks suitable for JSS:
+# The script uses minimal, readable checks suitable for SoftwareX:
 #  - Mandatory packages are installed if missing
 #  - Optional packages are installed if possible; otherwise skipped
-#  - FBMS is always installed from a dedicated GitHub branch "jss_v2"
+#  - FBMS is always installed from a dedicated GitHub branch "softwareX"
 ###############################################################
 
 
@@ -308,7 +308,7 @@ cat(c(time.lme4$callback_msg))
 
 ###############################################################
 # 2.3 Serious analysis with lme4 (Section 4). Runs within time
-# constraints of JSS on Apple M1 Max 32 GB, but can be slower
+# constraints of softwareX on Apple M1 Max 32 GB, but can be slower
 # on older machines. Please, set run.long.mixed = FALSE, if the
 # example exceeds reasonable time.
 ###############################################################
