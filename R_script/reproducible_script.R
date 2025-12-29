@@ -1,5 +1,5 @@
 ###############################################################
-# FBMS Reproducibility Script (SoftwareX Submission)
+# FBMS Reproducibility Script (JCS Submission)
 # -------------------------------------------------------------
 # This script reproduces examples in:
 #
@@ -8,10 +8,10 @@
 # It installs the correct package versions and runs the two
 # main examples used in the article.
 #
-# The script uses minimal, readable checks suitable for SoftwareX:
+# The script uses minimal, readable checks suitable for JCS:
 #  - Mandatory packages are installed if missing
 #  - Optional packages are installed if possible; otherwise skipped
-#  - FBMS is always installed from a dedicated GitHub branch "softwareX"
+#  - FBMS is always installed from a dedicated GitHub branch "JCS"
 ###############################################################
 
 
@@ -47,8 +47,8 @@ library(devtools)
 # 2. Install FBMS (always from GitHub to enforce correct version)
 ###############################################################
 
-message("Installing FBMS from GitHub (branch softwareX)...")
-install_github("jonlachmann/FBMS@jsoftwareX",
+message("Installing FBMS from GitHub (branch JCS)...")
+install_github("jonlachmann/FBMS@jJCS",
                force = TRUE, build_vignettes = FALSE)
 
 library(FBMS)
@@ -308,7 +308,7 @@ cat(c(time.lme4$callback_msg))
 
 ###############################################################
 # 2.3 Serious analysis with lme4 (Section 4). Runs within time
-# constraints of softwareX on Apple M1 Max 32 GB, but can be slower
+# constraints of JCS on Apple M1 Max 32 GB, but can be slower
 # on older machines. Please, set run.long.mixed = FALSE, if the
 # example exceeds reasonable time.
 ###############################################################
