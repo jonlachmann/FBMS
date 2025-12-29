@@ -1,7 +1,7 @@
 
 ####################################################################
 # Install INLA and RTMB packages (consult with IT if installation fails, 
-# which may occasionally happen for INLA as it is not on CRAN).
+# which may occasionally happen for INLA as it is not on CRAN). JCS branch
 ###################################################################
 
 
