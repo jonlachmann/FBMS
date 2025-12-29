@@ -48,7 +48,7 @@ library(devtools)
 ###############################################################
 
 message("Installing FBMS from GitHub (branch JCS)...")
-install_github("jonlachmann/FBMS@jJCS",
+install_github("jonlachmann/FBMS@JCS",
                force = TRUE, build_vignettes = FALSE)
 
 library(FBMS)
