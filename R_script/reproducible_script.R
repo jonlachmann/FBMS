@@ -36,11 +36,20 @@ install_mandatory <- function(pkg) {
 # 1. Install mandatory packages
 ###############################################################
 
-mandatory_pkgs <- c("devtools", "parallel", "tictoc", "lme4","cAIC4")
+mandatory_pkgs <- c("devtools", "parallel", "tictoc", "lme4", "cAIC4")
 
 for (p in mandatory_pkgs) install_mandatory(p)
 
 library(devtools)
+
+timing_env <- new.env(parent = emptyenv())
+timing_env$example_timings <- list()
+
+time_example <- function(name, expr) {
+  timing <- system.time(result <- eval.parent(substitute(expr)))
+  timing_env$example_timings[[name]] <- as.list(timing)
+  result
+}
 
 
 ###############################################################
@@ -80,12 +89,12 @@ transforms <- c("sigmoid", "sin_deg", "exp_dbl", "p0", "troot", "to3")
 ###############################################################
 set.seed(123)
 
-result.default <- fbms(
+result.default <- time_example("example_1_1_default_single_thread", fbms(
   formula = semimajoraxis ~ 1 + .,
   data = df.train,
   method = "gmjmcmc",
   transforms = transforms
-)
+))
 
 
 ###############################################################
@@ -93,22 +102,22 @@ result.default <- fbms(
 ###############################################################
 
 set.seed(234)
-result.BIC <- fbms(
+result.BIC <- time_example("example_1_2_alternative_priors_bic", fbms(
   formula = semimajoraxis ~ 1 + .,
   data = df.train,
   method = "gmjmcmc",
   transforms = transforms,
   beta_prior = list(type = "Jeffreys-BIC", Var = "unknown")
-)
+))
 
 set.seed(345)
-result.EB <- fbms(
+result.EB <- time_example("example_1_2_alternative_priors_eb", fbms(
   formula = semimajoraxis ~ 1 + .,
   data = df.train,
   method = "gmjmcmc",
   transforms = transforms,
   beta_prior = list(type = "EB-global", a = 1)
-)
+))
 
 
 ###############################################################
@@ -116,12 +125,12 @@ result.EB <- fbms(
 ###############################################################
 set.seed(123)
 
-result.P50 <- fbms(
+result.P50 <- time_example("example_1_3_longer_single_thread", fbms(
   data = df.train,
   method = "gmjmcmc",
   transforms = transforms,
   P = 50, N = 1000, N.final = 5000
-)
+))
 
 
 ###############################################################
@@ -129,14 +138,14 @@ result.P50 <- fbms(
 ###############################################################
 set.seed(123)
 
-result.parallel <- fbms(
+result.parallel <- time_example("example_1_4_parallel_gmjmcmc", fbms(
   data = df.train,
   method = "gmjmcmc.parallel",
   transforms = transforms,
   runs = 40,
   cores = parallel::detectCores() - 1,
   P = 25
-)
+))
 
 
 ###############################################################
@@ -220,7 +229,7 @@ sqrt(mean((predict(mpm.default, df.test[,-1]) -
 ################################################################
 ################################################################
 
-rm(list = ls())
+rm(list = setdiff(ls(), c("timing_env", "time_example")))
 library(FBMS)
 
 
@@ -295,16 +304,17 @@ mixed.model.loglik.lme4 <- function (y, x, model, complex, mlpost_params)
 
 set.seed(03052024)
 
-tic()
-result1a <- fbms(formula = z ~ 1+., data = df, transforms = transforms,
-                 method = "gmjmcmc",probs = probs, params = params, P=3, N = 30,
-                 family = "custom", loglik.pi = mixed.model.loglik.lme4,
-                 model_prior = list(r = 1/dim(df)[1]), 
-                 extra_params = list(dr = droplevels(Zambia$dr)))
-time.lme4 <- toc()
+result1a <- time_example(
+  "example_2_2_small_demonstration_lme4",
+  fbms(formula = z ~ 1+., data = df, transforms = transforms,
+       method = "gmjmcmc",probs = probs, params = params, P=3, N = 30,
+       family = "custom", loglik.pi = mixed.model.loglik.lme4,
+       model_prior = list(r = 1/dim(df)[1]), 
+       extra_params = list(dr = droplevels(Zambia$dr)))
+)
 
-
-cat(c(time.lme4$callback_msg))
+cat(sprintf("Elapsed time: %.3f seconds\n",
+            timing_env$example_timings$example_2_2_small_demonstration_lme4$elapsed))
 
 ###############################################################
 # 2.3 Serious analysis with lme4 (Section 4). Runs within time
@@ -327,7 +337,7 @@ if(run.long.mixed)
   
   
   # No nonlinear features
-  result2a <- fbms(
+  result2a <- time_example("example_2_3_serious_analysis_no_nonlinear_features", fbms(
     formula = z ~ 1+., data = df,
     N = 5000,
     method = "mjmcmc.parallel",
@@ -337,14 +347,14 @@ if(run.long.mixed)
     loglik.pi = mixed.model.loglik.lme4,
     model_prior = list(r = 1/nrow(df)),
     extra_params = list(dr = droplevels(Zambia$dr))
-  )
+  ))
   
   summary(result2a, labels = names(df)[-1])
   plot(result2a)
   
   
   # Fractional polynomials
-  result2b <- fbms(
+  result2b <- time_example("example_2_3_serious_analysis_fractional_polynomials", fbms(
     formula = z ~ 1+., data = df,
     transforms = transforms, probs = probs, params = params,
     P = 25, N = 100,
@@ -355,7 +365,7 @@ if(run.long.mixed)
     loglik.pi = mixed.model.loglik.lme4,
     model_prior = list(r = 1/nrow(df)),
     extra_params = list(dr = droplevels(Zambia$dr))
-  )
+  ))
   
   summary(result2b, tol = 0.05, labels = names(df)[-1])
   
@@ -368,7 +378,7 @@ if(run.long.mixed)
   params.sigmoid <- gen.params.gmjmcmc(ncol(df) - 1)
   params.sigmoid$feat$pop.max <- 10
   
-  result2c <- fbms(
+  result2c <- time_example("example_2_3_serious_analysis_nonlinear_projections", fbms(
     formula = z ~ 1+., data = df,
     transforms = transforms.sigmoid,
     probs = probs.sigmoid,
@@ -381,7 +391,7 @@ if(run.long.mixed)
     loglik.pi = mixed.model.loglik.lme4,
     model_prior = list(r = 1/nrow(df)),
     extra_params = list(dr = droplevels(Zambia$dr))
-  )
+  ))
   
   summary(result2c, tol = 0.05, labels = names(df)[-1])
   
@@ -392,3 +402,4 @@ if(run.long.mixed)
   summary(result2c, labels = names(df)[-1])
 }
 
+print(timing_env$example_timings)
