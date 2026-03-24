@@ -11,6 +11,9 @@ diagn_plot(
   burnin = 0,
   window = 5,
   ylim = NULL,
+  type = "convergence",
+  per_thread = FALSE,
+  pool = FALSE,
   ...
 )
 }
@@ -25,16 +28,28 @@ diagn_plot(
 
 \item{window}{Integer; size of the sliding window for computing standard deviation. Default is 5.}
 
-\item{ylim}{Numeric vector; y-axis limits for the plot. If \code{NULL}, computed from confidence intervals.}
+\item{ylim}{Numeric vector; y-axis limits for the plot. If \code{NULL}, computed from the data being plotted.}
+
+\item{type}{String; type of plot to produce. Options are:
+\itemize{
+\item \code{"convergence"}: (Default) Summary statistic with confidence intervals based on sliding window SD.
+\item \code{"min-mean-max"}: Min, mean, and max log-posteriors per population across threads.
+\item \code{"all-threads"}: Each thread's summary statistic (defined by \code{FUN}) as a separate time series.
+\item \code{"total-mass"}: Total log-posterior (sum of log-posteriors of all unique models) per population.
+}}
+
+\item{per_thread}{Logical; if \code{TRUE} and \code{type = "total-mass"}, plots mass for each thread individually.}
+
+\item{pool}{Logical; if \code{TRUE}, statistics are calculated across all models pooled from all threads for each population.}
 
 \item{...}{Additional graphical parameters passed to \code{plot} and \code{lines} (e.g., \code{col}, \code{lwd}, \code{lty}, \code{main}, \code{xlab}, \code{ylab}).}
 }
 \value{
-Returns \code{invisible(NULL)}. The function is called for its side effect of producing a plot.
+Returns a list of summary statistics used for the plot.
 }
 \description{
 Plots the convergence of summary statistics (e.g., median, mean) of log posteriors or marginal likelihoods
-over populations for a GMJMCMC or GMJMCMC merged result object, with confidence intervals.
+over populations for a GMJMCMC or GMJMCMC merged result object, with support for various plot types.
 }
 \examples{
 data(exoplanet)
