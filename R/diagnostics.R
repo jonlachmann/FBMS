@@ -88,12 +88,16 @@ diagn_plot <- function(res, FUN = median, conf = 0.95, burnin = 0, window = 5, y
           current_crits <- sapply(results_list[[t]]$models[[p]], function(x) x$crit)
           all_crits <- c(all_crits, current_crits)
           
+          
+          
           if (type == "total-mass") {
             idx <- results_list[[t]]$model.probs.idx[[p]]
             all_unique_models <- c(all_unique_models, results_list[[t]]$models[[p]][idx])
             all_unique_crits <- c(all_unique_crits, sapply(results_list[[t]]$models[[p]][idx], function(x) x$crit))
           }
         }
+        if(p == 1 & t==1)
+          maxcrit.1 <- max(all_unique_crits)
       }
       
       if (length(all_crits) > 0) {
@@ -106,8 +110,6 @@ diagn_plot <- function(res, FUN = median, conf = 0.95, burnin = 0, window = 5, y
           model_size <- length(all_unique_models[[1]]$model)
           model_matrix <- matrix(unlist(lapply(all_unique_models, function(x) x$model)), ncol = model_size, byrow = TRUE)
           duplicates <- duplicated(model_matrix)
-          if(p == 1)
-            maxcrit.1 <- max(all_unique_crits)
           pooled_masses[p] <- sum(exp(all_unique_crits[!duplicates] - maxcrit.1))
           
         }
@@ -127,10 +129,11 @@ diagn_plot <- function(res, FUN = median, conf = 0.95, burnin = 0, window = 5, y
               maxcrit.1 <- max(crits)
             stat.matrix[p, t] <- sum(exp(crits-maxcrit.1))
           } else {
-            crits <- sapply(results_list[[t]]$models[[p]], function(x) x$crit)
+            unique_idx <- results_list[[t]]$model.probs.idx[[p]]
+            crits <- sapply(results_list[[t]]$models[[p]][unique_idx], function(x) x$crit)
             if(mass)
             {
-              if(p == 1)
+              if(p == 1 & t == 1)
               {  
                 maxcrit.1 <- max(crits)
                 FUN = function(x){sum(exp(x-maxcrit.1))}
