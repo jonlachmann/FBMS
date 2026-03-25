@@ -14,6 +14,7 @@ diagn_plot(
   type = "convergence",
   per_thread = FALSE,
   pool = FALSE,
+  mass = FALSE,
   ...
 )
 }
@@ -41,6 +42,8 @@ diagn_plot(
 \item{per_thread}{Logical; if \code{TRUE} and \code{type = "total-mass"}, plots mass for each thread individually.}
 
 \item{pool}{Logical; if \code{TRUE}, statistics are calculated across all models pooled from all threads for each population.}
+
+\item{mass}{Logical; if \code{TRUE}, total statistics are calculated for each thread under "min-mean-max" settings.}
 
 \item{...}{Additional graphical parameters passed to \code{plot} and \code{lines} (e.g., \code{col}, \code{lwd}, \code{lty}, \code{main}, \code{xlab}, \code{ylab}).}
 }

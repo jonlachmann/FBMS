@@ -25,6 +25,7 @@
 #' }
 #' @param per_thread Logical; if \code{TRUE} and \code{type = "total-mass"}, plots mass for each thread individually.
 #' @param pool Logical; if \code{TRUE}, statistics are calculated across all models pooled from all threads for each population.
+#' @param mass Logical; if \code{TRUE}, total statistics are calculated for each thread under "min-mean-max" settings.
 #' @param ... Additional graphical parameters passed to \code{plot} and \code{lines} (e.g., \code{col}, \code{lwd}, \code{lty}, \code{main}, \code{xlab}, \code{ylab}).
 #'
 #' @return Returns a list of summary statistics used for the plot.
@@ -35,7 +36,7 @@
 #' diagn_plot(result, FUN = median, conf = 0.95, main = "Convergence Plot")
 #'
 #' @export
-diagn_plot <- function(res, FUN = median, conf = 0.95, burnin = 0, window = 5, ylim = NULL, type = "convergence", per_thread = FALSE, pool = FALSE, ...) {
+diagn_plot <- function(res, FUN = median, conf = 0.95, burnin = 0, window = 5, ylim = NULL, type = "convergence", per_thread = FALSE, pool = FALSE, mass = FALSE, ...) {
   # Input validation
   stopifnot(
     "res must be of class 'gmjmcmc' or 'gmjmcmc_merged'" = inherits(res, c("gmjmcmc", "gmjmcmc_merged")),
@@ -105,7 +106,10 @@ diagn_plot <- function(res, FUN = median, conf = 0.95, burnin = 0, window = 5, y
           model_size <- length(all_unique_models[[1]]$model)
           model_matrix <- matrix(unlist(lapply(all_unique_models, function(x) x$model)), ncol = model_size, byrow = TRUE)
           duplicates <- duplicated(model_matrix)
-          pooled_masses[p] <- sum(all_unique_crits[!duplicates])
+          if(p == 1)
+            maxcrit.1 <- max(all_unique_crits)
+          pooled_masses[p] <- sum(exp(all_unique_crits[!duplicates] - maxcrit.1))
+          
         }
       }
     }
@@ -119,9 +123,20 @@ diagn_plot <- function(res, FUN = median, conf = 0.95, burnin = 0, window = 5, y
           if (type == "total-mass") {
             unique_idx <- results_list[[t]]$model.probs.idx[[p]]
             crits <- sapply(results_list[[t]]$models[[p]][unique_idx], function(x) x$crit)
-            stat.matrix[p, t] <- sum(crits)
+            if(p == 1)
+              maxcrit.1 <- max(crits)
+            stat.matrix[p, t] <- sum(exp(crits-maxcrit.1))
           } else {
             crits <- sapply(results_list[[t]]$models[[p]], function(x) x$crit)
+            if(mass)
+            {
+              if(p == 1)
+              {  
+                maxcrit.1 <- max(crits)
+                FUN = function(x){sum(exp(x-maxcrit.1))}
+              }
+            }
+              
             stat.matrix[p, t] <- FUN(crits)
           }
         }
@@ -132,7 +147,7 @@ diagn_plot <- function(res, FUN = median, conf = 0.95, burnin = 0, window = 5, y
   # Default labels and titles
   main <- if (!is.null(args$main)) args$main else paste("Convergence (", type, if(pool) " pooled" else "", ")", sep = "")
   xlab <- if (!is.null(args$xlab)) args$xlab else "Population"
-  ylab <- if (!is.null(args$ylab)) args$ylab else if (type == "total-mass") "Total Log Posterior (unique)" else "Log Posterior"
+  ylab <- if (!is.null(args$ylab)) args$ylab else if (type == "total-mass" || mass) "Total mass (unique)" else "Log Posterior"
   
   # Helper to remove used plot args to avoid warnings in do.call
   clean_args <- function(a) {
