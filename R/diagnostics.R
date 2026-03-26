@@ -50,6 +50,10 @@ diagn_plot <- function(res, FUN = median, conf = 0.95, burnin = 0, window = 5, y
   args <- list(...)
   args[["..."]] <- NULL # Remove any "..." element to avoid warning
   
+  if(length(res$crit.best) == 0)
+    res$crit.best <- max(unlist(res$best.margs))
+  
+  
   # Extract results list
   if (inherits(res, "gmjmcmc_merged")) {
     results_list <- res$results.raw
