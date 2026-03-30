@@ -11,7 +11,7 @@
 
 \item{count}{The number of features to plot, defaults to all}
 
-\item{pop}{The population to plot, defaults to last}
+\item{pop}{The population to plot, can be "last", "best" or "highest_mass". Defaults to "best".}
 
 \item{tol}{The tolerance to use for the correlation when finding equivalent features, default is 0.0000001}
 
@@ -26,11 +26,12 @@ No return value, just creates a plot
 Function to Plot GMJMCMC Results and Merged Results from merge.results
 }
 \examples{
-result <- gmjmcmc(y = matrix(rnorm(100), 100),
-x = matrix(rnorm(600), 100), 
-P = 2, 
-transforms = c("p0", "exp_dbl"))
+result <- gmjmcmc(
+  y = matrix(rnorm(100), 100),
+  x = matrix(rnorm(600), 100),
+  P = 2,
+  transforms = c("p0", "exp_dbl")
+)
 plot(result)
-
 
 }

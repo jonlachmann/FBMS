@@ -22,10 +22,12 @@ A matrix of character representations of a list of models.
 Function to Get a Character Representation of a List of Models
 }
 \examples{
-result <- gmjmcmc(y = matrix(rnorm(100), 100),
-x = matrix(rnorm(600), 100), 
-P = 2, 
-transforms = c("p0", "exp_dbl"))
+result <- gmjmcmc(
+  y = matrix(rnorm(100), 100),
+  x = matrix(rnorm(600), 100),
+  P = 2,
+  transforms = c("p0", "exp_dbl")
+)
 string.population.models(result$populations[[2]], result$models[[2]])
 
 }

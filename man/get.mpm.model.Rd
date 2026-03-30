@@ -61,7 +61,7 @@ x <- data.frame(
 y <- 1 + 0.5 * x$PlanetaryMassJpt - 0.3 * x$RadiusJpt + rnorm(100)
 
 # Assume 'result' is a fitted object from gmjmcmc or mjmcmc
-result <- mjmcmc(cbind(y,x))  
+result <- mjmcmc(cbind(y, x))
 
 # Get the MPM
 mpm_model <- get.mpm.model(result, y, x, family = "gaussian")

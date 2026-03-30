@@ -9,7 +9,7 @@
   x,
   link = function(x) x,
   quantiles = c(0.025, 0.5, 0.975),
-  pop = NULL,
+  pop = "best",
   tol = 1e-07,
   x_train = NULL,
   ...
@@ -24,7 +24,7 @@
 
 \item{quantiles}{The quantiles to calculate credible intervals for the posterior modes (in model space).}
 
-\item{pop}{The population to plot, defaults to last}
+\item{pop}{The population to use, can be "last", "best" or "highest_mass". Defaults to "best".}
 
 \item{tol}{The tolerance to use for the correlation when finding equivalent features, default is 0.0000001}
 

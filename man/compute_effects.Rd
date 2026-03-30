@@ -24,12 +24,14 @@ Users can provide custom labels and specify quantiles for the computation of eff
 \examples{
 
 data <- data.frame(matrix(rnorm(600), 100))
-result <- mjmcmc.parallel(runs = 2, 
-cores = 1, 
-y = matrix(rnorm(100), 100),
-x = data, 
-loglik.pi = gaussian.loglik)
-compute_effects(result,labels = names(data))
+result <- mjmcmc.parallel(
+  runs = 2,
+  cores = 1,
+  y = matrix(rnorm(100), 100),
+  x = data,
+  loglik.pi = gaussian.loglik
+)
+compute_effects(result, labels = names(data))
 
 }
 \seealso{

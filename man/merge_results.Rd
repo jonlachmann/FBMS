@@ -15,7 +15,7 @@ merge_results(
 \arguments{
 \item{results}{A list containing multiple results from GMJMCMC (Genetically Modified MJMCMC).}
 
-\item{populations}{Which populations should be merged from the results, can be "all", "last" (default) or "best".}
+\item{populations}{Which populations should be merged from the results, can be "all", "last" , "best" (default) or "highest_mass".}
 
 \item{complex.measure}{The complex measure to use when finding the simplest equivalent feature,
 1=total width, 2=operation count and 3=depth.}
@@ -44,9 +44,11 @@ This function will weight the features based on the best marginal posterior in t
 and merge the results together, simplifying by merging equivalent features (having high correlation).
 }
 \examples{
-result <-  fbms(semimajoraxis ~ ., data = exoplanet,
- method = "gmjmcmc.parallel", transforms = c("sigmoid"), 
- runs = 2, cores = 1)
+result <- fbms(semimajoraxis ~ .,
+  data = exoplanet,
+  method = "gmjmcmc.parallel", transforms = c("sigmoid"),
+  runs = 2, cores = 1
+)
 
 summary(result)
 
