@@ -1,7 +1,7 @@
 #' Function to Print a Quick Summary of the Results
 #'
 #' @param object The results to use
-#' @param pop The population to print for, defaults to "best", other options are "last" and "all"
+#' @param pop The population to print for, can be "last", "best" (default), "all" or "highest_mass".
 #' @param tol The tolerance to use as a threshold when reporting the results.
 #' @param labels Should the covariates be named, or just referred to as their place in the data.frame.
 #' @param effects Quantiles for posterior modes of the effects across models to be reported, if either effects are NULL or if labels are NULL, no effects are reported.
@@ -55,6 +55,14 @@ summary.gmjmcmc <- function (object, pop = "best", tol = 0.0001, labels = FALSE,
 
   if (pop == "last") pop <- length(object$models)
   else if (pop == "best") pop <- which.max(unlist(object$best.margs))
+  else if (pop == "highest_mass") {
+    masses <- sapply(seq_along(object$populations), function(p) {
+      unique_idx <- object$model.probs.idx[[p]]
+      crits <- sapply(object$models[[p]][unique_idx], function(m) m$crit)
+      sum(exp(crits - object$best))
+    })
+    pop <- which.max(masses)
+  }
   feats.strings <- sapply(object$populations[[pop]], FUN = function(x) print.feature(x = x, labels = labels, round = 2))
 
   if (!is.null(effects) & !is.null(labels)) {
@@ -84,7 +92,7 @@ summary.gmjmcmc <- function (object, pop = "best", tol = 0.0001, labels = FALSE,
 #' @param tol The tolerance to use as a threshold when reporting the results.
 #' @param labels Should the covariates be named, or just referred to as their place in the data.frame.
 #' @param effects Quantiles for posterior modes of the effects across models to be reported, if either effects are NULL or if labels are NULL, no effects are reported.
-#' @param pop If null same as in merge.options for running parallel gmjmcmc otherwise results will be re-merged according to pop that can be "all", "last", "best"
+#' @param pop If null same as in merge.options for running parallel gmjmcmc otherwise results will be re-merged according to pop that can be "all", "last", "best" or "highest_mass"
 #' @param data Data to merge on, important if pre-filtering was used
 #' @param verbose If the summary should be printed to the console or just returned, defaults to TRUE
 #' @param ... Not used.

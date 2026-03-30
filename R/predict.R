@@ -86,7 +86,7 @@ predict.bgnlm_model <- function(object, x, link = function(x) {x}, x_train = NUL
 #' 
 #' 
 #' @export
-predict.gmjmcmc <- function (object, x, link = function(x) x, quantiles = c(0.025, 0.5, 0.975),  pop = NULL,tol =  0.0000001, x_train = NULL, ...) {
+predict.gmjmcmc <- function (object, x, link = function(x) x, quantiles = c(0.025, 0.5, 0.975),  pop = "best",tol =  0.0000001, x_train = NULL, ...) {
   transforms.bak <- set.transforms(object$transforms)
   if(is.null(x_train))
     x <- impute_x(object, x)
@@ -124,7 +124,7 @@ predict.gmjmcmc.2 <- function (object, x, link = function(x) x, quantiles = c(0.
 #' @param x The new data to use for the prediction, a matrix where each row is an observation.
 #' @param link The link function to use
 #' @param quantiles The quantiles to calculate credible intervals for the posterior modes (in model space).
-#' @param pop The population to plot, defaults to last
+#' @param pop The population to use, can be "last", "best" or "highest_mass". Defaults to "best".
 #' @param tol The tolerance to use for the correlation when finding equivalent features, default is 0.0000001
 #' @param x_train Training design matrix to be provided when imputations are to be made from them
 #' 
