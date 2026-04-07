@@ -22,6 +22,7 @@
 #'
 #' @export
 summary.gmjmcmc <- function (object, pop = "best", tol = 0.0001, labels = FALSE, effects = NULL, data = NULL, verbose = TRUE, ...) {
+  pop_method <- pop
   transforms.bak <- set.transforms(object$transforms)
   if (length(labels) == 1 && labels[1] == FALSE && length(object$labels) > 0) {
     labels = object$labels
@@ -49,7 +50,8 @@ summary.gmjmcmc <- function (object, pop = "best", tol = 0.0001, labels = FALSE,
       rep.pop = merged$rep.pop,
       rep.thread = merged$rep.thread,
       tol = tol,
-      verbose = verbose
+      verbose = verbose,
+      pop_method = pop_method
     ))
   }
 
@@ -70,7 +72,8 @@ summary.gmjmcmc <- function (object, pop = "best", tol = 0.0001, labels = FALSE,
     reported = object$best.margs[[pop]],
     rep.pop = pop,
     tol = tol,
-    verbose = verbose
+    verbose = verbose,
+    pop_method = pop_method
   )
   set.transforms(transforms.bak)
   return(obj)
@@ -106,6 +109,7 @@ summary.gmjmcmc <- function (object, pop = "best", tol = 0.0001, labels = FALSE,
 #'
 #' @export
 summary.gmjmcmc_merged <- function (object, tol = 0.0001, labels = FALSE, effects = NULL, pop = NULL, data = NULL, verbose = TRUE, ...) {
+  pop_method <- pop
   transforms.bak <- set.transforms(object$transforms)
   if (length(labels) == 1 && labels[1] == FALSE && length(object$results.raw[[1]]$labels) > 0) {
     labels = object$results.raw[[1]]$labels
@@ -132,7 +136,8 @@ summary.gmjmcmc_merged <- function (object, tol = 0.0001, labels = FALSE, effect
     rep.pop = object$rep.pop,
     rep.thread = object$rep.thread,
     tol = tol,
-    verbose = verbose
+    verbose = verbose,
+    pop_method = pop_method
   )
   set.transforms(transforms.bak)
   return(obj)
@@ -207,7 +212,7 @@ summary.mjmcmc_parallel <- function (object, tol = 0.0001, labels = FALSE, effec
   return(summary_internal(best, feats.strings, marg.probs, effects, tol = tol, verbose = verbose))
 }
 
-summary_internal <- function (best, feats.strings, marg.probs, effects = NULL, tol = 0.0001, best.pop = NULL, reported = NULL, rep.pop = NULL, rep.thread = NULL, thread.best = NULL, verbose = TRUE) {
+summary_internal <- function (best, feats.strings, marg.probs, effects = NULL, tol = 0.0001, best.pop = NULL, reported = NULL, rep.pop = NULL, rep.thread = NULL, thread.best = NULL, verbose = TRUE, pop_method = NULL) {
   keep <- which(marg.probs[1, ] > tol)
 
   if (verbose) {
@@ -215,12 +220,18 @@ summary_internal <- function (best, feats.strings, marg.probs, effects = NULL, t
     if (length(best.pop) > 0) {
       if (length(thread.best) > 0) {
         cat("\nBest   population:", best.pop, " thread:", thread.best, " log marginal posterior:", best,"\n")
-        if(best.pop!=rep.pop)
+        if (!is.null(pop_method) && pop_method == "highest_mass") {
+          cat("Summary based on combining best populations within each run\n")
+        } else if(best.pop!=rep.pop) {
           cat("Report population:", rep.pop, " thread:", rep.thread, " log marginal posterior:", reported,"\n")
+        }
       } else {
         cat("\nBest   population:", best.pop, " log marginal posterior:", best,"\n")
-        if(best.pop!=rep.pop)
+        if (!is.null(pop_method) && pop_method == "highest_mass") {
+          cat("Summary based on combining best populations within each run\n")
+        } else if(best.pop!=rep.pop) {
           cat("Report population:", rep.pop, " log marginal posterior:", reported,"\n")
+        }
       }
     } else {
       cat("\nBest log marginal posterior: ", best,"\n")
