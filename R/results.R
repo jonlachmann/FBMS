@@ -68,22 +68,37 @@ merge_results <- function(results, populations = NULL, complex.measure = NULL, t
   } else if (populations == "all") {
     pops.use <- lapply(res.lengths, function(x) 1:x)
   } else if (populations == "best") {
-    pops.use <- lapply(1:res.count, function(x) which.max(unlist(results[[x]]$best.marg)))
+    pops.use <- lapply(seq_len(res.count), function(x) which.max(unlist(results[[x]]$best.marg)))
   } else if (populations == "highest_mass") {
     # Calculate the best result across all threads and populations
     global_best <- max(sapply(results, function(r) r$best))
-    pops.use <- lapply(seq_len(res.count), function(x) {
-      masses <- sapply(seq_along(results[[x]]$populations), function(p) {
+    all_masses <- lapply(seq_len(res.count), function(x) {
+      sapply(seq_along(results[[x]]$populations), function(p) {
         unique_idx <- results[[x]]$model.probs.idx[[p]]
         crits <- sapply(results[[x]]$models[[p]][unique_idx], function(m) m$crit)
         sum(exp(crits - global_best))
       })
-      which.max(masses)
     })
+    pops.use <- lapply(all_masses, which.max)
+
+    # Calculate weights based on masses
+    selected_masses <- sapply(seq_len(res.count), function(x) all_masses[[x]][pops.use[[x]]])
+    weights <- selected_masses / sum(selected_masses)
+
+    # Calculate best stats for the pw object using mass
+    thread_best <- unname(which.max(selected_masses))
+    pop_best <- pops.use[[thread_best]]
+    max_best <- log(selected_masses[thread_best]) + global_best
+    pw_highest_mass <- list(weights = weights, best = max_best, thread.best = thread_best, pop.best = pop_best)
   }
 
-  # Get the population weigths to be able to weight the features
-  pw <- population.weigths(results, pops.use)
+  if (populations == "highest_mass") {
+    pw <- pw_highest_mass
+  } else {
+    # Get the population weigths to be able to weight the features for other options
+    pw <- population.weigths(results, pops.use)
+  }
+  
   pop.weights <- pw$weights
 
   bests <- matrix(data = 0, ncol = length(results), nrow = length(results[[1]]$populations))

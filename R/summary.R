@@ -26,7 +26,7 @@ summary.gmjmcmc <- function (object, pop = "best", tol = 0.0001, labels = FALSE,
   if (length(labels) == 1 && labels[1] == FALSE && length(object$labels) > 0) {
     labels = object$labels
   }
-  if (pop == "all") {
+  if (pop %in% c("all", "highest_mass")) {
     results <- list()
     results[[1]] <- object
     merged <- merge_results(results, pop, 2, 0.0000001, data = data)
@@ -55,14 +55,6 @@ summary.gmjmcmc <- function (object, pop = "best", tol = 0.0001, labels = FALSE,
 
   if (pop == "last") pop <- length(object$models)
   else if (pop == "best") pop <- which.max(unlist(object$best.margs))
-  else if (pop == "highest_mass") {
-    masses <- sapply(seq_along(object$populations), function(p) {
-      unique_idx <- object$model.probs.idx[[p]]
-      crits <- sapply(object$models[[p]][unique_idx], function(m) m$crit)
-      sum(exp(crits - object$best))
-    })
-    pop <- which.max(masses)
-  }
   feats.strings <- sapply(object$populations[[pop]], FUN = function(x) print.feature(x = x, labels = labels, round = 2))
 
   if (!is.null(effects) & !is.null(labels)) {
