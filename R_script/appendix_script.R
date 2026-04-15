@@ -1,15 +1,39 @@
 
+###############################################################
+# 0. Install and load necessary packages
+###############################################################
+
+
+if (!requireNamespace("pak", quietly = TRUE)) install.packages("pak")
+
+# Install/Update FBMS and other standard packages needed
+
+message("Installing FBMS and dependencies...")
+
+packages_to_install <- c(
+  "github::jonlachmann/FBMS@JCS", 
+  "tictoc", 
+  "lme4", 
+  "cAIC4"
+)
+
+pak::pkg_install(packages_to_install, upgrade = TRUE)
+
+
+
+
+# Install RTMB (Standard CRAN package)
+if (!requireNamespace("RTMB", quietly = TRUE)) {
+  message("Attempting to install optional package: RTMB")
+  try(pak::pkg_install("RTMB"), silent = TRUE)
+}
+
+
 ####################################################################
-# Install INLA and RTMB packages (consult with IT if installation fails, 
-# which may occasionally happen for INLA as it is not on CRAN). JCS branch
+# Install INLA packages (consult with IT if installation fails, 
+# which may occasionally happen for INLA as it is not on CRAN). 
 ###################################################################
 
-
-
-if (!requireNamespace("RTMB", quietly = TRUE)) {
-  message("Trying to install optional package RTMB...")
-  try(install.packages("RTMB"), silent = TRUE)
-}
 
 if (!requireNamespace("INLA", quietly = TRUE)) {
   message("Trying to install optional package INLA...")
@@ -28,12 +52,15 @@ if (!requireNamespace("INLA", quietly = TRUE)) {
 }
 
 
+
 ################################################################
 ################################################################
 #
-#  EXAMPLE 2: MIXED MODELS WITH FRACTIONAL POLYNOMIALS
+#  EXAMPLE 3A: LINEAR MIXED MODELS WITH FRACTIONAL POLYNOMIALS
 #
-#  Section 4 of the article
+#  Analysis with INLA and RTMB
+#
+#  Section 4.2.2 of the article
 #
 ################################################################
 ################################################################
@@ -44,7 +71,7 @@ library(FBMS)
 
 
 ###############################################################
-# 2.0 Load Zambia data (requires cAIC4)
+# 3A.0 Load Zambia data (requires cAIC4)
 ###############################################################
 if (!requireNamespace("cAIC4", quietly = TRUE)) {
   stop("Optional package 'cAIC4' is required for Example 2. Please install it.")
@@ -69,7 +96,7 @@ params$feat$pop.max = 10
 
 
 ###############################################################
-# 2.1 Define custom log-likelihoods for INLA, RTMB
+# 3A.1 Define custom log-likelihoods for INLA, RTMB
 ###############################################################
 
 # ---------------------------------------------------------------
@@ -155,10 +182,10 @@ mixed.model.loglik.rtmb <- function (y, x, model, complex, mlpost_params)
 
 
 ###############################################################
-# 2.2 Small demonstration run for runtime comparisons
+# 3A.2 Small demonstration run for runtime comparisons
 ###############################################################
 
-set.seed(3052024)
+set.seed(3052026)
 
 library(tictoc)
 
@@ -210,4 +237,132 @@ if (requireNamespace("RTMB", quietly = TRUE)) {
 }
 
 cat(c(time.inla$callback_msg, time.rtmb$callback_msg))
+
+
+
+################################################################
+################################################################
+#
+#  EXAMPLE 4: MIXED EFFECT POISSON MODEL
+#
+#  Section 4.3 of the article
+#
+################################################################
+################################################################
+
+rm(list = ls())
+
+library(FBMS)
+library(INLA)
+library(tictoc)
+
+###############################################################
+# 4.0 Load Epil data (requires INLA)
+###############################################################
+
+
+data <- INLA::Epil
+data <- data[,-c(5,6)]
+
+df <- data[1:5]
+df$V2 <- rep(c(0,1,0,0),59)
+df$V3 <- rep(c(0,0,1,0),59)
+df$V4 <- rep(c(0,0,0,1),59)
+
+transforms <- c("p0","p2","p3","p05","pm05","pm1","pm2","p0p0","p0p05","p0p1","p0p2","p0p3","p0p05","p0pm05","p0pm1","p0pm2")
+probs <- gen.probs.gmjmcmc(transforms)
+probs$gen <- c(1,1,0,1) # Only modifications!
+
+params <- gen.params.gmjmcmc(ncol(df) - 1)
+params$feat$D <- 2   # Set depth of features to 2 (allow for interactions)
+params$feat$keep.min <- 0.2
+params$greedy$steps <- 2
+params$greedy$tries <- 1
+params$sa$t.min <- 0.1
+params$sa$dt <- 10
+
+
+###############################################################
+# 4.1 Define custom log-likelihoods for INLA 
+###############################################################
+
+poisson.loglik.inla <- function (y, x, model, complex, mlpost_params) 
+{
+  if(sum(model)>1)
+  {
+    data1 <- data.frame(y, as.matrix(x[,model]), mlpost_params$PID)
+    formula1 <- as.formula(paste0(names(data1)[1],"~",paste0(names(data1)[3:(dim(data1)[2]-1)],collapse = "+"),"+ f(mlpost_params.PID,model = \"iid\")"))
+  } else
+  {
+    data1 <- data.frame(y, mlpost_params$PID)
+    formula1 <- as.formula(paste0(names(data1)[1],"~","1 + f(mlpost_params.PID,model = \"iid\")"))
+  }
+  
+  #to make sure inla is not stuck
+  inla.setOption(inla.timeout=30)
+  inla.setOption(num.threads=mlpost_params$INLA.num.threads) 
+  
+  mod<-NULL
+  
+  #error handling for unstable libraries that might crash
+  tryCatch({
+    mod <- inla(family = "poisson",silent = 1L,safe = F,data = data1,formula = formula1)
+  }, error = function(e) {
+    # Handle the error by setting result to NULL
+    mod <- NULL
+    # Print a message or log the error if needed
+    cat("An error occurred:", conditionMessage(e), "\n")
+  })
+  
+  # logarithm of model prior
+  if (length(mlpost_params$r) == 0)  mlpost_params$r <- 1/dim(x)[1]  # default value or parameter r
+  lp <- log_prior(mlpost_params, complex)
+  
+  if(length(mod)<3||length(mod$mlik[1])==0) {
+    return(list(crit = -10000 + lp,coefs = rep(0,dim(data1)[2]-2)))
+  } else {
+    mloglik <- mod$mlik[1]
+    return(list(crit = mloglik + lp, coefs = mod$summary.fixed$mode))
+  }
+}
+
+
+
+###############################################################
+# 4.2 Fast gmjmcmc run with P = 3
+###############################################################
+
+
+set.seed(03052024)
+#specify indices for a random effect
+
+result <- fbms(formula = y ~ 1+., data = df, transforms = transforms,
+               method = "gmjmcmc", probs = probs, params = params, P=3, N = 100,
+               family = "custom", loglik.pi = poisson.loglik.inla,
+               model_prior = list(r = 1/dim(df)[1]), 
+               extra_params = list(PID = data$Ind, INLA.num.threads = 1))
+
+plot(result)
+summary(result)
+
+
+###############################################################
+# 4.3 Full analysis with gmjmcmc.parallel
+###############################################################
+
+
+set.seed(23052024)
+
+tic()
+# Number of threads used by INLA set to 1 to avoid conflicts between two layers of parallelization
+result2 <- fbms(formula = y ~ 1+., data = df, transforms = transforms,
+                probs = probs, params = params, P=25, N = 100,
+                method = "gmjmcmc.parallel", runs = 40, cores = 40,
+                family = "custom", loglik.pi = poisson.loglik.inla,
+                model_prior = list(r = 1/dim(df)[1]), 
+                extra_params = list(PID = data$Ind, INLA.num.threads = 1))
+time.inla <- toc()
+
+plot(result2)
+summary(result2, labels = names(df)[-1], tol = 0.01)
 
