@@ -27,6 +27,8 @@ predict.bgnlm_model <- function(object, x, link = function(x) {x}, x_train = NUL
   else
     x <- impute_x_pred(object, x_test = x, x_train = x_train)
   x <- data.frame(x)
+  # Aliased coefficients (NA, from rank-deficient fits) are treated as excluded
+  object$coefs[is.na(object$coefs)] <- 0
   if (object$needs.precalc) {
     if (object$intercept) {
       x <- cbind(1, x)
@@ -177,7 +179,7 @@ predict.gmjmcmc_merged <- function (object, x, link = function(x) x, quantiles =
       for (k in seq_along(models)) {
         # Models which have 0 weight are skipped since they may also be invalid, and would not influence the predictions.
         if (models[[k]]$crit == -.Machine$double.xmax) next
-        yhat[, k] <- link(x.precalc[, c(rep(TRUE, object$fixed), models[[k]]$model), drop=FALSE] %*% models[[k]]$coefs)
+        yhat[, k] <- link(x.precalc[, c(rep(TRUE, object$fixed), models[[k]]$model), drop=FALSE] %*% replace(models[[k]]$coefs, is.na(models[[k]]$coefs), 0))
       }
       
       mean.pred <- rowSums(yhat %*% diag(as.numeric(model.probs)))
@@ -237,7 +239,7 @@ predict.mjmcmc <- function (object, x, link = function(x) x, quantiles = c(0.025
   for (k in seq_along(models)) {
     # Models which have 0 weight are skipped since they may also be invalid, and would not influence the predictions.
     if (models[[k]]$crit == -.Machine$double.xmax) next
-    yhat[, k] <- link(x[, c(rep(TRUE, object$fixed), models[[k]]$model), drop=FALSE] %*% models[[k]]$coefs)
+    yhat[, k] <- link(x[, c(rep(TRUE, object$fixed), models[[k]]$model), drop=FALSE] %*% replace(models[[k]]$coefs, is.na(models[[k]]$coefs), 0))
   }
   
   mean.pred <- rowSums(yhat %*% diag(as.numeric(object$model.probs)))

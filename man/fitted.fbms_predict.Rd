@@ -4,7 +4,7 @@
 \alias{fitted.fbms_predict}
 \title{Access Fitted Values}
 \usage{
-\method{fitted}{fbms_predict}(object, ...)
+fitted.fbms_predict(object, ...)
 }
 \arguments{
 \item{object}{Object of class "fbms_predict".}
