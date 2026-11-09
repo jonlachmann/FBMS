@@ -2,7 +2,7 @@ Package: FBMS
 Type: Package
 Title: Flexible Bayesian Model Selection and Model Averaging
 Version: 1.4
-Date: 2026-04-16
+Date: 2026-11-09
 Encoding: UTF-8
 Language: en-US
 Authors@R: c(

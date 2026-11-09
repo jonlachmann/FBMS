@@ -754,7 +754,8 @@ result <- fbms(
   beta_prior = list(type = "Jeffreys-BIC"),
   transforms = transforms,
   probs      = probs,
-  params     = params
+  params     = params,
+  P          = 2
 )
 
 printn(summary(result))
