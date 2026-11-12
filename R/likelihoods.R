@@ -3,6 +3,24 @@
 # Created by: jonlachmann
 # Created on: 2021-02-24
 
+#' Internal wrapper around fastglm::fastglm restoring 0 for aliased coefficients
+#'
+#' In fastglm >= 0.1.3, aliased coefficients in rank-deficient designs are
+#' returned as NA instead of 0. This wrapper restores 0 so downstream linear
+#' predictors, deviance calculations, and symbolic feature strings do not
+#' receive NA weights.
+#'
+#' @param ... Arguments passed to \code{fastglm::fastglm}.
+#' @return A fitted \code{fastglm} object with any \code{NA} entries in
+#'   \code{coefficients} replaced by \code{0}.
+#' @noRd
+safe.fastglm <- function(...) {
+  mod <- fastglm::fastglm(...)
+  if (anyNA(mod$coefficients)) {
+    mod$coefficients[is.na(mod$coefficients)] <- 0
+  }
+  mod
+}
 
 #' Log Likelihood Function for Logistic Regression with a Jeffreys Parameter Prior and BIC Approximations of the Posterior.
 #'
@@ -27,7 +45,7 @@ logistic.loglik <- function (y, x, model, complex, mlpost_params = list(r = exp(
     mlpost_params <- list(r = 1 / dim(x)[1])
   else if(length(mlpost_params$r) == 0)
     mlpost_params$r = 1 / dim(x)[1]
-  suppressWarnings({mod <- fastglm(as.matrix(x[, model]), y, family = binomial())})
+  suppressWarnings({mod <- safe.fastglm(as.matrix(x[, model]), y, family = binomial())})
   
   if (length(mod) == 0 || is.nan(mod$deviance)) {
     return(list(crit = -.Machine$double.xmax + log_prior(mlpost_params, complex), coefs = rep(0, sum(model))))
@@ -57,7 +75,7 @@ glm.loglik <- function (y, x, model, complex, mlpost_params = list(r = exp(-0.5)
   }
 
   #browser()
-  suppressWarnings({mod <- fastglm(as.matrix(x[, model]), y, family = fam)})
+  suppressWarnings({mod <- safe.fastglm(as.matrix(x[, model]), y, family = fam)})
   
   if (length(mod) == 0 || is.nan(mod$deviance)) {
     return(list(crit = -.Machine$double.xmax + log_prior(mlpost_params, complex), coefs = rep(0, sum(model))))
@@ -108,7 +126,11 @@ glm.loglik.g <- function(y, x, model, complex, mlpost_params = list(r = NULL, fa
   
   crit <- (-1 / 2) * (dev + p * log(n) - 2 * log(mlpost_params$r) * sum(complex$oc) + penalty_g)
   
-  list(crit = crit, coefs = fit$coefficients)
+  coefs <- fit$coefficients
+  if (anyNA(coefs)) {
+    coefs[is.na(coefs)] <- 0
+  }
+  list(crit = crit, coefs = coefs)
 }
 
 
@@ -175,12 +197,14 @@ loadGlmBas <- function() {
     if (length(mod) == 0 || is.nan(mod$logmarg[2])) {
       return(list(crit = -.Machine$double.xmax + log_prior(mlpost_params, complex), coefs = rep(0, p + 1)))
     }
+    coefs <- if (p == 0) mod$mle[[2]] else mod$mle[[1]]
+    if (anyNA(coefs)) coefs[is.na(coefs)] <- 0
     if (p == 0) {
       ret <- mod$logmarg[2] + log(mlpost_params$r) * sum(complex$oc)
-      return(list(crit = ret, coefs = mod$mle[[2]]))
+      return(list(crit = ret, coefs = coefs))
     }
     ret <- mod$logmarg + log(mlpost_params$r) * sum(complex$oc)
-    return(list(crit = ret, coefs = mod$mle[[1]]))
+    return(list(crit = ret, coefs = coefs))
   }
   "
   eval(parse(text = glm_code))
@@ -225,12 +249,14 @@ loadLmBas <- function() {
     if (length(mod) == 0 || is.nan(mod$logmarg[2])) {
       return(list(crit = -.Machine$double.xmax + log_prior(mlpost_params, complex), coefs = rep(0, p + 1)))
     }
+    coefs <- if (p == 0) mod$mle[[2]] else mod$mle[[1]]
+    if (anyNA(coefs)) coefs[is.na(coefs)] <- 0
     if (p == 0) {
       ret <- mod$logmarg[2] + log(mlpost_params$r) * sum(complex$oc)
-      return(list(crit = ret, coefs = mod$mle[[2]]))
+      return(list(crit = ret, coefs = coefs))
     }
     ret <- mod$logmarg + log(mlpost_params$r) * sum(complex$oc)
-    return(list(crit = ret, coefs = mod$mle[[1]]))
+    return(list(crit = ret, coefs = coefs))
   }
   "
   eval(parse(text = lm_code))
@@ -261,7 +287,7 @@ gaussian.loglik <- function (y, x, model, complex, mlpost_params) {
     mlpost_params$r <- 1/dim(x)[1]
   if (length(mlpost_params$beta_prior$var) == 0)
     mlpost_params$beta_prior$var <- "unknown"
-  suppressWarnings({mod <- fastglm(as.matrix(x[, model]), y, family = gaussian())})
+  suppressWarnings({mod <- safe.fastglm(as.matrix(x[, model]), y, family = gaussian())})
 
   if (mlpost_params$beta_prior$var == "unknown")
     ret <- (-(mod$aic + (log(length(y)) - 2) * (mod$rank) - 2 * log(mlpost_params$r) * (sum(complex$oc)))) / 2
@@ -282,7 +308,7 @@ gaussian.loglik.g <- function (y, x, model, complex, mlpost_params = NULL) {
   if (length(mlpost_params$r) == 0)
     mlpost_params$r <- 1/dim(x)[1]
   suppressWarnings({
-    mod <- fastglm(as.matrix(x[, model]), y, family = gaussian())
+    mod <- safe.fastglm(as.matrix(x[, model]), y, family = gaussian())
   })
   # Calculate R-squared
   y_mean <- mean(y)
@@ -314,8 +340,8 @@ gaussian.loglik.g <- function (y, x, model, complex, mlpost_params = NULL) {
 #' @keywords internal
 #' @noRd
 gaussian_tcch_log_likelihood <- function(y, x, model, complex, mlpost_params = list(r = exp(-0.5), beta_prior = list(type = "intrinsic"))) {
-  # Fit the linear model using fastglm
-  fitted_model <- fastglm(as.matrix(x[, model]), y, family = gaussian())
+  # Fit the linear model using safe.fastglm
+  fitted_model <- safe.fastglm(as.matrix(x[, model]), y, family = gaussian())
   log_likelihood <- -(fitted_model$aic  -2 * (fitted_model$rank))/2
   # Compute R-squared manually
   y_mean <- mean(y)
@@ -456,7 +482,7 @@ gaussian_tcch_log_likelihood <- function(y, x, model, complex, mlpost_params = l
 logistic.loglik.ala <- function (y, x, model, complex, mlpost_params = list(r = exp(-0.5))) {
   if (length(mlpost_params) == 0)
     mlpost_params <- list(r = 1/dim(x)[1])
-  suppressWarnings({mod <- fastglm(as.matrix(x[, model]), y, family = binomial(),maxit = 1)})
+  suppressWarnings({mod <- safe.fastglm(as.matrix(x[, model]), y, family = binomial(),maxit = 1)})
   ret <- (-(mod$deviance + log(length(y)) * (mod$rank - 1) -2 * log(mlpost_params$r) * sum(complex$oc))) / 2
   return(list(crit=ret, coefs=mod$coefficients))
 }
@@ -465,7 +491,10 @@ logistic.loglik.ala <- function (y, x, model, complex, mlpost_params = list(r = 
 
 #' @keywords internal
 #' @noRd
-logistic.loglik.alpha <- function (a, data, mu_func) {
+logistic.loglik.alpha <- function (a, data, mu_func, ...) {
+  if (is.matrix(data) || is.logical(mu_func)) {
+    return(logistic.loglik(a, data, mu_func, ...))
+  }
   m <- 1 / (1 + exp(-eval(parse(text = mu_func))))
   -sum((data$y[,1] * log(m) + (1 - data$y[, 1]) * log(1 - m)))
 }
@@ -473,7 +502,10 @@ logistic.loglik.alpha <- function (a, data, mu_func) {
 
 #' @keywords internal
 #' @noRd
-gaussian.loglik.alpha <- function (a, data, mu_func) {
+gaussian.loglik.alpha <- function (a, data, mu_func, ...) {
+  if (is.matrix(data) || is.logical(mu_func)) {
+    return(gaussian.loglik(a, data, mu_func, ...))
+  }
   m <- eval(parse(text = mu_func))
   sum((data$y[, 1] - m)^2)
 }
@@ -576,5 +608,9 @@ fbms.mlik.master <- function(y, x, model, complex, mlpost_params = list(family =
   
   result <- loglik.pi(y, x, model, complex, params_use)
 
-  return(list(crit = result$crit, coefs = result$coefs))
+  coefs <- result$coefs
+  if (anyNA(coefs)) {
+    coefs[is.na(coefs)] <- 0
+  }
+  return(list(crit = result$crit, coefs = coefs))
 }

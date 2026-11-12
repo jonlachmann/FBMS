@@ -83,3 +83,27 @@ test_that("Test various priors through the fbms function", {
   # }
 })
 
+test_that("likelihood functions handle rank-deficient design matrices without NA coefficients", {
+  set.seed(42)
+  n <- 50
+  x1 <- rnorm(n)
+  # Collinear column (x3 == x1)
+  X <- cbind(Intercept = 1, x1 = x1, x2 = rnorm(n), x3 = x1)
+  y_gauss <- 1 + 2 * x1 + rnorm(n, sd = 0.5)
+  y_binom <- rbinom(n, 1, plogis(0.5 + x1))
+  model <- rep(TRUE, ncol(X))
+  complex <- list(width = 1, oc = 1)
+
+  res_gauss <- gaussian.loglik(y_gauss, X, model, complex, list(r = 1 / n))
+  expect_false(anyNA(res_gauss$coefs))
+  expect_true(is.finite(res_gauss$crit))
+
+  res_alpha <- gaussian.loglik.alpha(y_gauss, X, model, complex, list(r = 1 / n))
+  expect_false(anyNA(res_alpha$coefs))
+
+  res_logis <- logistic.loglik(y_binom, X, model, complex, list(r = 1 / n, subs = 1))
+  expect_false(anyNA(res_logis$coefs))
+  expect_true(is.finite(res_logis$crit))
+})
+
+

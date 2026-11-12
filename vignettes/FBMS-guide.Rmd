@@ -640,6 +640,7 @@ df.test$Mean <- y2.Mean[(n/2 + 1):n]
 estimate.logic.lm <- function(y, x, model, complex, mlpost_params) {
   suppressWarnings({
     mod <- fastglm(as.matrix(x[, model]), y, family = gaussian())
+    mod$coefficients[is.na(mod$coefficients)] <- 0
   })
   mloglik <- -(mod$aic + (log(length(y)) - 2) * (mod$rank)) / 2
   wj <- complex$width
