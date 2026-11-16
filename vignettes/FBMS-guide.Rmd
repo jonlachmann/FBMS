@@ -727,7 +727,7 @@ points(pred_mpm,       df.test$Mean, col = 4)
 We fit a binomial BGNLM and compare BMA, best-model, and MPM predictions.\
 **Important:** specify the correct link in `predict()` (here logistic).
 
-```{r}
+```{r, eval = FALSE}
 library(kernlab)
 data("spam")
 
@@ -761,9 +761,15 @@ result <- fbms(
 printn(summary(result))
 ```
 
+```{r, echo = FALSE}
+# Precomputed to keep the CRAN vignette build short; the code above reproduces it in about 2 minutes.
+spam_results <- readRDS("spam_results.rds")
+printn(spam_results$summary)
+```
+
 **Prediction accuracy**
 
-```{r}
+```{r, eval = FALSE}
 # Logistic link
 invlogit <- function(x) 1/(1 + exp(-x))
 
@@ -780,6 +786,10 @@ printn(mean(round(preds) == df$y))
 mpm <- get.mpm.model(result, family = "binomial", y = df$y, x = df[,-1])
 preds_mpm <- predict(mpm, df[,-1], link = invlogit)
 printn(mean(round(preds_mpm) == df$y))
+```
+
+```{r, echo = FALSE}
+for (a in spam_results$acc) printn(a)
 ```
 
 ------------------------------------------------------------------------
